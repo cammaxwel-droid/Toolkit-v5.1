@@ -1,0 +1,37 @@
+# WINDOWS 11 ONE-PASTE SYSTEM REPORT (READ-ONLY)
+# Open PowerShell. Paste everything below, then press Enter.
+# Writes a diagnostic summary to Documents. Does not install or repair anything.
+# No administrator privileges needed for most sections.
+
+$report = Join-Path $env:USERPROFILE ('Documents\Windows11-System-Report-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+$sections = [ordered]@{
+    'WINDOWS' = { Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber,LastBootUpTime | Format-List }
+    'MODEL AND RAM' = { Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model,@{N='RAM_GB';E={[math]::Round($_.TotalPhysicalMemory/1GB,1)}} | Format-List }
+    'BIOS' = { Get-CimInstance Win32_BIOS | Select-Object SMBIOSBIOSVersion,ReleaseDate | Format-List }
+    'CPU' = { Get-CimInstance Win32_Processor | Select-Object Name,NumberOfCores,NumberOfLogicalProcessors | Format-List }
+    'GRAPHICS' = { Get-CimInstance Win32_VideoController | Select-Object Name,DriverVersion | Format-List }
+    'STORAGE' = { Get-PhysicalDisk | Select-Object FriendlyName,MediaType,FirmwareVersion,HealthStatus | Format-Table -AutoSize }
+    'DISK FREE SPACE' = { Get-Volume | Select-Object DriveLetter,FileSystemLabel,@{N='Free_GB';E={[math]::Round($_.SizeRemaining/1GB,1)}},@{N='Size_GB';E={[math]::Round($_.Size/1GB,1)}} | Format-Table -AutoSize }
+    'DEVICE WARNINGS' = { Get-PnpDevice | Where-Object Status -ne 'OK' | Select-Object Class,FriendlyName,Status | Format-Table -Wrap }
+    'WI-FI LINK' = { netsh wlan show interfaces }
+    'NETWORK ADAPTERS' = { Get-NetAdapter | Select-Object Name,Status,LinkSpeed | Format-Table -AutoSize }
+    'PROXY' = { netsh winhttp show proxy }
+    'ACTIVE POWER PLAN' = { powercfg /getactivescheme }
+    'HIGHEST MEMORY USERS' = { Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 12 ProcessName,Id,@{N='RAM_MB';E={[math]::Round($_.WorkingSet64/1MB)}} | Format-Table -AutoSize }
+    'RECENT HOTFIXES' = { Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 10 HotFixID,InstalledOn | Format-Table -AutoSize }
+}
+@(
+    'Windows 11 System Report'
+    ('Created: ' + (Get-Date))
+    'Read-only diagnostic snapshot; no changes made.'
+    ''
+    foreach ($key in $sections.Keys) {
+        '=================================================='
+        $key
+        '=================================================='
+        try { & $sections[$key] | Out-String -Width 190 }
+        catch { 'ERROR: ' + $_.Exception.Message }
+        ''
+    }
+) | Out-File -FilePath $report -Encoding UTF8 -Width 190
+Write-Host "Report saved: $report" -ForegroundColor Green

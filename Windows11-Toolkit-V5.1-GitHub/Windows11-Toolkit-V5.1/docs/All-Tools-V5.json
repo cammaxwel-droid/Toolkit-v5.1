@@ -1,0 +1,1567 @@
+[
+  {
+    "id": "001",
+    "category": 1,
+    "title": "Restart File Explorer + taskbar",
+    "description": "Reloads Windows shell; open Explorer windows may close.",
+    "example": "Stop-Process -Name explorer -Force; Start-Process explorer.exe",
+    "risk": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "002",
+    "category": 1,
+    "title": "Open File Explorer",
+    "description": "Start File Explorer.",
+    "example": "explorer.exe",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "003",
+    "category": 1,
+    "title": "Open Documents",
+    "description": "Uses actual Documents known folder, not username substitution.",
+    "example": "explorer $([Environment]::GetFolderPath(\"MyDocuments\"))",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "004",
+    "category": 1,
+    "title": "Open Downloads",
+    "description": "Open Downloads under the actual user profile.",
+    "example": "explorer \"$env:USERPROFILE\\Downloads\"",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "005",
+    "category": 1,
+    "title": "Open Desktop folder",
+    "description": "Open actual Windows desktop folder.",
+    "example": "Start-Process ([Environment]::GetFolderPath('Desktop'))",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "006",
+    "category": 1,
+    "title": "File Explorer options",
+    "description": "Folders, view and search behaviour.",
+    "example": "control folders",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "007",
+    "category": 1,
+    "title": "Taskbar settings",
+    "description": "Windows taskbar personalization.",
+    "example": "ms-settings:taskbar",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "008",
+    "category": 1,
+    "title": "Task Manager",
+    "description": "Open process and startup inspection tools.",
+    "example": "taskmgr",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "009",
+    "category": 1,
+    "title": "Clipboard history settings",
+    "description": "Inspect clipboard history settings.",
+    "example": "ms-settings:clipboard",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "010",
+    "category": 1,
+    "title": "Desktop background",
+    "description": "Restore a missing desktop wallpaper.",
+    "example": "ms-settings:personalization-background",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "011",
+    "category": 1,
+    "title": "Screen display settings",
+    "description": "Resolution, scaling and monitors.",
+    "example": "ms-settings:display",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "012",
+    "category": 1,
+    "title": "Graphics app preferences",
+    "description": "Select Windows graphics preferences per app.",
+    "example": "ms-settings:display-advancedgraphics",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "013",
+    "category": 1,
+    "title": "Default apps",
+    "description": "Choose Chrome or other default handlers.",
+    "example": "ms-settings:defaultapps",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "014",
+    "category": 2,
+    "title": "Windows Update settings",
+    "description": "Check official OS updates offered to this device.",
+    "example": "ms-settings:windowsupdate",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "015",
+    "category": 2,
+    "title": "Windows Update history",
+    "description": "Review already installed system updates.",
+    "example": "ms-settings:windowsupdate-history",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "016",
+    "category": 2,
+    "title": "Optional driver updates",
+    "description": "Windows Update offers some, not all, hardware drivers.",
+    "example": "ms-settings:windowsupdate-optionalupdates",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "017",
+    "category": 2,
+    "title": "Recent hotfix history",
+    "description": "Get-HotFix is partial, not complete update inventory.",
+    "example": "Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 15 HotFixID,InstalledOn",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "018",
+    "category": 2,
+    "title": "WinGet app update scan",
+    "description": "Lists available app updates. Does NOT update Windows or firmware.",
+    "example": "winget upgrade",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "019",
+    "category": 2,
+    "title": "WinGet installed apps",
+    "description": "Lists supported registered applications.",
+    "example": "winget list",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "020",
+    "category": 2,
+    "title": "Update supported apps",
+    "description": "Runs WinGet upgrade --all. May prompt/need internet.",
+    "example": "winget upgrade --all",
+    "risk": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "021",
+    "category": 2,
+    "title": "Installed apps settings",
+    "description": "Use Modify, Repair or Uninstall only when needed.",
+    "example": "ms-settings:appsfeatures",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "022",
+    "category": 2,
+    "title": "Startup apps",
+    "description": "Disable unwanted app startup, not Windows services.",
+    "example": "ms-settings:startupapps",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "023",
+    "category": 2,
+    "title": "WinGet version",
+    "description": "Check package manager version.",
+    "example": "winget --version",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "024",
+    "category": 2,
+    "title": "Microsoft Store library",
+    "description": "Open Store for apps distributed outside WinGet.",
+    "example": "ms-windows-store:",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "025",
+    "category": 3,
+    "title": "Windows Security dashboard",
+    "description": "Open Windows Security, no toggles changed.",
+    "example": "ms-settings:windowsdefender",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "026",
+    "category": 3,
+    "title": "Defender protection status",
+    "description": "Antivirus state, definitions age and scanning status.",
+    "example": "Get-MpComputerStatus",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "027",
+    "category": 3,
+    "title": "Defender configuration",
+    "description": "Read controlled folder access, PUA and AV preferences.",
+    "example": "Get-MpPreference",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "028",
+    "category": 3,
+    "title": "Firewall profile status",
+    "description": "Firewall enabled states on Domain/Private/Public.",
+    "example": "Get-NetFirewallProfile",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "029",
+    "category": 3,
+    "title": "Advanced firewall console",
+    "description": "View or manage firewall rules in Windows UI.",
+    "example": "wf.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "030",
+    "category": 3,
+    "title": "TPM security chip",
+    "description": "Read presence and readiness. Never clears TPM.",
+    "example": "Get-Tpm",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "031",
+    "category": 3,
+    "title": "Secure Boot check",
+    "description": "Reports enabled/disabled; does not alter BIOS keys.",
+    "example": "Confirm-SecureBootUEFI",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "032",
+    "category": 3,
+    "title": "BitLocker C: status",
+    "description": "View system-drive encryption and protector state.",
+    "example": "manage-bde -status C:",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "033",
+    "category": 3,
+    "title": "Recent Defender detections",
+    "description": "Threat history can require Admin, no changes.",
+    "example": "Get-MpThreatDetection",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "034",
+    "category": 3,
+    "title": "Controlled Folder Access settings",
+    "description": "Open Windows Security to inspect ransomware protection.",
+    "example": "windowsdefender://RansomwareProtection",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "035",
+    "category": 3,
+    "title": "Defender quick scan",
+    "description": "Starts a security scan; may take time.",
+    "example": "Start-MpScan -ScanType QuickScan",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "036",
+    "category": 3,
+    "title": "Update Defender signatures",
+    "description": "Downloads current signatures (internet needed).",
+    "example": "Update-MpSignature",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "037",
+    "category": 3,
+    "title": "Local security policy",
+    "description": "Windows 11 Pro security options; view before editing.",
+    "example": "secpol.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "038",
+    "category": 3,
+    "title": "Security summary to file",
+    "description": "Generate a security report in Documents (sensitive; do not post publicly).",
+    "example": "& .\\scripts\\Security-Report.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "039",
+    "category": 4,
+    "title": "Device Manager",
+    "description": "Inspect installed drivers and warning codes.",
+    "example": "devmgmt.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "040",
+    "category": 4,
+    "title": "Problem devices only",
+    "description": "Codes may include intentional camera disable.",
+    "example": "Get-PnpDevice | Where-Object Status -eq Error",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "041",
+    "category": 4,
+    "title": "All hardware driver inventory",
+    "description": "Create CSV with installed driver versions. Does not discover newest vendor version.",
+    "example": "& .\\scripts\\Driver-Inventory.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "042",
+    "category": 4,
+    "title": "Current graphics drivers",
+    "description": "Versions currently installed.",
+    "example": "Get-CimInstance Win32_VideoController",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "043",
+    "category": 4,
+    "title": "Firmware errors",
+    "description": "Read firmware class warnings only.",
+    "example": "Get-PnpDevice -Class Firmware",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "044",
+    "category": 4,
+    "title": "Thunderbolt + Intel ME devices",
+    "description": "Check interfaces; not actual installed ME firmware version.",
+    "example": "Get-PnpDevice | Where-Object FriendlyName -match \"Thunderbolt|Management Engine\"",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "045",
+    "category": 4,
+    "title": "BIOS version",
+    "description": "Reads current BIOS reported by firmware.",
+    "example": "Get-CimInstance Win32_BIOS",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "046",
+    "category": 4,
+    "title": "CPU and physical memory",
+    "description": "Read model, cores and installed physical memory.",
+    "example": "Get-CimInstance Win32_ComputerSystem",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "047",
+    "category": 4,
+    "title": "Disk firmware + basic health",
+    "description": "Storage health flag is not a comprehensive diagnostic.",
+    "example": "Get-PhysicalDisk",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "048",
+    "category": 4,
+    "title": "Windows optional driver offers",
+    "description": "Open optional driver update list; review before selecting.",
+    "example": "ms-settings:windowsupdate-optionalupdates",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "049",
+    "category": 4,
+    "title": "Lenovo System Update in Start menu",
+    "description": "Locate Lenovo update tool; do not auto-install firmware.",
+    "example": "Get-StartApps | Where-Object Name -match \"Lenovo.*(System Update|Vantage)\"",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "050",
+    "category": 4,
+    "title": "Driver and software update scan",
+    "description": "Runs local driver inventory + winget listing; vendor firmware NOT flashed.",
+    "example": "& .\\scripts\\Update-Scan.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "051",
+    "category": 5,
+    "title": "Top memory processes",
+    "description": "Per-process working sets; shared memory may double count.",
+    "example": "Get-Process | Sort-Object WorkingSet64 -Descending",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "052",
+    "category": 5,
+    "title": "Available and used RAM",
+    "description": "Windows memory snapshot.",
+    "example": "Get-CimInstance Win32_OperatingSystem",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "053",
+    "category": 5,
+    "title": "Resource Monitor",
+    "description": "Detailed CPU, memory, disk, and network activity.",
+    "example": "resmon",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "054",
+    "category": 5,
+    "title": "Reliability Monitor",
+    "description": "Review app crashes and unsuccessful installs.",
+    "example": "perfmon /rel",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "055",
+    "category": 5,
+    "title": "Performance Monitor",
+    "description": "Counters and diagnostics.",
+    "example": "perfmon",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "056",
+    "category": 5,
+    "title": "Startup apps settings",
+    "description": "Check app sign-in load.",
+    "example": "ms-settings:startupapps",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "057",
+    "category": 5,
+    "title": "Current power scheme",
+    "description": "Read the active Windows power plan.",
+    "example": "powercfg /getactivescheme",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "058",
+    "category": 5,
+    "title": "Supported sleep states",
+    "description": "See available sleep and hibernate modes.",
+    "example": "powercfg /a",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "059",
+    "category": 5,
+    "title": "Power requests",
+    "description": "See programs preventing sleep.",
+    "example": "powercfg /requests",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "060",
+    "category": 5,
+    "title": "Battery report",
+    "description": "Write standard battery-report.html to Documents report folder.",
+    "example": "powercfg /batteryreport /output <file>",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "061",
+    "category": 5,
+    "title": "System performance options",
+    "description": "Windows visual effects and virtual memory configuration.",
+    "example": "SystemPropertiesPerformance.exe",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "062",
+    "category": 6,
+    "title": "Wi-Fi link signal and rate",
+    "description": "Shows connection to phone hotspot, NOT mobile tower quality.",
+    "example": "netsh wlan show interfaces",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "063",
+    "category": 6,
+    "title": "Wi-Fi adapter capabilities",
+    "description": "View bands, wireless mode support and driver capabilities.",
+    "example": "netsh wlan show drivers",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "064",
+    "category": 6,
+    "title": "IP and DNS configuration",
+    "description": "View network addressing and DNS.",
+    "example": "ipconfig /all",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "065",
+    "category": 6,
+    "title": "Packet loss: 20 pings",
+    "description": "Sample connectivity to a public IPv4 address.",
+    "example": "ping -n 20 1.1.1.1",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "066",
+    "category": 6,
+    "title": "DNS lookup test",
+    "description": "Check whether example domain resolves.",
+    "example": "nslookup microsoft.com",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "067",
+    "category": 6,
+    "title": "WinHTTP proxy",
+    "description": "Proxy used by some Windows services.",
+    "example": "netsh winhttp show proxy",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "068",
+    "category": 6,
+    "title": "DNS server listing",
+    "description": "Per network interface DNS settings.",
+    "example": "Get-DnsClientServerAddress -AddressFamily IPv4",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "069",
+    "category": 6,
+    "title": "Network interfaces and MTU",
+    "description": "MTU readout; no tuning performed.",
+    "example": "Get-NetIPInterface",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "070",
+    "category": 6,
+    "title": "HTTPS connectivity test",
+    "description": "Tests TCP/443 connectivity, not full file downloads.",
+    "example": "Test-NetConnection microsoft.com -Port 443",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "071",
+    "category": 6,
+    "title": "Wi-Fi adapter settings",
+    "description": "Open network adapter control panel.",
+    "example": "ncpa.cpl",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "072",
+    "category": 6,
+    "title": "Advanced network settings",
+    "description": "Inspect network driver and properties.",
+    "example": "ms-settings:network-advancedsettings",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "073",
+    "category": 6,
+    "title": "Flush DNS cache",
+    "description": "Clears DNS cache; not a general speed booster.",
+    "example": "ipconfig /flushdns",
+    "risk": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "074",
+    "category": 6,
+    "title": "Network Troubleshooter",
+    "description": "Open Windows troubleshoot settings.",
+    "example": "ms-settings:troubleshoot",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "075",
+    "category": 7,
+    "title": "Disk health overview",
+    "description": "Read reported media health; no repairs performed.",
+    "example": "Get-PhysicalDisk",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "076",
+    "category": 7,
+    "title": "Drive free space",
+    "description": "Physical volume total and available size.",
+    "example": "Get-Volume",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "077",
+    "category": 7,
+    "title": "Disk Management UI",
+    "description": "Inspect volumes; do not repartition casually.",
+    "example": "diskmgmt.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "078",
+    "category": 7,
+    "title": "Online disk scan C:",
+    "description": "chkdsk /scan checks NTFS online; needs elevated access on some systems.",
+    "example": "chkdsk C: /scan",
+    "risk": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "079",
+    "category": 7,
+    "title": "Recent downloads",
+    "description": "Recent files under your actual profile.",
+    "example": "Get-ChildItem \"$env:USERPROFILE\\Downloads\"",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "080",
+    "category": 7,
+    "title": "Validate ZIP fully",
+    "description": "Choose ZIP; read/decompress entries without extracting files.",
+    "example": "& .\\scripts\\Test-ZipIntegrity.ps1",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "081",
+    "category": 7,
+    "title": "File SHA256 checksum",
+    "description": "Choose file, calculate hash. Compare with official hash.",
+    "example": "Get-FileHash -LiteralPath <path> -Algorithm SHA256",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "082",
+    "category": 7,
+    "title": "Optimize Drives UI",
+    "description": "Windows decides SSD trim or HDD defrag as appropriate.",
+    "example": "dfrgui",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "083",
+    "category": 7,
+    "title": "Find incomplete downloads",
+    "description": "Look for Chrome/Edge temporary .crdownload files.",
+    "example": "Get-ChildItem \"$env:USERPROFILE\\Downloads\" -Filter *.crdownload",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "084",
+    "category": 7,
+    "title": "Storage settings",
+    "description": "Manage storage and cleanup through Windows UI.",
+    "example": "ms-settings:storagesense",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "085",
+    "category": 8,
+    "title": "Quick DISM health check",
+    "description": "Read repairability flag; does not repair.",
+    "example": "DISM /Online /Cleanup-Image /CheckHealth",
+    "risk": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "086",
+    "category": 8,
+    "title": "Deep DISM store scan",
+    "description": "Scans Windows component store; can take time.",
+    "example": "DISM /Online /Cleanup-Image /ScanHealth",
+    "risk": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "087",
+    "category": 8,
+    "title": "SFC verify only",
+    "description": "Check system files without repairing.",
+    "example": "sfc /verifyonly",
+    "risk": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "088",
+    "category": 8,
+    "title": "DISM RestoreHealth + SFC repair",
+    "description": "Repair detected Windows corruption; internet may be used.",
+    "example": "& .\\scripts\\Repair-Windows.ps1",
+    "risk": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "089",
+    "category": 8,
+    "title": "Recent system errors",
+    "description": "Latest OS error events, not automatic diagnosis.",
+    "example": "Get-WinEvent -FilterHashtable @{LogName=\"System\";Level=2}",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "090",
+    "category": 8,
+    "title": "Reliability Monitor",
+    "description": "Crash, driver and install history.",
+    "example": "perfmon /rel",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "091",
+    "category": 8,
+    "title": "Windows Update troubleshooting",
+    "description": "Opens Windows troubleshooter UI.",
+    "example": "ms-settings:troubleshoot",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "092",
+    "category": 8,
+    "title": "App repair / reset settings",
+    "description": "Repair or reset one app through Windows UI; inspect options first.",
+    "example": "ms-settings:appsfeatures",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "093",
+    "category": 8,
+    "title": "Explorer/taskbar shell restart",
+    "description": "Restarts Explorer. Windows desktop briefly disappears.",
+    "example": "Stop-Process -Name explorer -Force; Start-Process explorer.exe",
+    "risk": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "094",
+    "category": 8,
+    "title": "Display diagnostics",
+    "description": "dxdiag shows graphics hardware and driver; no repair.",
+    "example": "dxdiag",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "095",
+    "category": 8,
+    "title": "Graphics display settings",
+    "description": "Windows display options and scaling.",
+    "example": "ms-settings:display",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "096",
+    "category": 8,
+    "title": "Task Manager",
+    "description": "Start or reopen Task Manager for stalled-app inspection.",
+    "example": "taskmgr",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "097",
+    "category": 8,
+    "title": "Windows recovery options",
+    "description": "Opens recovery tools UI; no automatic reset.",
+    "example": "ms-settings:recovery",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "098",
+    "category": 8,
+    "title": "Event Viewer",
+    "description": "Inspect application and system failures.",
+    "example": "eventvwr.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "099",
+    "category": 9,
+    "title": "System Properties",
+    "description": "Computer name, domain, environment and restore.",
+    "example": "sysdm.cpl",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "100",
+    "category": 9,
+    "title": "Advanced system settings",
+    "description": "Performance, profiles and environment variables.",
+    "example": "SystemPropertiesAdvanced.exe",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "101",
+    "category": 9,
+    "title": "System restore settings",
+    "description": "Check available restore points and protection.",
+    "example": "SystemPropertiesProtection.exe",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "102",
+    "category": 9,
+    "title": "Windows features",
+    "description": "Optional OS components such as WSL or Hyper-V.",
+    "example": "optionalfeatures",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "103",
+    "category": 9,
+    "title": "Computer Management",
+    "description": "Local disk, services, events and users.",
+    "example": "compmgmt.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "104",
+    "category": 9,
+    "title": "Device Manager",
+    "description": "Inspect hardware and driver properties.",
+    "example": "devmgmt.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "105",
+    "category": 9,
+    "title": "Task Scheduler",
+    "description": "Inspect installed jobs; no modification.",
+    "example": "taskschd.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "106",
+    "category": 9,
+    "title": "Services console",
+    "description": "Manage background services carefully.",
+    "example": "services.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "107",
+    "category": 9,
+    "title": "Local Group Policy Editor",
+    "description": "Windows 11 Pro administrative policy.",
+    "example": "gpedit.msc",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "108",
+    "category": 9,
+    "title": "DirectX diagnostic",
+    "description": "Display and sound driver diagnostics.",
+    "example": "dxdiag",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "109",
+    "category": 9,
+    "title": "Developer settings",
+    "description": "Windows developer mode and device features.",
+    "example": "ms-settings:developers",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "110",
+    "category": 9,
+    "title": "Toolchain versions",
+    "description": "Reports Python, Node, npm, .NET, Git and Visual Studio paths.",
+    "example": "& .\\scripts\\Dev-Inventory.ps1",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "111",
+    "category": 9,
+    "title": "Windows version",
+    "description": "Display Windows build.",
+    "example": "winver",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "112",
+    "category": 9,
+    "title": "Actual profile path",
+    "description": "Show profile/document folders and name; no renames.",
+    "example": "$env:USERPROFILE",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "113",
+    "category": 10,
+    "title": "Comprehensive system report",
+    "description": "Writes a readable report to Documents/Windows11-ToolkitV3-Reports.",
+    "example": "& .\\scripts\\System-Report.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "114",
+    "category": 10,
+    "title": "Windows Security report",
+    "description": "Defender, firewall, encryption and TPM only.",
+    "example": "& .\\scripts\\Security-Report.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "115",
+    "category": 10,
+    "title": "Driver inventory CSV",
+    "description": "Installed driver versions, not online latest-version lookup.",
+    "example": "& .\\scripts\\Driver-Inventory.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "116",
+    "category": 10,
+    "title": "Software + driver update scan",
+    "description": "WinGet available updates + local devices; no installation.",
+    "example": "& .\\scripts\\Update-Scan.ps1",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "117",
+    "category": 10,
+    "title": "Open toolkit README",
+    "description": "Open GitHub-ready README instructions.",
+    "example": "README.md",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "118",
+    "category": 10,
+    "title": "Open command reference",
+    "description": "Open expanded command reference .txt.",
+    "example": "docs\\Command-Reference-V3.txt",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "119",
+    "category": 10,
+    "title": "Open keyboard shortcuts",
+    "description": "Open keyboard and Win+R shortcuts .txt.",
+    "example": "docs\\Windows-Shortcuts.txt",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "120",
+    "category": 10,
+    "title": "Open reports folder",
+    "description": "Opens previous reports; creates folder if missing.",
+    "example": "Documents\\Windows11-ToolkitV3-Reports",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "121",
+    "category": 8,
+    "title": "Open Repair Kit (51 tools)",
+    "description": "Standalone Repair Kit menu, per-action UAC.",
+    "example": "repair-kit\\Start-Repair-Kit.cmd",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "122",
+    "category": 8,
+    "title": "Windows Update troubleshooter",
+    "description": "Opens built-in troubleshooting and update pages.",
+    "example": "ms-settings:troubleshoot",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "123",
+    "category": 8,
+    "title": "Recent Explorer crashes",
+    "description": "Application log Explorer / Task Manager errors.",
+    "example": "Get-WinEvent -LogName Application",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "124",
+    "category": 8,
+    "title": "Printer spooler status",
+    "description": "Checks Print Spooler; repair kit contains the optional restart action.",
+    "example": "Get-Service Spooler",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "125",
+    "category": 2,
+    "title": "App repair / reset options",
+    "description": "Opens Installed apps advanced options.",
+    "example": "ms-settings:appsfeatures",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "126",
+    "category": 11,
+    "title": "Security posture overview",
+    "description": "Local Defender, firewall, TPM, BitLocker, Secure Boot; creates a private report.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "127",
+    "category": 11,
+    "title": "Repair & change history",
+    "description": "Shows actions selected using this toolkit. An invocation is not proof of repair success.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "128",
+    "category": 11,
+    "title": "Save baseline snapshot",
+    "description": "Stores selected OS/driver/RAM/firmware facts for later comparison.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "129",
+    "category": 11,
+    "title": "Compare two snapshots",
+    "description": "Highlights changed drivers, memory and firmware; select two saved snapshots.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "130",
+    "category": 11,
+    "title": "Folder backup comparison",
+    "description": "Compare two local folders by path/size, optionally SHA-256 hashes; no changes.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "131",
+    "category": 11,
+    "title": "Package + driver update scan",
+    "description": "Use V3 combined report: installed drivers + WinGet app updates only.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "132",
+    "category": 11,
+    "title": "Startup & heavy RAM report",
+    "description": "App memory working sets and startup registrations; no termination.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "133",
+    "category": 11,
+    "title": "Security check in console",
+    "description": "Quick Defender/firewall/encryption status; does not make changes.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "134",
+    "category": 11,
+    "title": "System reliability events",
+    "description": "Critical/error System & Application events from the last 48 hours.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "135",
+    "category": 11,
+    "title": "Check restore point status",
+    "description": "Inspect shadow-copy/restore support; no restore point created.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "136",
+    "category": 12,
+    "title": "Preview Gaming profile",
+    "description": "See proposed power profile and settings pages, no changes.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "137",
+    "category": 12,
+    "title": "Apply Gaming profile",
+    "description": "Use existing High Performance plan if installed and open Game Mode/settings. Undo supported.",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "138",
+    "category": 12,
+    "title": "Preview Programming profile",
+    "description": "See proposed power mode and developer settings, no changes.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "139",
+    "category": 12,
+    "title": "Apply Programming profile",
+    "description": "Select Balanced plan if available; open Developer & Startup Settings. Undo supported.",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "140",
+    "category": 12,
+    "title": "Preview Studying profile",
+    "description": "See study-friendly settings and changes before applying.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "141",
+    "category": 12,
+    "title": "Apply Studying profile",
+    "description": "Select Balanced plan; open Notifications/Display. Never disables notifications automatically.",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "142",
+    "category": 12,
+    "title": "Preview Battery Saver profile",
+    "description": "Use installed power saver plan if available; show battery settings.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "143",
+    "category": 12,
+    "title": "Apply Battery Saver profile",
+    "description": "Choose existing Power Saver plan if present; Undo supported.",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "144",
+    "category": 12,
+    "title": "Restore pre-profile power plan",
+    "description": "Restore original saved power plan before this toolkit changed it.",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "145",
+    "category": 12,
+    "title": "Show current plan/profile",
+    "description": "Read current Windows power plan and any toolkit backup.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "146",
+    "category": 13,
+    "title": "Curated app installer menu",
+    "description": "Optional single-app WinGet install. Shows package details before YES. Never installs all.",
+    "risk": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "147",
+    "category": 13,
+    "title": "Developer environment doctor",
+    "description": "Report Python, pip, Node, .NET, Git, Visual Studio, CMake and Ninja.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "148",
+    "category": 13,
+    "title": "Windows installed apps/repair UI",
+    "description": "Opens app controls; you choose Repair/Modify for an individual app.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "149",
+    "category": 13,
+    "title": "App upgrades scan (WinGet)",
+    "description": "Find supported app updates. Does not install apps or drivers.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "150",
+    "category": 13,
+    "title": "Official Windows driver offers",
+    "description": "Opens Optional updates; checks offered compatible drivers only.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "151",
+    "category": 13,
+    "title": "Find tool executable paths",
+    "description": "Inspect locations for powershell, python, git, node and winget.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "152",
+    "category": 13,
+    "title": "Check signed download file",
+    "description": "Read Authenticode status and SHA256 hash for a selected file.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "153",
+    "category": 14,
+    "title": "Symptom-guided troubleshooting",
+    "description": "Choose a problem for focused read-only checks and optional repair recommendations.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "154",
+    "category": 14,
+    "title": "Open All Tasks (God Mode)",
+    "description": "Open Windows All Tasks shell folder, no system changes.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "155",
+    "category": 14,
+    "title": "Open hidden shell folders",
+    "description": "Choose AppsFolder, SendTo, Startup, Recycle Bin or Downloads.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "156",
+    "category": 14,
+    "title": "Hidden Run shortcuts",
+    "description": "Show useful Win+R tools such as perfmon /rel, dxdiag and joy.cpl.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "157",
+    "category": 14,
+    "title": "Windows keyboard tricks",
+    "description": "Emoji, clipboard, snip, GPU refresh and virtual-desktop shortcuts.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "158",
+    "category": 14,
+    "title": "Fun Matrix-style terminal rain",
+    "description": "Harmless terminal animation lasting a few seconds; no filesystem/network action.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "159",
+    "category": 14,
+    "title": "Random Windows tip",
+    "description": "Fun short tip from built-in Windows functions.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "160",
+    "category": 14,
+    "title": "Advanced boot entry view",
+    "description": "Read BCD firmware entries only; do not delete old boot entries.",
+    "risk": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "161",
+    "category": 14,
+    "title": "Advanced services insight",
+    "description": "Read service details, no stopping/reconfiguration.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "162",
+    "category": 14,
+    "title": "Advanced task triggers",
+    "description": "Read scheduled tasks matching optional search term; no modifications.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "163",
+    "category": 14,
+    "title": "Advanced network routes",
+    "description": "Read routing and network interface diagnostics.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "164",
+    "category": 14,
+    "title": "Windows performance tools",
+    "description": "Open Resource, Performance and Reliability Monitor.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "165",
+    "category": 14,
+    "title": "Taskbar/Explorer recovery",
+    "description": "Restart Explorer and taskbar on confirmation.",
+    "risk": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "166",
+    "category": 14,
+    "title": "View integrated repair kit",
+    "description": "Open the integrated 51-action diagnostic/repair menu.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "167",
+    "category": 11,
+    "title": "RAM usage delta (10 seconds)",
+    "description": "Samples working sets twice and prints changes without terminating processes.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "168",
+    "category": 11,
+    "title": "Save driver inventory CSV",
+    "description": "Read drivers to file without updating or replacing hardware drivers.",
+    "risk": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "169",
+    "category": 13,
+    "title": "Open Windows Store",
+    "description": "Browse Store apps independently from WinGet; no auto install.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "170",
+    "category": 14,
+    "title": "Unsigned driver inventory",
+    "description": "Reports drivers marked unsigned; this is not automatically malware.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "171",
+    "category": 15,
+    "title": "GENERAL DIAGNOSTICS",
+    "description": "Fast multi-system read-only checks; explicit statuses, TXT + JSON report.",
+    "risk": "REPORT",
+    "admin": true
+  },
+  {
+    "id": "172",
+    "category": 15,
+    "title": "DEEP DIAGNOSTICS",
+    "description": "Broader read-only audit of Windows, Explorer, logs, processes and optional DISM/SFC verification.",
+    "risk": "REPORT",
+    "admin": true
+  },
+  {
+    "id": "173",
+    "category": 15,
+    "title": "GENERAL REPAIR (guided)",
+    "description": "Runs diagnostics, then offers individual low-impact fixes only when indicated.",
+    "risk": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "174",
+    "category": 15,
+    "title": "DEEP REPAIR (guided)",
+    "description": "Runs deeper diagnostics, offers repair of verified issues with two explicit confirmations.",
+    "risk": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "175",
+    "category": 15,
+    "title": "Toolkit diagnostic self-test",
+    "description": "Checks availability of diagnostic commands and report-folder writing; exports report.",
+    "risk": "REPORT",
+    "admin": true
+  },
+  {
+    "id": "176",
+    "category": 15,
+    "title": "How the 4 workflows work",
+    "description": "Read safety rules and expected output. No changes.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "177",
+    "category": 15,
+    "title": "V5 repair attempt history",
+    "description": "Show attempted operations and their actual outcomes (not assumed fixes).",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "178",
+    "category": 15,
+    "title": "Open V5 reports folder",
+    "description": "Private local Documents folder containing readable TXT and structured JSON reports.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "179",
+    "category": 15,
+    "title": "Open workflow user guide",
+    "description": "What each diagnostic checks and which repairs are available.",
+    "risk": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "180",
+    "category": 15,
+    "title": "PowerShell syntax-check guide",
+    "description": "Instructions and included parser self-test. No scans or repairs.",
+    "risk": "VIEW",
+    "admin": false
+  }
+]

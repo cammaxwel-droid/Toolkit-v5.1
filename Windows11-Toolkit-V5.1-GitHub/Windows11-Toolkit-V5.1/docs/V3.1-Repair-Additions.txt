@@ -1,0 +1,12 @@
+WINDOWS 11 TOOLKIT V3.1 - REPAIR ADDITIONS
+==========================================
+- The V3.1 launcher starts WITHOUT Administrator.
+- Select any VIEW/REPORT option for ordinary checks.
+- Admin-only tools prompt for elevation through Windows UAC individually.
+- Tool 121 opens a 51-action standalone Repair Kit.
+- Changes and repairs require explicit YES before execution.
+- No automatically installed drivers or firmware.
+- No disabling antivirus/firewall, TPM/Secure Boot key changes, partition deletion.
+- Separate Repair Kit distribution is available for its own GitHub repository.
+- Full menu: 125 actions in 10 categories + Repair Kit 51 actions in 6 categories.
+- See README.md, repair-kit/README.md and repair-kit/TROUBLESHOOTING.md.

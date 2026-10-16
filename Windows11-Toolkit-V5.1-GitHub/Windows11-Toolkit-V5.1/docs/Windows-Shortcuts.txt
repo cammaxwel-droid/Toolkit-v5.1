@@ -1,0 +1,101 @@
+WINDOWS 11 KEYBOARD, RUN AND POWER USER SHORTCUTS
+================================================
+These are WINDOWS shortcuts, not executable scripts. Compatible options can vary.
+
+BASIC WINDOWS
+-------------
+Win + E                File Explorer
+Win + R                Run dialogue
+Win + I                Windows Settings
+Win + X                Power-user menu (Terminal/Admin and tools)
+Ctrl + Shift + Esc     Task Manager
+Win + L                Lock PC
+Win + D                Show desktop
+Win + Tab              Task View
+Alt + Tab              Switch windows
+Alt + F4               Close focused window (may prompt to save)
+Win + V                Clipboard history (turn on if prompted)
+Win + Shift + S        Screenshot snipping
+Win + H                Voice typing
+Win + P                Display/project options
+Win + K                Wireless display/cast menu
+Win + Z                Snap layouts (where supported)
+Win + Ctrl + D         Create virtual desktop
+Win + Ctrl + Left/Right Switch virtual desktop
+Win + Ctrl + F4        Close current virtual desktop
+Win + Ctrl + Shift + B Request graphics-driver/display reset; screen may flash
+
+FILE EXPLORER
+-------------
+Ctrl + Shift + N        New folder
+F2                      Rename selected file
+Alt + Enter             File/folder properties
+Ctrl + L                Focus address bar
+Alt + Up                Parent folder
+Alt + Left/Right        Back / forward
+Ctrl + A                Select all
+Ctrl + C / V / X        Copy / paste / cut
+Shift + Delete          Permanently delete (use with care)
+
+BROWSERS
+--------
+Ctrl + J                Downloads history (Chrome / Edge)
+Ctrl + Shift + T        Reopen last closed tab
+Ctrl + L                Address bar
+Ctrl + W                Close tab
+Ctrl + Shift + N        Incognito in Chrome (InPrivate in Edge)
+
+THINKPAD / POWERTOYS
+--------------------
+F1 at Lenovo logo       BIOS Setup (Fn+F1 depending on hotkey mode)
+F12 at Lenovo logo      One-time boot selection
+PowerToys Peek           Use shortcut configured under PowerToys > Peek
+PowerToys Command Palette  Win + Alt + Space (if enabled)
+
+WIN+R DIRECT OPEN COMMANDS
+--------------------------
+sysdm.cpl                         System Properties
+SystemPropertiesAdvanced.exe      Advanced settings
+SystemPropertiesPerformance.exe   Visual effects / virtual memory
+SystemPropertiesProtection.exe    System Protection
+appwiz.cpl                        Classic uninstall
+control folders                  Folder options
+devmgmt.msc                       Device Manager
+ncpa.cpl                          Network adapters
+services.msc                      Services
+taskschd.msc                      Scheduled Tasks
+eventvwr.msc                      Event Viewer
+diskmgmt.msc                      Disk Management
+compmgmt.msc                      Computer Management
+wf.msc                            Advanced firewall
+secpol.msc                        Local Security Policy (Pro)
+gpedit.msc                        Local Group Policy (Pro)
+resmon                            Resource Monitor
+perfmon /rel                      Reliability Monitor
+taskmgr                           Task Manager
+msinfo32                          System Information
+dxdiag                            DirectX Diagnostic
+optionalfeatures                 Windows Features
+powercfg.cpl                      Power Options
+mmsys.cpl                         Audio Settings
+tpm.msc                           TPM management
+winver                            Windows version
+ms-settings:windowsupdate         Windows Update
+ms-settings:windowsupdate-optionalupdates  Optional driver updates
+ms-settings:windowsdefender       Windows Security
+ms-settings:startupapps           Startup apps
+ms-settings:appsfeatures          Installed apps
+ms-settings:taskbar               Taskbar
+ms-settings:display               Displays
+ms-settings:personalization-background  Desktop wallpaper
+ms-settings:privacy-broadfilesystemaccess File system app permissions
+ms-settings:recovery              Windows recovery
+ms-settings:network-wifi          Wi-Fi
+ms-settings:network-proxy         Proxy
+ms-settings:about                 System information
+
+IMPORTANT
+---------
+A shortcut launching a settings page does NOT change the setting itself.
+Win + Ctrl + Shift + B resets graphics display processing, not a graphics-driver reinstall.
+Use Ctrl + Shift + Esc to diagnose Task Manager before terminating any system process.
