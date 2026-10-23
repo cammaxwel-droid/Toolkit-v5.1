@@ -1,0 +1,50 @@
+TOOLKIT V4 - QUICK SHORTCUTS
+========================================
+KEYBOARD:
+  Win + R                    Open Run dialog
+  Win + E                    File Explorer
+  Win + X                    Power user menu
+  Win + V                    Clipboard history (when enabled)
+  Win + .                    Emoji and symbols panel
+  Win + Shift + S            Snipping overlay
+  Win + Z                    Snap layouts
+  Win + Tab                  Task View
+  Win + Ctrl + D             Create virtual desktop
+  Win + Ctrl + Left/Right    Switch virtual desktop
+  Win + Ctrl + F4            Close virtual desktop
+  Win + Ctrl + Shift + B     Refresh Windows display pipeline; brief flicker
+  Ctrl + Shift + Esc         Task Manager
+  Win + L                    Lock computer
+
+WIN + R (PASTE WITHOUT QUOTES):
+  perfmon /rel               Reliability Monitor
+  resmon                     Resource Monitor
+  dxdiag                     Graphics / DirectX diagnostics
+  msinfo32                   BIOS and system information
+  devmgmt.msc                Device Manager
+  optionalfeatures           Windows optional features
+  appwiz.cpl                 Classic installed programs
+  mmsys.cpl                  Sound devices
+  joy.cpl                    Game controller options
+  colorcpl                   Display colour management
+  dccw                       Display colour calibration
+  taskschd.msc               Task Scheduler
+  wf.msc                     Advanced Firewall
+  tpm.msc                    TPM console
+  shell:AppsFolder           All installed app shortcuts
+  shell:SendTo               Send To shortcuts
+  shell:Startup              Startup shortcuts
+  shell:Downloads            Downloads folder
+  ms-settings:startupapps    Startup applications
+  ms-settings:windowsupdate  Windows Update
+  ms-settings:notifications  Notifications
+  ms-settings:display        Display settings
+  ms-settings:developers     Developer options
+
+FUN AND USEFUL:
+  Open Task View (Win + Tab) to create separate desktops for gaming,
+  studying, and development without installing any application.
+  Windows All Tasks panel is available via V4 tool 154.
+  V4 tool 158 shows a temporary Matrix-style terminal effect.
+
+These shortcuts don't disable Windows security or speed up hardware by themselves.

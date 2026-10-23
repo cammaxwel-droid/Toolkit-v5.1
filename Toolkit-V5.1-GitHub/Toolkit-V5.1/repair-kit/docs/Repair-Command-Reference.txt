@@ -1,0 +1,168 @@
+REPAIR KIT V1 - COMMAND & TOOL REFERENCE
+=================================================
+Read-only VIEW tools require no changes. REPORT tools write output only.
+CHANGE/REPAIR tools ask you to type YES. Admin-only tools request UAC
+only after you select them. Commands are PowerShell 5.1 unless otherwise noted.
+NO firmware flashing, resetting Secure Boot/TPM, deleting partitions,
+disabling Defender/firewall, or forced system-wide network reset.
+
+
+WINDOWS HEALTH / REPAIRS
+------------------------
+R01 | Component store: quick check [VIEW, Admin]
+  DISM CheckHealth. Reads corruption flag; does not repair.
+R02 | Component store: thorough scan [VIEW, Admin]
+  DISM ScanHealth. Longer diagnostic, no repair.
+R03 | Protected files: verification [VIEW, Admin]
+  SFC VerifyOnly. Reports integrity violations without repairs.
+R04 | Repair component store then files [REPAIR, Admin]
+  DISM RestoreHealth followed by SFC only if DISM succeeds. May download files.
+R05 | Repair protected files (SFC) [REPAIR, Admin]
+  Runs sfc /scannow independently; can take time.
+R06 | Pending restart indicators [VIEW]
+  Checks update, servicing and file-operation restart markers.
+R07 | Recent Windows system errors [VIEW]
+  Recent Level 2 System event entries, not a repair.
+R08 | Reliability Monitor [VIEW]
+  Opens crash and update reliability history.
+
+EXPLORER / TASKBAR / APPS / DISPLAY
+-----------------------------------
+R09 | Restart Explorer and taskbar [CHANGE]
+  Closes Explorer windows and reloads taskbar/desktop; no reboot.
+R10 | Explorer and taskbar settings [VIEW]
+  Open taskbar configuration and Explorer options.
+R11 | Task Manager and Resource Monitor [VIEW]
+  Open diagnostic GUIs; no task is terminated.
+R12 | Recent Explorer/Task Manager crashes [VIEW]
+  Scans Application errors for explorer.exe and Taskmgr.exe.
+R13 | Reset Microsoft Store cache [REPAIR]
+  Runs Microsoft's wsreset.exe. Not app uninstall; Store may open.
+R14 | Installed app repair options [VIEW]
+  Open Settings: Installed apps > ... > Advanced options > Repair.
+R15 | Display and graphics diagnostics [VIEW]
+  DirectX Diagnostic Tool and installed graphics driver details.
+R16 | Display settings / scale [VIEW]
+  Open display settings; no resolution changes automated.
+R17 | Audio device and service check [VIEW]
+  Lists audio devices, service states, and opens sound controls.
+R18 | Restart Windows Audio service [REPAIR, Admin]
+  May interrupt playback or recordings. Does not reinstall audio drivers.
+
+WINDOWS SECURITY
+----------------
+R19 | Defender protection summary [VIEW]
+  Check antivirus, real-time protection and signature age.
+R20 | Defender and recent detections [VIEW, Admin]
+  Reads recent detections; requires permissions on some systems.
+R21 | Start Defender quick scan [CHANGE, Admin]
+  Starts on-demand malware scan. May take minutes.
+R22 | Update Defender security signatures [CHANGE, Admin]
+  Downloads supported antivirus signatures; internet required.
+R23 | Firewall profiles [VIEW]
+  Displays firewall status; never turns protection off.
+R24 | Windows Security dashboard [VIEW]
+  Open graphical Windows Security controls without changing them.
+R25 | TPM, Secure Boot and encryption [VIEW]
+  Inspect security chip, Secure Boot and BitLocker on C:.
+R26 | Controlled folder access / PUA [VIEW]
+  Reads selected Defender preferences; never alters security.
+
+NETWORK / DOWNLOADS
+-------------------
+R27 | Wi-Fi hotspot link [VIEW]
+  Displays negotiated Wi-Fi link rate, NOT mobile tower throughput.
+R28 | DNS, proxy and IP snapshot [VIEW]
+  Read configured DNS, IP adapters and Windows proxy.
+R29 | Internet latency and DNS [VIEW]
+  20 ICMP echo packets plus a DNS query; no downloads.
+R30 | HTTPS connection check [VIEW]
+  Checks TCP 443 only; successful result does not prove ZIP integrity.
+R31 | Flush DNS resolver cache [CHANGE]
+  Clears cached DNS answers. Not a download-speed booster.
+R32 | Reset Winsock networking [REPAIR, Admin]
+  Advanced repair when sockets malfunction; restart later, connections may change.
+R33 | Open network troubleshooting [VIEW]
+  Open Windows diagnostics UI; does not reset all adapters.
+
+DRIVERS / STORAGE / ZIP
+-----------------------
+R34 | Driver error codes [VIEW]
+  Show only devices with actual Error status and their problem codes.
+R35 | Installed driver inventory CSV [REPORT]
+  Save version inventory, NOT latest-vendor comparison.
+R36 | Windows optional driver offers [VIEW]
+  Opens official Windows Update page; no drivers installed.
+R37 | Drive health and firmware [VIEW]
+  Basic Windows storage health and firmware; not a full SMART test.
+R38 | Scan C: online for filesystem issues [VIEW, Admin]
+  chkdsk /scan reads/scans C: online; does not schedule offline /f.
+R39 | Verify ZIP completely [VIEW]
+  Checks ZIP directory and decompresses all entries without extraction.
+R40 | File SHA-256 checksum [VIEW]
+  Compare with a publisher checksum when provided.
+
+UPDATES / REPORTS / PERFORMANCE
+-------------------------------
+R41 | App upgrades (WinGet) [VIEW]
+  Checks supported installed apps; not Windows OS or firmware.
+R42 | Upgrade supported apps [CHANGE]
+  Runs winget upgrade --all. Can download installers and prompt.
+R43 | Windows Update troubleshooting [VIEW]
+  Windows Update settings and troubleshooting UI; no reset.
+R44 | Windows Update log export [REPORT]
+  Creates a readable Windows Update log file for analysis.
+R45 | Battery report [REPORT]
+  Creates HTML battery report in your Documents report folder.
+R46 | RAM usage snapshot [VIEW]
+  Top 15 processes plus system available memory.
+R47 | Print spooler status [VIEW]
+  Shows printer spooler state, no changes.
+R48 | Restart print spooler [REPAIR, Admin]
+  May interrupt outstanding print jobs. Use if printing is stuck.
+R49 | Create Windows restore point [CHANGE, Admin]
+  Only if System Protection enabled; may fail due to 24-hour limit.
+R50 | Startup apps and power requests [VIEW]
+  Open Startup and list current sleep blockers.
+R51 | System summary report [REPORT]
+  Generate OS, RAM, storage, device and security snapshot in Documents.
+
+HOW TO RUN
+----------
+Double-click Start-Repair-Kit.cmd from an extracted folder.
+Pick category 1-6; enter R01 etc. Use ?R01 for concise help.
+Repair actions are never started until you choose them.
+Reports go to your actual Documents\RepairKit-Reports folder.
+This folder should not be added to a public GitHub repository.
+
+USEFUL MANUAL COMMANDS (ADMIN POWERSHELL WHERE REQUIRED)
+---------------------------------------------------------
+sfc /verifyonly
+DISM /Online /Cleanup-Image /CheckHealth
+DISM /Online /Cleanup-Image /ScanHealth
+DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow
+chkdsk C: /scan
+Get-PnpDevice | Where-Object Status -eq 'Error'
+Get-MpComputerStatus
+Get-NetFirewallProfile
+Get-Tpm
+Confirm-SecureBootUEFI
+manage-bde -status C:
+Start-MpScan -ScanType QuickScan
+Update-MpSignature
+ipconfig /flushdns
+netsh winsock reset       # Changes networking; restart normally required
+winget upgrade
+winget upgrade --all      # Updates apps, NOT Windows or BIOS
+ms-settings:windowsupdate
+ms-settings:appsfeatures
+ms-settings:troubleshoot
+
+DISPLAY ADAPTER RECOVERY KEYBOARD SHORTCUT
+------------------------------------------
+Win + Ctrl + Shift + B     Refreshes graphics driver display pipeline; brief flicker/beep.
+It doesn't install a new graphics driver or repair a faulty GPU.
+
+NOTE: Windows reports Status=Unknown for inactive devices, including a
+deliberately BIOS-disabled camera. Do not treat every Unknown as broken.

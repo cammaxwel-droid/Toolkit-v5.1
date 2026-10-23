@@ -1,0 +1,15 @@
+# Local verification evidence and backups.
+/.local/
+desktop.ini
+
+# Preserved older packages; the current Toolkit V5.1 package is tracked.
+/Windows11-Toolkit-V5-GitHub/
+/Windows11-Toolkit-V5-GitHub.7z
+/Windows11-Toolkit-V5.1-MIT-License-Pack.zip
+
+# Generated reports and saved device state are private.
+ToolkitV*-Reports/
+Windows11-ToolkitV*-Reports/
+RepairKit-Reports/
+Windows11-RepairKit-Reports/
+PowerPlan-Undo.json

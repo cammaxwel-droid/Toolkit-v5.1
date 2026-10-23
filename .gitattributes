@@ -1,0 +1,8 @@
+# Preserve distribution bytes so SHA256SUMS.txt also verifies after checkout.
+Toolkit-V5.1-GitHub/Toolkit-V5.1/** -text
+
+# Keep repository metadata consistent without changing global Git settings.
+/.gitattributes text eol=lf
+/.gitignore text eol=lf
+/Toolkit-V5.1-GitHub.zip -text
+/Toolkit-V5.1-GitHub.zip.sha256 -text

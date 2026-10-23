@@ -1,0 +1,455 @@
+TOOLKIT V5.1 - COMMAND & MENU REFERENCE
+================================================================
+Launch Start-Toolkit.cmd as Administrator (right-click).
+Home shortcuts: A General Diagnostics, B Deep Diagnostics, C General Repair, D Deep Repair.
+Every V5 workflow check reports PASS/WARNING/ERROR/NO DATA and exports summaries.
+Legacy single-action VIEW tools can return no structured data; empty output is NOT an automatic PASS.
+This reference is for Windows 11 and Windows PowerShell 5.1.
+
+
+CATEGORY 1 - Desktop & Explorer
+----------------------------------------------------------------
+001 [CHANGE] Restart File Explorer + taskbar
+     Reloads Windows shell; open Explorer windows may close.
+002 [VIEW] Open File Explorer
+     Start File Explorer.
+003 [VIEW] Open Documents
+     Uses actual Documents known folder, not username substitution.
+004 [VIEW] Open Downloads
+     Open Downloads under the actual user profile.
+005 [VIEW] Open Desktop folder
+     Open actual Windows desktop folder.
+006 [VIEW] File Explorer options
+     Folders, view and search behaviour.
+007 [VIEW] Taskbar settings
+     Windows taskbar personalization.
+008 [VIEW] Task Manager
+     Open process and startup inspection tools.
+009 [VIEW] Clipboard history settings
+     Inspect clipboard history settings.
+010 [VIEW] Desktop background
+     Restore a missing desktop wallpaper.
+011 [VIEW] Screen display settings
+     Resolution, scaling and monitors.
+012 [VIEW] Graphics app preferences
+     Select Windows graphics preferences per app.
+013 [VIEW] Default apps
+     Choose Chrome or other default handlers.
+
+CATEGORY 2 - Updates & Software
+----------------------------------------------------------------
+014 [VIEW] Windows Update settings
+     Check official OS updates offered to this device.
+015 [VIEW] Windows Update history
+     Review already installed system updates.
+016 [VIEW] Optional driver updates
+     Windows Update offers some, not all, hardware drivers.
+017 [VIEW] Recent hotfix history
+     Get-HotFix is partial, not complete update inventory.
+018 [VIEW] WinGet app update scan
+     Lists available app updates. Does NOT update Windows or firmware.
+019 [VIEW] WinGet installed apps
+     Lists supported registered applications.
+020 [CHANGE] Update supported apps
+     Runs WinGet upgrade --all. May prompt/need internet.
+021 [VIEW] Installed apps settings
+     Use Modify, Repair or Uninstall only when needed.
+022 [VIEW] Startup apps
+     Disable unwanted app startup, not Windows services.
+023 [VIEW] WinGet version
+     Check package manager version.
+024 [VIEW] Microsoft Store library
+     Open Store for apps distributed outside WinGet.
+125 [VIEW] App repair / reset options
+     Opens Installed apps advanced options.
+
+CATEGORY 3 - Security & Privacy
+----------------------------------------------------------------
+025 [VIEW] Windows Security dashboard
+     Open Windows Security, no toggles changed.
+026 [VIEW] Defender protection status
+     Antivirus state, definitions age and scanning status.
+027 [VIEW] Defender configuration
+     Read controlled folder access, PUA and AV preferences.
+028 [VIEW] Firewall profile status
+     Firewall enabled states on Domain/Private/Public.
+029 [VIEW] Advanced firewall console
+     View or manage firewall rules in Windows UI.
+030 [VIEW] TPM security chip
+     Read presence and readiness. Never clears TPM.
+031 [VIEW] Secure Boot check
+     Reports enabled/disabled; does not alter BIOS keys.
+032 [VIEW] BitLocker C: status
+     View system-drive encryption and protector state.
+033 [VIEW] Recent Defender detections
+     Threat history can require Admin, no changes.
+034 [VIEW] Controlled Folder Access settings
+     Open Windows Security to inspect ransomware protection.
+035 [CHANGE] Defender quick scan
+     Starts a security scan; may take time.
+036 [CHANGE] Update Defender signatures
+     Downloads current signatures (internet needed).
+037 [VIEW] Local security policy
+     Windows 11 Pro security options; view before editing.
+038 [REPORT] Security summary to file
+     Generate a security report in Documents (sensitive; do not post publicly).
+
+CATEGORY 4 - Hardware & Drivers
+----------------------------------------------------------------
+039 [VIEW] Device Manager
+     Inspect installed drivers and warning codes.
+040 [VIEW] Problem devices only
+     Codes may include intentional camera disable.
+041 [REPORT] All hardware driver inventory
+     Create CSV with installed driver versions. Does not discover newest vendor version.
+042 [VIEW] Current graphics drivers
+     Versions currently installed.
+043 [VIEW] Firmware errors
+     Read firmware class warnings only.
+044 [VIEW] Thunderbolt + Intel ME devices
+     Check interfaces; not actual installed ME firmware version.
+045 [VIEW] BIOS version
+     Reads current BIOS reported by firmware.
+046 [VIEW] CPU and physical memory
+     Read model, cores and installed physical memory.
+047 [VIEW] Disk firmware + basic health
+     Storage health flag is not a comprehensive diagnostic.
+048 [VIEW] Windows optional driver offers
+     Open optional driver update list; review before selecting.
+049 [VIEW] Lenovo System Update in Start menu
+     Locate Lenovo update tool; do not auto-install firmware.
+050 [REPORT] Driver and software update scan
+     Runs local driver inventory + winget listing; vendor firmware NOT flashed.
+
+CATEGORY 5 - Performance & Power
+----------------------------------------------------------------
+051 [VIEW] Top memory processes
+     Per-process working sets; shared memory may double count.
+052 [VIEW] Available and used RAM
+     Windows memory snapshot.
+053 [VIEW] Resource Monitor
+     Detailed CPU, memory, disk, and network activity.
+054 [VIEW] Reliability Monitor
+     Review app crashes and unsuccessful installs.
+055 [VIEW] Performance Monitor
+     Counters and diagnostics.
+056 [VIEW] Startup apps settings
+     Check app sign-in load.
+057 [VIEW] Current power scheme
+     Read the active Windows power plan.
+058 [VIEW] Supported sleep states
+     See available sleep and hibernate modes.
+059 [VIEW] Power requests
+     See programs preventing sleep.
+060 [REPORT] Battery report
+     Write standard battery-report.html to Documents report folder.
+061 [VIEW] System performance options
+     Windows visual effects and virtual memory configuration.
+
+CATEGORY 6 - Hotspot & Network
+----------------------------------------------------------------
+062 [VIEW] Wi-Fi link signal and rate
+     Shows connection to phone hotspot, NOT mobile tower quality.
+063 [VIEW] Wi-Fi adapter capabilities
+     View bands, wireless mode support and driver capabilities.
+064 [VIEW] IP and DNS configuration
+     View network addressing and DNS.
+065 [VIEW] Packet loss: 20 pings
+     Sample connectivity to a public IPv4 address.
+066 [VIEW] DNS lookup test
+     Check whether example domain resolves.
+067 [VIEW] WinHTTP proxy
+     Proxy used by some Windows services.
+068 [VIEW] DNS server listing
+     Per network interface DNS settings.
+069 [VIEW] Network interfaces and MTU
+     MTU readout; no tuning performed.
+070 [VIEW] HTTPS connectivity test
+     Tests TCP/443 connectivity, not full file downloads.
+071 [VIEW] Wi-Fi adapter settings
+     Open network adapter control panel.
+072 [VIEW] Advanced network settings
+     Inspect network driver and properties.
+073 [CHANGE] Flush DNS cache
+     Clears DNS cache; not a general speed booster.
+074 [VIEW] Network Troubleshooter
+     Open Windows troubleshoot settings.
+
+CATEGORY 7 - Disks & Downloads
+----------------------------------------------------------------
+075 [VIEW] Disk health overview
+     Read reported media health; no repairs performed.
+076 [VIEW] Drive free space
+     Physical volume total and available size.
+077 [VIEW] Disk Management UI
+     Inspect volumes; do not repartition casually.
+078 [VIEW] Online disk scan C:
+     chkdsk /scan checks NTFS online; needs elevated access on some systems.
+079 [VIEW] Recent downloads
+     Recent files under your actual profile.
+080 [VIEW] Validate ZIP fully
+     Choose ZIP; read/decompress entries without extracting files.
+081 [VIEW] File SHA256 checksum
+     Choose file, calculate hash. Compare with official hash.
+082 [VIEW] Optimize Drives UI
+     Windows decides SSD trim or HDD defrag as appropriate.
+083 [VIEW] Find incomplete downloads
+     Look for Chrome/Edge temporary .crdownload files.
+084 [VIEW] Storage settings
+     Manage storage and cleanup through Windows UI.
+
+CATEGORY 8 - Troubleshooting & Repair
+----------------------------------------------------------------
+085 [VIEW] Quick DISM health check
+     Read repairability flag; does not repair.
+086 [VIEW] Deep DISM store scan
+     Scans Windows component store; can take time.
+087 [VIEW] SFC verify only
+     Check system files without repairing.
+088 [REPAIR] DISM RestoreHealth + SFC repair
+     Repair detected Windows corruption; internet may be used.
+089 [VIEW] Recent system errors
+     Latest OS error events, not automatic diagnosis.
+090 [VIEW] Reliability Monitor
+     Crash, driver and install history.
+091 [VIEW] Windows Update troubleshooting
+     Opens Windows troubleshooter UI.
+092 [VIEW] App repair / reset settings
+     Repair or reset one app through Windows UI; inspect options first.
+093 [CHANGE] Explorer/taskbar shell restart
+     Restarts Explorer. Windows desktop briefly disappears.
+094 [VIEW] Display diagnostics
+     dxdiag shows graphics hardware and driver; no repair.
+095 [VIEW] Graphics display settings
+     Windows display options and scaling.
+096 [VIEW] Task Manager
+     Start or reopen Task Manager for stalled-app inspection.
+097 [VIEW] Windows recovery options
+     Opens recovery tools UI; no automatic reset.
+098 [VIEW] Event Viewer
+     Inspect application and system failures.
+121 [VIEW] Open Repair Kit (51 tools)
+     Standalone Repair Kit menu, per-action UAC.
+122 [VIEW] Windows Update troubleshooter
+     Opens built-in troubleshooting and update pages.
+123 [VIEW] Recent Explorer crashes
+     Application log Explorer / Task Manager errors.
+124 [VIEW] Printer spooler status
+     Checks Print Spooler; repair kit contains the optional restart action.
+
+CATEGORY 9 - System & Developer Tools
+----------------------------------------------------------------
+099 [VIEW] System Properties
+     Computer name, domain, environment and restore.
+100 [VIEW] Advanced system settings
+     Performance, profiles and environment variables.
+101 [VIEW] System restore settings
+     Check available restore points and protection.
+102 [VIEW] Windows features
+     Optional OS components such as WSL or Hyper-V.
+103 [VIEW] Computer Management
+     Local disk, services, events and users.
+104 [VIEW] Device Manager
+     Inspect hardware and driver properties.
+105 [VIEW] Task Scheduler
+     Inspect installed jobs; no modification.
+106 [VIEW] Services console
+     Manage background services carefully.
+107 [VIEW] Local Group Policy Editor
+     Windows 11 Pro administrative policy.
+108 [VIEW] DirectX diagnostic
+     Display and sound driver diagnostics.
+109 [VIEW] Developer settings
+     Windows developer mode and device features.
+110 [VIEW] Toolchain versions
+     Reports Python, Node, npm, .NET, Git and Visual Studio paths.
+111 [VIEW] Windows version
+     Display Windows build.
+112 [VIEW] Actual profile path
+     Show profile/document folders and name; no renames.
+
+CATEGORY 10 - Reports & Help
+----------------------------------------------------------------
+113 [REPORT] Comprehensive system report
+     Writes a readable report to Documents/ToolkitV3-Reports.
+114 [REPORT] Windows Security report
+     Defender, firewall, encryption and TPM only.
+115 [REPORT] Driver inventory CSV
+     Installed driver versions, not online latest-version lookup.
+116 [REPORT] Software + driver update scan
+     WinGet available updates + local devices; no installation.
+117 [VIEW] Open toolkit README
+     Open GitHub-ready README instructions.
+118 [VIEW] Open command reference
+     Open expanded command reference .txt.
+119 [VIEW] Open keyboard shortcuts
+     Open keyboard and Win+R shortcuts .txt.
+120 [REPORT] Open reports folder
+     Opens previous reports; creates folder if missing.
+
+CATEGORY 11 - Deep Audits & Comparison
+----------------------------------------------------------------
+126 [REPORT] Security posture overview
+     Local Defender, firewall, TPM, BitLocker, Secure Boot; creates a private report.
+127 [VIEW] Repair & change history
+     Shows actions selected using this toolkit. An invocation is not proof of repair success.
+128 [REPORT] Save baseline snapshot
+     Stores selected OS/driver/RAM/firmware facts for later comparison.
+129 [REPORT] Compare two snapshots
+     Highlights changed drivers, memory and firmware; select two saved snapshots.
+130 [REPORT] Folder backup comparison
+     Compare two local folders by path/size, optionally SHA-256 hashes; no changes.
+131 [REPORT] Package + driver update scan
+     Use V3 combined report: installed drivers + WinGet app updates only.
+132 [REPORT] Startup & heavy RAM report
+     App memory working sets and startup registrations; no termination.
+133 [VIEW] Security check in console
+     Quick Defender/firewall/encryption status; does not make changes.
+134 [VIEW] System reliability events
+     Critical/error System & Application events from the last 48 hours.
+135 [VIEW] Check restore point status
+     Inspect shadow-copy/restore support; no restore point created.
+167 [VIEW] RAM usage delta (10 seconds)
+     Samples working sets twice and prints changes without terminating processes.
+168 [REPORT] Save driver inventory CSV
+     Read drivers to file without updating or replacing hardware drivers.
+
+CATEGORY 12 - Experience Profiles
+----------------------------------------------------------------
+136 [VIEW] Preview Gaming profile
+     See proposed power profile and settings pages, no changes.
+137 [CHANGE] Apply Gaming profile
+     Use existing High Performance plan if installed and open Game Mode/settings. Undo supported.
+138 [VIEW] Preview Programming profile
+     See proposed power mode and developer settings, no changes.
+139 [CHANGE] Apply Programming profile
+     Select Balanced plan if available; open Developer & Startup Settings. Undo supported.
+140 [VIEW] Preview Studying profile
+     See study-friendly settings and changes before applying.
+141 [CHANGE] Apply Studying profile
+     Select Balanced plan; open Notifications/Display. Never disables notifications automatically.
+142 [VIEW] Preview Battery Saver profile
+     Use installed power saver plan if available; show battery settings.
+143 [CHANGE] Apply Battery Saver profile
+     Choose existing Power Saver plan if present; Undo supported.
+144 [CHANGE] Restore pre-profile power plan
+     Restore original saved power plan before this toolkit changed it.
+145 [VIEW] Show current plan/profile
+     Read current Windows power plan and any toolkit backup.
+
+CATEGORY 13 - App Installer & Doctor
+----------------------------------------------------------------
+146 [CHANGE] Curated app installer menu
+     Optional single-app WinGet install. Shows package details before YES. Never installs all.
+147 [REPORT] Developer environment doctor
+     Report Python, pip, Node, .NET, Git, Visual Studio, CMake and Ninja.
+148 [VIEW] Windows installed apps/repair UI
+     Opens app controls; you choose Repair/Modify for an individual app.
+149 [VIEW] App upgrades scan (WinGet)
+     Find supported app updates. Does not install apps or drivers.
+150 [VIEW] Official Windows driver offers
+     Opens Optional updates; checks offered compatible drivers only.
+151 [VIEW] Find tool executable paths
+     Inspect locations for powershell, python, git, node and winget.
+152 [VIEW] Check signed download file
+     Read Authenticode status and SHA256 hash for a selected file.
+169 [VIEW] Open Windows Store
+     Browse Store apps independently from WinGet; no auto install.
+
+CATEGORY 14 - Hidden Windows & Advanced
+----------------------------------------------------------------
+153 [VIEW] Symptom-guided troubleshooting
+     Choose a problem for focused read-only checks and optional repair recommendations.
+154 [VIEW] Open All Tasks (God Mode)
+     Open Windows All Tasks shell folder, no system changes.
+155 [VIEW] Open hidden shell folders
+     Choose AppsFolder, SendTo, Startup, Recycle Bin or Downloads.
+156 [VIEW] Hidden Run shortcuts
+     Show useful Win+R tools such as perfmon /rel, dxdiag and joy.cpl.
+157 [VIEW] Windows keyboard tricks
+     Emoji, clipboard, snip, GPU refresh and virtual-desktop shortcuts.
+158 [VIEW] Fun Matrix-style terminal rain
+     Harmless terminal animation lasting a few seconds; no filesystem/network action.
+159 [VIEW] Random Windows tip
+     Fun short tip from built-in Windows functions.
+160 [VIEW] Advanced boot entry view
+     Read BCD firmware entries only; do not delete old boot entries.
+161 [VIEW] Advanced services insight
+     Read service details, no stopping/reconfiguration.
+162 [VIEW] Advanced task triggers
+     Read scheduled tasks matching optional search term; no modifications.
+163 [VIEW] Advanced network routes
+     Read routing and network interface diagnostics.
+164 [VIEW] Windows performance tools
+     Open Resource, Performance and Reliability Monitor.
+165 [CHANGE] Taskbar/Explorer recovery
+     Restart Explorer and taskbar on confirmation.
+166 [VIEW] View integrated repair kit
+     Open the integrated 51-action diagnostic/repair menu.
+170 [VIEW] Unsigned driver inventory
+     Reports drivers marked unsigned; this is not automatically malware.
+
+CATEGORY 15 - Four Guided Workflows
+----------------------------------------------------------------
+171 [REPORT] GENERAL DIAGNOSTICS
+     Fast multi-system read-only checks; explicit statuses, TXT + JSON report.
+172 [REPORT] DEEP DIAGNOSTICS
+     Broader read-only audit of Windows, Explorer, logs, processes and optional DISM/SFC verification.
+173 [REPAIR] GENERAL REPAIR (guided)
+     Runs diagnostics, then offers individual low-impact fixes only when indicated.
+174 [REPAIR] DEEP REPAIR (guided)
+     Runs deeper diagnostics, offers repair of verified issues with two explicit confirmations.
+175 [REPORT] Toolkit diagnostic self-test
+     Checks availability of diagnostic commands and report-folder writing; exports report.
+176 [VIEW] How the 4 workflows work
+     Read safety rules and expected output. No changes.
+177 [VIEW] V5 repair attempt history
+     Show attempted operations and their actual outcomes (not assumed fixes).
+178 [VIEW] Open V5 reports folder
+     Private local Documents folder containing readable TXT and structured JSON reports.
+179 [VIEW] Open workflow user guide
+     What each diagnostic checks and which repairs are available.
+180 [VIEW] PowerShell syntax-check guide
+     Instructions and included parser self-test. No scans or repairs.
+
+QUICK POWER SHELL DIAGNOSTIC COMMANDS (READ-ONLY)
+----------------------------------------------------------------
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" | Select DisplayVersion,CurrentBuild,UBR
+Get-PnpDevice | Where-Object Status -eq "Error"
+Get-PhysicalDisk | Select FriendlyName,HealthStatus,OperationalStatus
+Get-Process explorer -ErrorAction SilentlyContinue
+Get-MpComputerStatus | Select AntivirusEnabled,RealTimeProtectionEnabled
+Get-NetFirewallProfile | Select Name,Enabled
+Get-Tpm | Select TpmPresent,TpmReady
+Confirm-SecureBootUEFI
+manage-bde -status C:
+Get-Service Audiosrv,Spooler,wuauserv
+winget upgrade  # Read-only app upgrade scan, not Windows OS updates
+
+WINDOWS INTEGRITY (OPTIONAL, READ-ONLY, ADMIN)
+----------------------------------------------------------------
+DISM.exe /Online /Cleanup-Image /CheckHealth
+DISM.exe /Online /Cleanup-Image /ScanHealth
+sfc.exe /verifyonly
+
+REPAIR COMMANDS (CHANGE STATE; RUN ONLY WHEN INDICATED)
+----------------------------------------------------------------
+DISM.exe /Online /Cleanup-Image /RestoreHealth  # component store repair
+sfc.exe /scannow  # protected files
+ipconfig.exe /flushdns  # clear resolver cache
+
+Full workflow descriptions: docs\V5-Workflows.md
+All tool metadata: docs\All-Tools-V5.json
+Private diagnostics: Documents\ToolkitV5-Reports.
+Never publish reports or Windows crash dumps in a public GitHub repo.
+
+
+V5.1 RELIABILITY NOTE
+=====================
+The main menu and tool IDs remain unchanged. 171 = General Diagnostics,
+172 = Deep Diagnostics, 173 = General Repair, 174 = Deep Repair,
+175 = Diagnostic Self-Test. Deep Diagnostics saves event-details TXT files
+when critical/error events are found. SFC VerifyOnly output is saved separately.
+
+Use read-only diagnostics first. Check current symptoms; historical event logs
+may persist after Windows updates, driver removal or application recovery.

@@ -1,0 +1,559 @@
+TOOLKIT COMMAND REFERENCE - EXTENDED EDITION (V2)
+=====================================================
+For Windows 11, including Lenovo ThinkPad T490s.
+This EXTENDS the original reference below instead of replacing the commands you already saved.
+
+QUICK USE
+- Win+R: use .msc, .cpl, and ms-settings: entries.
+- PowerShell: use Get-*, Test-*, Start-Process and other PowerShell expressions.
+- Windows Terminal (Admin): needed for some repair/system commands.
+- A driver being 'older' does NOT prove it needs replacement.
+- 'winget upgrade --all' is for apps, not Windows OS or hardware firmware.
+- Firmware/BIOS and SSD firmware updates are intentionally NOT automated.
+- Network resets and destructive disk actions are intentionally excluded.
+
+========================================================================
+PART 1 - THE ORIGINAL COMMAND REFERENCE (PRESERVED)
+========================================================================
+
+TOOLKIT COMMAND REFERENCE
+============================
+Made for quick access from Windows 11 Run (Win+R), Command Prompt, or a batch file.
+To get an interactive double-click menu, use the companion Control-Centre-V2.txt script (save it as Control-Centre-V2.cmd).
+
+HOW TO USE
+----------
+1. Press Win+R, paste/type a command, press Enter.
+2. Or copy commands into Command Prompt (cmd).
+3. Commands starting with 'ms-settings:' open a Windows Settings page via Win+R.
+4. To make a single double-click shortcut, create a text file containing an appropriate
+   batch command, Save As > Save as type: All Files > filename.cmd.
+   A plain .txt file is a reference, NOT an executable script.
+
+RESTART SHELL
+-------------
+Restart File Explorer AND taskbar (Command Prompt):
+  taskkill /f /im explorer.exe & start explorer.exe
+
+This temporarily hides the taskbar and desktop. Open Explorer windows can close.
+
+WINDOWS UPDATES
+---------------
+Windows Update (check and install offered Windows updates):
+  ms-settings:windowsupdate
+Windows Update history:
+  ms-settings:windowsupdate-history
+Optional updates and drivers (inspect before installing):
+  ms-settings:windowsupdate-optionalupdates
+Windows version and build installed:
+  winver
+Recently installed Windows hotfixes (partial inventory only; use Command Prompt):
+  powershell -NoProfile -Command "Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 12 HotFixID,InstalledOn"
+
+IMPORTANT: 'winver' shows what's currently installed, NOT proof you have the
+newest release available. Use Windows Update to check for updates offered to
+your device. Feature rollouts and hardware compatibility can affect availability.
+
+APPLICATION UPDATES (WinGet; run in Command Prompt)
+----------------------------------------------------
+See which supported apps have updates:
+  winget upgrade
+Upgrade supported apps (may prompt for installation or elevation):
+  winget upgrade --all
+Check WinGet installed version:
+  winget --version
+
+IMPORTANT: WinGet updates apps, NOT the Windows operating system or every driver.
+
+CLASSIC HIDDEN SETTINGS (Win+R)
+-------------------------------
+  sysdm.cpl                       System Properties
+  SystemPropertiesAdvanced.exe    Advanced system / environment variables
+  SystemPropertiesPerformance.exe Performance Options / virtual memory
+  SystemPropertiesProtection.exe  System restore / protection
+  control folders                File Explorer folder options
+  control                         Classic Control Panel
+  devmgmt.msc                     Device Manager
+  ncpa.cpl                        Network connections / adapters
+  msconfig                        System Configuration (avoid random changes)
+  services.msc                    Windows services (avoid random changes)
+  taskschd.msc                    Task Scheduler
+  eventvwr.msc                    Event Viewer
+  resmon                          Resource Monitor (CPU / RAM / disk / network)
+  perfmon /rel                    Reliability Monitor (crashes and failed updates)
+  msinfo32                        System Information (hardware and Windows details)
+  dxdiag                          DirectX / display hardware diagnostics
+  cleanmgr                        Disk Cleanup (review what it will delete)
+  optionalfeatures                Optional Windows features
+  powercfg.cpl                    Classic Power Options
+  taskmgr                         Task Manager
+
+DIRECT WINDOWS SETTINGS SHORTCUTS (Win+R)
+-----------------------------------------
+  ms-settings:taskbar                       Taskbar
+  ms-settings:startupapps                  Startup applications
+  ms-settings:appsfeatures                 Installed applications
+  ms-settings:storagesense                 Storage usage
+  ms-settings:storagepolicies              Storage Sense
+  ms-settings:network-status               Network status
+  ms-settings:network-advancedsettings     Advanced network settings
+  ms-settings:network-wifi                 Wi-Fi settings
+  ms-settings:network-proxy                Proxy settings
+  ms-settings:privacy-broadfilesystemaccess App file-system permissions
+  ms-settings:privacy-documents            Documents folder app permissions
+  ms-settings:windowsdefender              Windows Security
+  ms-settings:developers                   Developer settings
+  ms-settings:recovery                     Windows recovery settings
+  ms-settings:display                      Display settings
+  ms-settings:display-advancedgraphics     App graphics preferences (if supported)
+  ms-settings:about                        About this PC
+  ms-settings:powersleep                  Power and sleep settings
+
+HOTSPOT AND NETWORK DIAGNOSTICS (Command Prompt)
+------------------------------------------------
+Display connection details, including Wi-Fi link signal (not mobile data strength):
+  netsh wlan show interfaces
+Display IPs and adapter details:
+  ipconfig /all
+Test basic Internet connectivity:
+  ping 1.1.1.1 -n 4
+See if DNS is resolving:
+  nslookup microsoft.com
+Clear cached DNS lookups (troubleshooting only; not a speed booster):
+  ipconfig /flushdns
+
+WINDOWS HEALTH AND REPAIR (ADMINISTRATOR COMMAND PROMPT)
+--------------------------------------------------------
+Check whether the Windows component store is flagged as corrupt (quick):
+  DISM /Online /Cleanup-Image /CheckHealth
+Scan the Windows component store (longer check):
+  DISM /Online /Cleanup-Image /ScanHealth
+Repair Windows component store if damaged (can require internet):
+  DISM /Online /Cleanup-Image /RestoreHealth
+Check protected system file integrity without repairing:
+  sfc /verifyonly
+Check and repair protected system files:
+  sfc /scannow
+
+Do not run the repair commands just to improve speed. They are troubleshooting
+and repair tools, not general performance optimizers. They require administrator
+rights. Do not change Windows services or advanced system settings randomly.
+
+FILE EXPLORER / CMD PERMISSIONS REMINDER
+----------------------------------------
+App file system permissions: ms-settings:privacy-broadfilesystemaccess
+Windows Security: ms-settings:windowsdefender
+If Windows Security Controlled folder access blocked an app from writing to
+Documents or Desktop, the setting is under Windows Security > Virus & threat
+protection > Ransomware protection > Manage ransomware protection.
+That is a different control from Settings > Privacy & security > File system.
+
+MICROSOFT REFERENCES
+--------------------
+https://learn.microsoft.com/en-us/windows/apps/develop/launch/launch-settings
+https://learn.microsoft.com/en-us/windows/package-manager/winget/upgrade
+https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/install-windows-updates
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sfc
+
+
+========================================================================
+PART 2 - NEW COMMANDS (V2 EXTENSIONS)
+========================================================================
+
+
+SYSTEM INSPECTION / HIDDEN TOOLS
+--------------------------------
+compmgmt.msc
+    -> Computer Management console
+
+diskmgmt.msc
+    -> Disk Management (be careful with changes)
+
+wf.msc
+    -> Advanced Windows Firewall console
+
+tpm.msc
+    -> TPM status and management
+
+certmgr.msc
+    -> Current-user certificate manager
+
+taskschd.msc
+    -> Task Scheduler
+
+eventvwr.msc
+    -> Event Viewer
+
+mmsys.cpl
+    -> Sound playback and recording settings
+
+main.cpl
+    -> Mouse properties
+
+appwiz.cpl
+    -> Classic uninstall programs
+
+intl.cpl
+    -> Region settings
+
+timedate.cpl
+    -> Date and time
+
+joy.cpl
+    -> Game controller configuration
+
+colorcpl
+    -> Display colour management
+
+dccw
+    -> Display colour calibration wizard
+
+charmap
+    -> Character Map
+
+osk
+    -> On-Screen Keyboard
+
+mblctr
+    -> Windows Mobility Center, where supported
+
+netplwiz
+    -> Advanced user accounts (do not weaken sign-in)
+
+control printers
+    -> Devices and printers
+
+control /name Microsoft.PowerOptions
+    -> Power plans
+
+control /name Microsoft.FileHistory
+    -> File History, if available
+
+gpedit.msc
+    -> Local Group Policy Editor (Windows Pro)
+
+secpol.msc
+    -> Local Security Policy (Windows Pro)
+
+optionalfeatures
+    -> Windows optional features (change only as needed)
+
+msconfig
+    -> System Configuration (troubleshooting; don't randomly disable services)
+
+
+MORE WINDOWS SETTINGS SHORTCUTS (WIN + R)
+-----------------------------------------
+ms-settings:windowsupdate
+    -> Windows Update
+
+ms-settings:windowsupdate-history
+    -> Windows update history
+
+ms-settings:windowsupdate-optionalupdates
+    -> Optional updates including some drivers
+
+ms-settings:windowsupdate-activehours
+    -> Active hours
+
+ms-settings:network-advancedsettings
+    -> Advanced network settings
+
+ms-settings:network-wifi
+    -> Wi-Fi settings
+
+ms-settings:network-proxy
+    -> Proxy settings
+
+ms-settings:network-vpn
+    -> VPN settings
+
+ms-settings:network-mobilehotspot
+    -> Windows mobile hotspot settings
+
+ms-settings:storagesense
+    -> Storage usage
+
+ms-settings:storagepolicies
+    -> Storage Sense policies
+
+ms-settings:defaultapps
+    -> Default apps
+
+ms-settings:appsfeatures
+    -> Installed apps
+
+ms-settings:startupapps
+    -> Startup apps
+
+ms-settings:clipboard
+    -> Clipboard history settings
+
+ms-settings:notifications
+    -> Notifications
+
+ms-settings:multitasking
+    -> Multitasking / snap windows
+
+ms-settings:display
+    -> Display settings
+
+ms-settings:nightlight
+    -> Night light settings (if supported)
+
+ms-settings:personalization-background
+    -> Desktop wallpaper
+
+ms-settings:personalization-colors
+    -> Accent colours
+
+ms-settings:taskbar
+    -> Taskbar settings
+
+ms-settings:about
+    -> About your PC
+
+ms-settings:recovery
+    -> Recovery options
+
+ms-settings:privacy-broadfilesystemaccess
+    -> App file-system access
+
+ms-settings:windowsdefender
+    -> Windows Security
+
+
+POWERSHELL HARDWARE / DRIVER REPORTS (READ ONLY)
+------------------------------------------------
+Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model,TotalPhysicalMemory
+    -> PC model and installed memory
+
+Get-CimInstance Win32_BIOS | Select-Object SMBIOSBIOSVersion,ReleaseDate
+    -> Actual running BIOS version
+
+Get-CimInstance Win32_Processor | Select-Object Name,NumberOfCores,NumberOfLogicalProcessors
+    -> CPU
+
+Get-CimInstance Win32_VideoController | Select-Object Name,DriverVersion
+    -> Video device and driver
+
+Get-PnpDevice | Where-Object Status -ne "OK" | Select-Object FriendlyName,Class,Status
+    -> Problem devices (some can be harmless)
+
+Get-CimInstance Win32_PnPSignedDriver | Where-Object DeviceName -match "Intel|Thunderbolt" | Select-Object DeviceName,DriverVersion
+    -> Intel and Thunderbolt driver versions
+
+Get-PhysicalDisk | Select-Object FriendlyName,MediaType,FirmwareVersion,HealthStatus
+    -> Disk-reported firmware and health
+
+Get-Disk | Select-Object Number,FriendlyName,PartitionStyle,OperationalStatus,Size
+    -> Disk device and partitions
+
+Get-Volume | Select-Object DriveLetter,FileSystemLabel,FileSystem,SizeRemaining,Size
+    -> Drive free space
+
+Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 15 HotFixID,InstalledOn
+    -> Recent Windows hotfixes (not a full update history)
+
+Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 12 Name,Id,WorkingSet64
+    -> Top processes by working-set memory in bytes
+
+Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber,LastBootUpTime
+    -> OS and last boot
+
+
+HOTSPOT / NETWORK DIAGNOSTICS
+-----------------------------
+netsh wlan show interfaces
+    -> Wi-Fi link rate and signal to the PHONE, not mobile tower
+
+netsh wlan show drivers
+    -> Supported Wi-Fi capabilities
+
+ipconfig /all
+    -> IP, DHCP and DNS details
+
+ping -n 20 1.1.1.1
+    -> 20-packet loss and latency sample
+
+ping -n 20 cloudflare.com
+    -> Compare DNS name and IP connectivity
+
+nslookup assets.micron.com
+    -> Check DNS for a download host
+
+netsh winhttp show proxy
+    -> System WinHTTP proxy settings
+
+Get-NetAdapter | Format-Table Name,Status,LinkSpeed
+    -> Network adapters
+
+Get-DnsClientServerAddress -AddressFamily IPv4
+    -> Current IPv4 DNS servers
+
+Get-NetIPInterface | Select-Object InterfaceAlias,AddressFamily,ConnectionState,NlMtu
+    -> IP interface MTU
+
+Test-NetConnection assets.micron.com -Port 443
+    -> HTTPS port reachability (PowerShell)
+
+Get-NetRoute -AddressFamily IPv4 | Sort-Object RouteMetric | Select-Object -First 10
+    -> IPv4 routes (PowerShell)
+
+ipconfig /flushdns
+    -> Clear cached DNS entries (not a speed boost; changes cache)
+
+
+STORAGE / DOWNLOADS / FILES
+---------------------------
+chkdsk C: /scan
+    -> Online scan of C: (Administrator may be needed; does not schedule repair)
+
+dfrgui
+    -> Optimize Drives user interface
+
+cleanmgr
+    -> Disk Cleanup; choose what to remove
+
+Get-FileHash -Algorithm SHA256 'C:\path\to\download.zip'
+    -> SHA-256 hash to compare with an official published checksum
+
+tar -tf 'C:\path\to\download.zip'
+    -> List ZIP contents if Windows tar can read it
+
+Get-ChildItem "$env:USERPROFILE\Downloads" | Sort-Object LastWriteTime -Descending | Select-Object -First 20 Name,Length,LastWriteTime
+    -> Recent downloaded files
+
+Get-ChildItem "$env:USERPROFILE\Documents" -Directory | Select-Object Name,FullName
+    -> Top-level Documents folders
+
+tree "$env:USERPROFILE\Documents" /A
+    -> Show folder tree; can be very large for MATRIX
+
+Get-ChildItem "$env:USERPROFILE\Downloads" -Filter '*.crdownload'
+    -> Find incomplete Chrome downloads
+
+Get-ChildItem "$env:USERPROFILE\Downloads" -Filter '*.partial'
+    -> Find partial downloads (site dependent)
+
+Get-PhysicalDisk | Select-Object FriendlyName,FirmwareVersion,HealthStatus
+    -> Disk firmware and health (no firmware update)
+
+
+POWER / BATTERY / PERFORMANCE
+-----------------------------
+powercfg /a
+    -> Available sleep states
+
+powercfg /requests
+    -> Apps preventing sleep
+
+powercfg /getactivescheme
+    -> Current power plan
+
+powercfg /batteryreport /output "$env:USERPROFILE\Desktop\battery-report.html"
+    -> Generate an HTML battery report; run in PowerShell
+
+resmon
+    -> Resource Monitor
+
+perfmon /rel
+    -> Reliability Monitor
+
+perfmon
+    -> Performance Monitor
+
+dxdiag
+    -> DirectX information
+
+msinfo32
+    -> System Information
+
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 15 ProcessName,CPU
+    -> Processes by accumulated CPU time (not live %)
+
+
+UPDATES / REPAIR / LOGS
+-----------------------
+winget upgrade
+    -> Show supported app updates
+
+winget upgrade --all
+    -> Install supported app updates; check prompts
+
+winget list
+    -> List applications WinGet knows about
+
+winget export -o "$env:USERPROFILE\Desktop\winget-apps.json"
+    -> Save an approximate installed-app inventory (PowerShell)
+
+DISM /Online /Cleanup-Image /CheckHealth
+    -> Quick component-store check (Admin)
+
+DISM /Online /Cleanup-Image /ScanHealth
+    -> Deep component-store check (Admin; can take time)
+
+DISM /Online /Cleanup-Image /RestoreHealth
+    -> Repair component store (Admin; may need internet)
+
+sfc /verifyonly
+    -> Verify protected files (Admin)
+
+sfc /scannow
+    -> Repair protected files (Admin)
+
+Get-WinEvent -LogName System -MaxEvents 15 | Select-Object TimeCreated,Id,LevelDisplayName,ProviderName
+    -> Recent System events (PowerShell)
+
+Get-WinEvent -FilterHashtable @{LogName='System';Level=2;StartTime=(Get-Date).AddDays(-2)} | Select-Object -First 20 TimeCreated,Id,ProviderName,Message
+    -> Recent System errors (PowerShell)
+
+start ms-settings:windowsupdate
+    -> Open Windows Update from Command Prompt
+
+
+========================================================================
+USEFUL TWO-COMMAND REPAIR ORDER - ONLY IF CHECKS FOUND CORRUPTION
+========================================================================
+# Run in ADMIN PowerShell, one after the other:
+DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow
+
+Important: Let the first command complete before starting the second.
+If DISM fails, note its error and do not assume it repaired Windows.
+
+DOWNLOAD INTEGRITY (POWERSHELL - READ ONLY)
+------------------------------------------
+# ZIP's central directory must exist; a PK header by itself does NOT mean it is complete:
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$zipPath = 'C:\path\to\archive.zip'
+$z = [IO.Compression.ZipFile]::OpenRead($zipPath)
+try { "ZIP entries: $($z.Entries.Count)" } finally { $z.Dispose() }
+
+# Check full ZIP contents (decompress each item, no files written):
+$z = [IO.Compression.ZipFile]::OpenRead($zipPath)
+try {
+  foreach ($e in $z.Entries) {
+    if ($e.Name) {
+      $s = $e.Open()
+      try { $s.CopyTo([IO.Stream]::Null) } finally { $s.Dispose() }
+    }
+  }
+  'Archive entry streams read without error.'
+} finally { $z.Dispose() }
+
+A download can fail despite ping showing 0% packet loss. Downloads may depend
+on servers, HTTP transfers, browser handling, or mobile hotspot behaviour.
+
+=======================================================================
+CONTROL CENTRE V2
+=======================================================================
+The companion Control-Centre-V2.txt contains the script.
+To launch it without downloading an executable:
+  1. Open the .txt in Notepad
+  2. File > Save As > Save as type: All files
+  3. Save filename as Control-Centre-V2.cmd
+  4. Double-click the .cmd to open its category menu.
+
+NOTE: A CMD file may be flagged by browser security. Inspect its text first.
+Text files can be opened without running any commands.

@@ -1,0 +1,410 @@
+[
+  {
+    "id": "R01",
+    "cat": 1,
+    "title": "Component store: quick check",
+    "desc": "DISM CheckHealth. Reads corruption flag; does not repair.",
+    "kind": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "R02",
+    "cat": 1,
+    "title": "Component store: thorough scan",
+    "desc": "DISM ScanHealth. Longer diagnostic, no repair.",
+    "kind": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "R03",
+    "cat": 1,
+    "title": "Protected files: verification",
+    "desc": "SFC VerifyOnly. Reports integrity violations without repairs.",
+    "kind": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "R04",
+    "cat": 1,
+    "title": "Repair component store then files",
+    "desc": "DISM RestoreHealth followed by SFC only if DISM succeeds. May download files.",
+    "kind": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "R05",
+    "cat": 1,
+    "title": "Repair protected files (SFC)",
+    "desc": "Runs sfc /scannow independently; can take time.",
+    "kind": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "R06",
+    "cat": 1,
+    "title": "Pending restart indicators",
+    "desc": "Checks update, servicing and file-operation restart markers.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R07",
+    "cat": 1,
+    "title": "Recent Windows system errors",
+    "desc": "Recent Level 2 System event entries, not a repair.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R08",
+    "cat": 1,
+    "title": "Reliability Monitor",
+    "desc": "Opens crash and update reliability history.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R09",
+    "cat": 2,
+    "title": "Restart Explorer and taskbar",
+    "desc": "Closes Explorer windows and reloads taskbar/desktop; no reboot.",
+    "kind": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "R10",
+    "cat": 2,
+    "title": "Explorer and taskbar settings",
+    "desc": "Open taskbar configuration and Explorer options.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R11",
+    "cat": 2,
+    "title": "Task Manager and Resource Monitor",
+    "desc": "Open diagnostic GUIs; no task is terminated.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R12",
+    "cat": 2,
+    "title": "Recent Explorer/Task Manager crashes",
+    "desc": "Scans Application errors for explorer.exe and Taskmgr.exe.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R13",
+    "cat": 2,
+    "title": "Reset Microsoft Store cache",
+    "desc": "Runs Microsoft's wsreset.exe. Not app uninstall; Store may open.",
+    "kind": "REPAIR",
+    "admin": false
+  },
+  {
+    "id": "R14",
+    "cat": 2,
+    "title": "Installed app repair options",
+    "desc": "Open Settings: Installed apps > ... > Advanced options > Repair.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R15",
+    "cat": 2,
+    "title": "Display and graphics diagnostics",
+    "desc": "DirectX Diagnostic Tool and installed graphics driver details.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R16",
+    "cat": 2,
+    "title": "Display settings / scale",
+    "desc": "Open display settings; no resolution changes automated.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R17",
+    "cat": 2,
+    "title": "Audio device and service check",
+    "desc": "Lists audio devices, service states, and opens sound controls.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R18",
+    "cat": 2,
+    "title": "Restart Windows Audio service",
+    "desc": "May interrupt playback or recordings. Does not reinstall audio drivers.",
+    "kind": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "R19",
+    "cat": 3,
+    "title": "Defender protection summary",
+    "desc": "Check antivirus, real-time protection and signature age.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R20",
+    "cat": 3,
+    "title": "Defender and recent detections",
+    "desc": "Reads recent detections; requires permissions on some systems.",
+    "kind": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "R21",
+    "cat": 3,
+    "title": "Start Defender quick scan",
+    "desc": "Starts on-demand malware scan. May take minutes.",
+    "kind": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "R22",
+    "cat": 3,
+    "title": "Update Defender security signatures",
+    "desc": "Downloads supported antivirus signatures; internet required.",
+    "kind": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "R23",
+    "cat": 3,
+    "title": "Firewall profiles",
+    "desc": "Displays firewall status; never turns protection off.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R24",
+    "cat": 3,
+    "title": "Windows Security dashboard",
+    "desc": "Open graphical Windows Security controls without changing them.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R25",
+    "cat": 3,
+    "title": "TPM, Secure Boot and encryption",
+    "desc": "Inspect security chip, Secure Boot and BitLocker on C:.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R26",
+    "cat": 3,
+    "title": "Controlled folder access / PUA",
+    "desc": "Reads selected Defender preferences; never alters security.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R27",
+    "cat": 4,
+    "title": "Wi-Fi hotspot link",
+    "desc": "Displays negotiated Wi-Fi link rate, NOT mobile tower throughput.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R28",
+    "cat": 4,
+    "title": "DNS, proxy and IP snapshot",
+    "desc": "Read configured DNS, IP adapters and Windows proxy.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R29",
+    "cat": 4,
+    "title": "Internet latency and DNS",
+    "desc": "20 ICMP echo packets plus a DNS query; no downloads.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R30",
+    "cat": 4,
+    "title": "HTTPS connection check",
+    "desc": "Checks TCP 443 only; successful result does not prove ZIP integrity.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R31",
+    "cat": 4,
+    "title": "Flush DNS resolver cache",
+    "desc": "Clears cached DNS answers. Not a download-speed booster.",
+    "kind": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "R32",
+    "cat": 4,
+    "title": "Reset Winsock networking",
+    "desc": "Advanced repair when sockets malfunction; restart later, connections may change.",
+    "kind": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "R33",
+    "cat": 4,
+    "title": "Open network troubleshooting",
+    "desc": "Open Windows diagnostics UI; does not reset all adapters.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R34",
+    "cat": 5,
+    "title": "Driver error codes",
+    "desc": "Show only devices with actual Error status and their problem codes.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R35",
+    "cat": 5,
+    "title": "Installed driver inventory CSV",
+    "desc": "Save version inventory, NOT latest-vendor comparison.",
+    "kind": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "R36",
+    "cat": 5,
+    "title": "Windows optional driver offers",
+    "desc": "Opens official Windows Update page; no drivers installed.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R37",
+    "cat": 5,
+    "title": "Drive health and firmware",
+    "desc": "Basic Windows storage health and firmware; not a full SMART test.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R38",
+    "cat": 5,
+    "title": "Scan C: online for filesystem issues",
+    "desc": "chkdsk /scan reads/scans C: online; does not schedule offline /f.",
+    "kind": "VIEW",
+    "admin": true
+  },
+  {
+    "id": "R39",
+    "cat": 5,
+    "title": "Verify ZIP completely",
+    "desc": "Checks ZIP directory and decompresses all entries without extraction.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R40",
+    "cat": 5,
+    "title": "File SHA-256 checksum",
+    "desc": "Compare with a publisher checksum when provided.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R41",
+    "cat": 6,
+    "title": "App upgrades (WinGet)",
+    "desc": "Checks supported installed apps; not Windows OS or firmware.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R42",
+    "cat": 6,
+    "title": "Upgrade supported apps",
+    "desc": "Runs winget upgrade --all. Can download installers and prompt.",
+    "kind": "CHANGE",
+    "admin": false
+  },
+  {
+    "id": "R43",
+    "cat": 6,
+    "title": "Windows Update troubleshooting",
+    "desc": "Windows Update settings and troubleshooting UI; no reset.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R44",
+    "cat": 6,
+    "title": "Windows Update log export",
+    "desc": "Creates a readable Windows Update log file for analysis.",
+    "kind": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "R45",
+    "cat": 6,
+    "title": "Battery report",
+    "desc": "Creates HTML battery report in your Documents report folder.",
+    "kind": "REPORT",
+    "admin": false
+  },
+  {
+    "id": "R46",
+    "cat": 6,
+    "title": "RAM usage snapshot",
+    "desc": "Top 15 processes plus system available memory.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R47",
+    "cat": 6,
+    "title": "Print spooler status",
+    "desc": "Shows printer spooler state, no changes.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R48",
+    "cat": 6,
+    "title": "Restart print spooler",
+    "desc": "May interrupt outstanding print jobs. Use if printing is stuck.",
+    "kind": "REPAIR",
+    "admin": true
+  },
+  {
+    "id": "R49",
+    "cat": 6,
+    "title": "Create Windows restore point",
+    "desc": "Only if System Protection enabled; may fail due to 24-hour limit.",
+    "kind": "CHANGE",
+    "admin": true
+  },
+  {
+    "id": "R50",
+    "cat": 6,
+    "title": "Startup apps and power requests",
+    "desc": "Open Startup and list current sleep blockers.",
+    "kind": "VIEW",
+    "admin": false
+  },
+  {
+    "id": "R51",
+    "cat": 6,
+    "title": "System summary report",
+    "desc": "Generate OS, RAM, storage, device and security snapshot in Documents.",
+    "kind": "REPORT",
+    "admin": false
+  }
+]
