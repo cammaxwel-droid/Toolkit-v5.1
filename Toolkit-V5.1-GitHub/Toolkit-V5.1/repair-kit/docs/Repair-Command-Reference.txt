@@ -1,4 +1,4 @@
-REPAIR KIT V1 - COMMAND & TOOL REFERENCE
+TOOLKIT V5.1 - REPAIR KIT - COMMAND & TOOL REFERENCE
 =================================================
 Read-only VIEW tools require no changes. REPORT tools write output only.
 CHANGE/REPAIR tools ask you to type YES. Admin-only tools request UAC
@@ -132,7 +132,7 @@ HOW TO RUN
 Double-click Start-Repair-Kit.cmd from an extracted folder.
 Pick category 1-6; enter R01 etc. Use ?R01 for concise help.
 Repair actions are never started until you choose them.
-Reports go to your actual Documents\RepairKit-Reports folder.
+Reports go to your actual Documents\Toolkit-Reports folder.
 This folder should not be added to a public GitHub repository.
 
 USEFUL MANUAL COMMANDS (ADMIN POWERSHELL WHERE REQUIRED)

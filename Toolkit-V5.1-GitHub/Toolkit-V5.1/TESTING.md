@@ -1,11 +1,11 @@
 # Toolkit V5.1 — validation / smoke tests
 
-> Keep V4 extracted separately as a fallback until V5 passes on your computer.
+> Keep a copy of the previous package as a fallback until the current package passes on your computer.
 > **Do not run repair actions just to test the menu.**
 
 ## 1. PowerShell parser test (non-executing)
 
-Open Windows PowerShell in the **extracted V5 root directory** and run:
+Open Windows PowerShell in the **extracted Toolkit root directory** and run:
 
 ```powershell
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tests\Check-PowerShell-Syntax.ps1
@@ -29,14 +29,14 @@ This uses `System.Management.Automation.Language.Parser` to check syntax without
 
 - Select **173 General Repair** and **174 Deep Repair**; let diagnostics run, choose reported symptom `0`, then enter `0` to exit without a change.
 - **Do not** type `DEEP REPAIR`/`YES` unless addressing a real detected issue.
-- For a symptom-only dry run, choose a symptom but select `0` at the final options menu. Check `V5-Repair-History.csv` only when an action was selected; it logs `CANCELLED`, `OPENED`, `INVOKED`, `COMMAND SUCCEEDED`, `VERIFIED`, or `ERROR` without asserting the symptom is cured.
+- For a symptom-only dry run, choose a symptom but select `0` at the final options menu. Check `Workflow-Repair-History.csv` only when an action was selected; it logs `CANCELLED`, `OPENED`, `INVOKED`, `COMMAND SUCCEEDED`, `VERIFIED`, or `ERROR` without asserting the symptom is cured.
 - Deep Repair must **not** suggest DISM RestoreHealth if the DISM scan was skipped or found no corruption; must **not** suggest SFC repair if verification passed/skipped.
 - Unavailable commands should yield `ERROR` or `NO DATA` with context, not `PASS`.
 
 ## 4. Privacy and portability
 
 - Report files must go under the actual Windows Documents folder (whatever the login display name).
-- V4 snapshot/history tools read both previous and current locations; new reports use the neutral folder names documented in docs/Rename-Compatibility.md.
+- Snapshot/history tools read the current location and both previous folder-name generations; all new reports use Toolkit-Reports as documented in docs/Rename-Compatibility.md.
 - Ensure no system report, personal path, API key, WER memory dump, or account data is committed to public GitHub.
 - Confirm the archived ZIP and SHA256SUMS list using Windows `Get-FileHash` if desired.
 
@@ -72,3 +72,11 @@ It loads only reviewed function definitions, uses temporary synthetic reports an
 Coverage includes empty and legacy/current report folders, combined histories, duplicate snapshot filenames, old/new/mixed snapshot pairs, missing/invalid/conflicting undo records, unchanged existing data, and report-folder selection. See [Rename compatibility](docs/Rename-Compatibility.md) for the resulting behavior.
 
 For a separate manual menu-only acceptance check, verify the main launcher title and home/category headings show **Toolkit V5.1**, and the Repair Kit launcher/menu headings omit the old product prefix. Exit without selecting diagnostics or repairs. Static and mocked tests do not verify native title-bar rendering.
+
+## Unified reports and saved-data compatibility
+
+- Run the synthetic compatibility check in Windows PowerShell 5.1. It loads only reviewed function definitions, substitutes report destinations and process launchers, and uses temporary fixture files.
+- Check new, both previous and mixed snapshot/history locations, duplicate filenames, distinct action/workflow CSV formats, current/previous schema identifiers and report-folder choices.
+- Check fresh, sole current/previous, conflicting and invalid undo records across all three locations. Existing fixture files must remain byte-identical.
+- Verify the renamed modules/functions and current documentation links, all 180 main IDs and 51 Repair Kit IDs, both checksum manifests and the packaged ZIP.
+- Do not run maintenance or repair actions as part of automated verification. Native UI and real diagnostic/repair acceptance remain separate manual checks.

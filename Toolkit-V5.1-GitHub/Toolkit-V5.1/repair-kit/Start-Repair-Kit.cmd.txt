@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title Repair Kit - V5 legacy edition
+title Toolkit V5.1 - Repair Kit
 if not exist "%~dp0src\RepairKit.ps1" (
   echo Missing RepairKit.ps1. Extract the whole ZIP.
   pause

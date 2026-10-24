@@ -1,3 +1,5 @@
+> Historical V4 release reference. For current operation and report locations, see [Toolkit V5.1](../README.md).
+
 # What's new in Toolkit V4
 
 V4 includes every V3.1 main-menu command plus these additions. Use `?ID` in the launcher to see a brief explanation before running anything.

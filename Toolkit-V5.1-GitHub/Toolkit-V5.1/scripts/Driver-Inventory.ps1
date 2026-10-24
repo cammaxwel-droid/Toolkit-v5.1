@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Continue'
 function Get-ReportFolder {
   $docs=[Environment]::GetFolderPath('MyDocuments')
   if(-not $docs -or -not (Test-Path -LiteralPath $docs)){$docs=$env:USERPROFILE}
-  $p=Join-Path $docs 'ToolkitV3-Reports'
+  $p=Join-Path $docs 'Toolkit-Reports'
   if(-not (Test-Path -LiteralPath $p)){New-Item -ItemType Directory -Path $p -Force|Out-Null}
   return $p
 }

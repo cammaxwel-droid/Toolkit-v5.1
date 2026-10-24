@@ -1,6 +1,6 @@
 # Toolkit V5.1
 
-**A menu-driven Windows troubleshooting, diagnostics, repair and utility toolkit**, based on V4 but reorganised around **four reliable guided workflows**.
+**A menu-driven Windows troubleshooting, diagnostics, repair and utility toolkit**, organised around **four reliable guided workflows**.
 
 - **180 main-menu actions across 15 categories**, plus the integrated **51-action legacy Repair Kit**.
 - Built for **Windows 11 Pro and Windows PowerShell 5.1**. Windows modules and available commands vary by device and edition.
@@ -11,7 +11,7 @@
 
 ## Why V5.1 exists
 
-This is the **diagnostic accuracy and event-triage update** based on real V5 reports. It does not add speculative "optimizer" commands or perform mass repairs.
+This is the **diagnostic accuracy and event-triage update** based on real diagnostic reports. It does not add speculative "optimizer" commands or perform mass repairs.
 
 - Explorer crash detection now examines both rendered error text and **structured Event ID 1000 fields** over **seven days**, avoiding double-counting follow-up WER 1001 entries. A clean accessible log **does not erase confirmed earlier crashes** or guarantee none occurred.
 - System/Application warning summaries include provider **and Event ID**, last event time, and number since last boot; detailed **read-only per-event TXT logs** are created alongside the diagnostic report, including event payloads when rendered messages are empty (e.g. Codex Sandbox).
@@ -24,10 +24,10 @@ This is the **diagnostic accuracy and event-triage update** based on real V5 rep
 1. Extract the ZIP to its own folder; **do not run from inside the ZIP**.
 2. **Right-click `Start-Toolkit.cmd` and choose `Run as administrator`**. This launcher intentionally refuses to start without an elevated console. Do not double-click normally and expect per-action elevation.
 3. Press `A` **General Diagnostics**, `B` **Deep Diagnostics**, `C` **General Repair** or `D` **Deep Repair** from the main menu. Or choose category 15 and enter an action ID such as `171`.
-4. The diagnostic workflows show meaningful results in the console and export a **TXT summary + JSON findings** to the actual Windows Documents folder, under `ToolkitV5-Reports`.
+4. The diagnostic workflows show meaningful results in the console and export a **TXT summary + JSON findings** to the actual Windows Documents folder, under `Toolkit-Reports`.
 5. For guided repairs, optionally identify your current symptom, review suggested actions and select **one**. You may always exit. Changes require typing `YES`; advanced repairs require `DEEP REPAIR` and `YES`.
 
-**Important:** `CHANGE` and `REPAIR` labels on old V4 tools describe potential side effects, and V4 actions remain available. The *new guided workflows* are the preferred path for diagnosis and targeted repair.
+**Important:** `CHANGE` and `REPAIR` labels on single-action tools describe potential side effects, and those actions remain available. The *new guided workflows* are the preferred path for diagnosis and targeted repair.
 
 ### Main screen shortcuts
 
@@ -40,7 +40,7 @@ This is the **diagnostic accuracy and event-triage update** based on real V5 rep
 | `S` | Search the 180 options | No system change |
 | `Q` | Quit | No system change |
 
-[Read the full workflow guide](docs/V5-Workflows.md).
+[Read the full workflow guide](docs/Guided-Workflows.md).
 
 ## Included features
 
@@ -78,11 +78,11 @@ Profiles only select existing Windows power plans where supported and open relev
 
 A result can be `ERROR` because a management module is unavailable, without implying a Windows hardware problem.
 
-**Legacy V4 single-action tools** remain compatible with the old catalog and sometimes open external windows or report through `Write-Host` instead of a PowerShell pipeline. Their execution wrapper now explains that empty pipeline output is **NO DATA**, rather than silently showing `OUTPUT / END`. This is *not* a complete rewrite of all old tools into validated diagnostics; use the consolidated V5 workflows for that.
+**Single-action tools** remain compatible with the old catalog and sometimes open external windows or report through `Write-Host` instead of a PowerShell pipeline. Their execution wrapper now explains that empty pipeline output is **NO DATA**, rather than silently showing `OUTPUT / END`. This is *not* a complete rewrite of all old tools into validated diagnostics; use the consolidated guided workflows for that.
 
 V5.1 adds private `System-Events-*.txt`, `Application-Events-*.txt` and, when SFC is run, `SFC-VerifyOnly-*.txt` diagnostic evidence files. These are **not safe to upload publicly without reviewing/redacting**, and event logs may contain local paths and hardware or network data.
 
-New reports use `ToolkitV3-Reports`, `ToolkitV4-Reports`, `ToolkitV5-Reports` and `RepairKit-Reports` under the actual Documents folder. Existing reports, histories, snapshots and power-plan undo records remain accessible through the compatibility behavior described in [Rename compatibility](docs/Rename-Compatibility.md). Preparation does not move or rewrite existing saved data.
+All new toolkit and Repair Kit reports use `Toolkit-Reports` under the actual Documents folder. Existing reports, histories, snapshots and power-plan undo records remain accessible through the behaviour described in [Saved-data compatibility](docs/Rename-Compatibility.md). Existing saved data is not automatically moved or rewritten.
 
 ## Security and limitations
 
@@ -100,13 +100,13 @@ New reports use `ToolkitV3-Reports`, `ToolkitV4-Reports`, `ToolkitV5-Reports` an
 Start-Toolkit.cmd       Main launcher; Administrator required
 Start-Toolkit.cmd.txt   Text fallback for blocked .cmd downloads
 src/Toolkit.ps1                 Interactive 180-tool menu
-modules/V4-Extras.ps1          Preserved V4 utilities
-modules/V5-Workflows.ps1       NEW: four diagnostic/repair workflows
+modules/Toolkit-Utilities.ps1          Additional toolkit utilities
+modules/Toolkit-Workflows.ps1       Four guided diagnostic/repair workflows
 scripts/                       Existing standalone audit and maintenance scripts
 repair-kit/                    Existing 51-action repair kit (integrated copy)
-docs/V5-Workflows.md           Workflow descriptions / safety boundaries
+docs/Guided-Workflows.md           Workflow descriptions / safety boundaries
 docs/Tool-Index.json           Base main-menu tool metadata
-legacy/                        V2 references with updated product naming
+legacy/                        Historical V2 references
 TESTING.md                     Windows parser/smoke test checklist
 tests/Check-PowerShell-Syntax.ps1
 SHA256SUMS.txt                 SHA-256 digest list of distributed files

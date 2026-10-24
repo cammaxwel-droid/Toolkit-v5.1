@@ -1,5 +1,12 @@
 # Toolkit release history
 
+## V5.1 — Unified reports and neutral internal names
+- All new toolkit and Repair Kit reports use the actual Documents\Toolkit-Reports folder.
+- Current module/function names, guides, menus and report headings no longer identify older toolkit editions.
+- Separate action and guided-workflow histories remain readable from both generations of previous report folders; snapshot comparison accepts current and previous schemas.
+- New saved-data identifiers and the fresh power-plan undo location are version-neutral. Existing records remain in place, with conflicts or invalid records stopping profile changes.
+- Existing layout, 180 main actions, 51 Repair Kit actions and explicit confirmation gates are preserved.
+
 ## V5.1 — Product naming and package preparation
 - Product name standardized as Toolkit V5.1 across launchers, menus, reports and documentation.
 - New output paths and schema identifiers use neutral names; existing history, snapshots and undo records remain supported.

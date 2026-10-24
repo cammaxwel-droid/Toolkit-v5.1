@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-Repair Kit V1
+Toolkit V5.1 - Repair Kit
 Select actions from a menu. Read-only by default.
 Elevation only requested for explicitly privileged actions.
 Never disables Defender/firewall, flashes firmware, edits boot keys, or wipes disks.
@@ -28,7 +28,7 @@ function Test-IsAdmin {
 function Get-OutputDir {
     $folder = [Environment]::GetFolderPath('MyDocuments')
     if (-not $folder -or -not (Test-Path -LiteralPath $folder)) {$folder = $env:USERPROFILE}
-    $target = Join-Path $folder 'RepairKit-Reports'
+    $target = Join-Path $folder 'Toolkit-Reports'
     if (-not (Test-Path -LiteralPath $target)) {
         New-Item -ItemType Directory -Force -Path $target | Out-Null
     }
@@ -329,7 +329,7 @@ function Show-RepairCategory {
     while($true){
         Clear-Host
         Write-Host ('='*75) -ForegroundColor DarkCyan
-        Write-Host " REPAIR KIT V1 - $($script:Categories[$Category-1].Name)" -ForegroundColor Cyan
+        Write-Host " TOOLKIT V5.1 - REPAIR KIT - $($script:Categories[$Category-1].Name)" -ForegroundColor Cyan
         Write-Host " $($script:Categories[$Category-1].Hint)" -ForegroundColor Gray
         Write-Host ('='*75) -ForegroundColor DarkCyan
         foreach($t in $script:Tools|Where-Object Category -eq $Category){
@@ -353,7 +353,7 @@ function Show-RepairCategory {
 while($true){
     Clear-Host
     Write-Host '===============================================================' -ForegroundColor DarkCyan
-    Write-Host ' REPAIR KIT V1 - LAUNCHES WITHOUT ADMIN' -ForegroundColor Cyan
+    Write-Host ' TOOLKIT V5.1 - REPAIR KIT' -ForegroundColor Cyan
     Write-Host '===============================================================' -ForegroundColor DarkCyan
     foreach($c in $script:Categories){
       Write-Host (" {0}. {1,-32} {2}" -f $c.Id,$c.Name,$c.Hint)

@@ -1011,7 +1011,7 @@
     "id": "113",
     "category": 10,
     "title": "Comprehensive system report",
-    "description": "Writes a readable report to Documents/ToolkitV3-Reports.",
+    "description": "Writes a readable report to Documents/Toolkit-Reports.",
     "example": "& .\\scripts\\System-Report.ps1",
     "risk": "REPORT",
     "admin": false
@@ -1057,7 +1057,7 @@
     "category": 10,
     "title": "Open command reference",
     "description": "Open expanded command reference .txt.",
-    "example": "docs\\Command-Reference-V3.txt",
+    "example": "docs\\Command-Reference.txt",
     "risk": "VIEW",
     "admin": false
   },
@@ -1074,8 +1074,8 @@
     "id": "120",
     "category": 10,
     "title": "Open reports folder",
-    "description": "Opens previous reports; creates folder if missing.",
-    "example": "Documents\\ToolkitV3-Reports",
+    "description": "Opens current reports with access to previous report locations; creates the current folder if missing.",
+    "example": "Documents\\Toolkit-Reports",
     "risk": "REPORT",
     "admin": false
   },
@@ -1168,7 +1168,7 @@
     "id": "131",
     "category": 11,
     "title": "Package + driver update scan",
-    "description": "Use V3 combined report: installed drivers + WinGet app updates only.",
+    "description": "Use combined report: installed drivers + WinGet app updates only.",
     "risk": "REPORT",
     "admin": false
   },
@@ -1535,7 +1535,7 @@
   {
     "id": "177",
     "category": 15,
-    "title": "V5 repair attempt history",
+    "title": "Workflow repair attempt history",
     "description": "Show attempted operations and their actual outcomes (not assumed fixes).",
     "risk": "VIEW",
     "admin": false
@@ -1543,7 +1543,7 @@
   {
     "id": "178",
     "category": 15,
-    "title": "Open V5 reports folder",
+    "title": "Open reports folder",
     "description": "Private local Documents folder containing readable TXT and structured JSON reports.",
     "risk": "VIEW",
     "admin": false

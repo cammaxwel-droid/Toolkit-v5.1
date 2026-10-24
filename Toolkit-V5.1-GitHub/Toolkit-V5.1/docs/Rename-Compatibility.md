@@ -1,35 +1,43 @@
-# Toolkit V5.1 - existing reports and settings
+# Toolkit V5.1 - reports and saved-data compatibility
 
-Toolkit V5.1 uses the same console layout, actions and confirmation gates. Windows 11 and Windows PowerShell 5.1 remain the target. The main launcher is `Start-Toolkit.cmd`; run it as Administrator as before.
+Toolkit V5.1 keeps the existing console layout, action IDs and confirmation gates. Windows 11 and Windows PowerShell 5.1 remain the target.
 
-## Reports
+## One destination for new reports
 
-New files use the actual Windows Documents folder, with the existing user-profile fallback when Documents is unavailable.
+All toolkit-managed reports now use **Toolkit-Reports** under the actual Windows Documents folder. If that Documents location is unavailable, the existing user-profile fallback remains. This includes standalone reports, guided diagnostics, detailed event logs, snapshots, comparisons, driver exports, battery reports and Repair Kit reports.
 
-| Purpose | New folder | Previous folder retained in place |
+The report-folder menu actions offer the current location and every existing previous location. Merely discovering previous folders does not create or change them.
+
+| Previous report family | Earlier neutral folder | Original folder |
 |---|---|---|
-| Original single-action reports | `ToolkitV3-Reports` | `Windows11-ToolkitV3-Reports` |
-| V4 histories and snapshots | `ToolkitV4-Reports` | `Windows11-ToolkitV4-Reports` |
-| Guided workflow reports and history | `ToolkitV5-Reports` | `Windows11-ToolkitV5-Reports` |
-| Repair Kit reports | `RepairKit-Reports` | `Windows11-RepairKit-Reports` |
+| Single-action reports | `ToolkitV3-Reports` | `Windows11-ToolkitV3-Reports` |
+| Utility history and snapshots | `ToolkitV4-Reports` | `Windows11-ToolkitV4-Reports` |
+| Guided diagnostics and workflow history | `ToolkitV5-Reports` | `Windows11-ToolkitV5-Reports` |
+| Repair Kit | `RepairKit-Reports` | `Windows11-RepairKit-Reports` |
 
-Preparation does not move, rewrite or delete earlier files. The existing V3 and V5 report-folder actions offer current and previous locations when the previous folder exists. The standalone Repair Kit's earlier reports remain available in the previous folder shown above.
+Existing files stay in place. No automatic move, merge, rename or rewrite of previous saved data occurs.
 
-History views read both locations, order rows by time and retain the existing 25-row V4 / 30-row V5 display limits. Snapshot comparison lists files from both folders and shows full paths so equal filenames remain distinguishable. Unreadable report locations or history files produce a warning; available records can still be displayed.
+## Histories and snapshots
 
-## JSON identifiers
+New action-invocation history uses `Repair-History.csv`; new guided repair-attempt history uses `Workflow-Repair-History.csv`. These have different columns and remain separate. The respective history views also read their earlier folders; guided history recognises the previous `V5-Repair-History.csv` filename. Rows remain ordered by time with the existing 25-row action / 30-row workflow display limits.
 
-New snapshots use `ToolkitV4-Snapshot-1`. Comparison accepts this and the previous `Windows11-ToolkitV4-Snapshot-1`, including a mixed pair. The data fields are unchanged.
+Snapshot comparison discovers files in the shared folder and both previous utility folders. Equal filenames in different folders remain separate, with full paths shown in the selection menu. Duplicate references to the same path are read once. Unreadable locations produce a warning while available files remain usable.
 
-New diagnostic exports use `ToolkitV5.1-Diagnostic-2` instead of `Windows11-ToolkitV5.1-Diagnostic-2`, with unchanged data fields. Existing reports are not rewritten. External consumers that check this identifier must accept the new name; older toolkit copies are not modified by this preparation.
+New snapshots identify their format as `Toolkit-Snapshot-1`. The reader also accepts `ToolkitV4-Snapshot-1` and `Windows11-ToolkitV4-Snapshot-1`, including mixed pairs. Snapshot fields are unchanged.
+
+New diagnostic JSON identifies its format as `Toolkit-Diagnostic-2`, replacing `ToolkitV5.1-Diagnostic-2` and the earlier `Windows11-ToolkitV5.1-Diagnostic-2`. Diagnostic fields are unchanged. External consumers that check the identifier must recognise the new name. Previous reports are not rewritten, and older toolkit copies are not upgraded to read the new identifiers.
 
 ## Power-plan undo
 
-New undo records use `%LOCALAPPDATA%\ToolkitV4\PowerPlan-Undo.json`. Existing records at `%LOCALAPPDATA%\Windows11ToolkitV4\PowerPlan-Undo.json` remain supported in place.
+Fresh undo records use `%LOCALAPPDATA%\Toolkit\PowerPlan-Undo.json`. Existing records at `%LOCALAPPDATA%\ToolkitV4\PowerPlan-Undo.json` and `%LOCALAPPDATA%\Windows11ToolkitV4\PowerPlan-Undo.json` remain supported in place.
 
-- If exactly one record exists, it must contain readable JSON and a valid original power-plan GUID; that record is reused.
-- If neither exists, the next explicitly selected profile change saves a new record in the neutral location.
-- If both exist, or the existing record is unreadable or invalid, profile changes and undo stop with the relevant paths. No record is automatically preferred, merged, moved or overwritten.
-- The normal, explicitly selected undo action still removes its record only after Windows reports a successful restoration. Preparation and verification do not run this action.
+- No existing record: use the new location when a profile change needs a saved original plan.
+- Exactly one valid record: reuse that record in its existing location.
+- Multiple records, even identical ones, or a sole unreadable/invalid record: stop profile changes and undo with the relevant paths. Do not automatically choose or merge a record.
+- The explicitly selected undo action still removes its record only after Windows reports a successful restoration.
 
-Old names remain in compatibility code, tests and this document so earlier data can be recognized. They are not current product branding.
+## Current and historical names
+
+Active modules, function names, guides and report headers use neutral names or Toolkit V5.1. Historical release notes and archived catalogues retain their actual release labels. Previous folder, filename and schema identifiers remain only where needed to explain or test compatibility.
+
+Preparation and verification use static checks and synthetic files. They do not run maintenance actions or alter existing reports or power settings.

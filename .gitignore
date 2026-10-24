@@ -8,6 +8,7 @@ desktop.ini
 /Windows11-Toolkit-V5.1-MIT-License-Pack.zip
 
 # Generated reports and saved device state are private.
+Toolkit-Reports/
 ToolkitV*-Reports/
 Windows11-ToolkitV*-Reports/
 RepairKit-Reports/

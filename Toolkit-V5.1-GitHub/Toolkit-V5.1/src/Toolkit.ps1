@@ -27,7 +27,7 @@ $script:Categories = @(
 function Get-ReportFolder {
     $docs = [Environment]::GetFolderPath('MyDocuments')
     if (-not $docs -or -not (Test-Path -LiteralPath $docs)) { $docs = $env:USERPROFILE }
-    $p = Join-Path $docs 'ToolkitV3-Reports'
+    $p = Join-Path $docs 'Toolkit-Reports'
     if (-not (Test-Path -LiteralPath $p)) { New-Item -Path $p -ItemType Directory -Force | Out-Null }
     return $p
 }
@@ -158,38 +158,38 @@ Add-ToolkitTool -Id '109' -Category 9 -Title 'Developer settings' -Description '
 Add-ToolkitTool -Id '110' -Category 9 -Title 'Toolchain versions' -Description 'Reports Python, Node, npm, .NET, Git and Visual Studio paths.' -Risk 'VIEW' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Dev-Inventory.ps1') }
 Add-ToolkitTool -Id '111' -Category 9 -Title 'Windows version' -Description 'Display Windows build.' -Risk 'VIEW' -Admin $false -Action { Start-Process winver.exe }
 Add-ToolkitTool -Id '112' -Category 9 -Title 'Actual profile path' -Description 'Show profile/document folders and name; no renames.' -Risk 'VIEW' -Admin $false -Action { [pscustomobject]@{Username=$env:USERNAME;UserProfile=$env:USERPROFILE;Documents=[Environment]::GetFolderPath('MyDocuments')} | Format-List }
-Add-ToolkitTool -Id '113' -Category 10 -Title 'Comprehensive system report' -Description 'Writes a readable report to Documents/ToolkitV3-Reports.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\System-Report.ps1') }
+Add-ToolkitTool -Id '113' -Category 10 -Title 'Comprehensive system report' -Description 'Writes a readable report to Documents/Toolkit-Reports.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\System-Report.ps1') }
 Add-ToolkitTool -Id '114' -Category 10 -Title 'Windows Security report' -Description 'Defender, firewall, encryption and TPM only.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Security-Report.ps1') }
 Add-ToolkitTool -Id '115' -Category 10 -Title 'Driver inventory CSV' -Description 'Installed driver versions, not online latest-version lookup.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Driver-Inventory.ps1') }
 Add-ToolkitTool -Id '116' -Category 10 -Title 'Software + driver update scan' -Description 'WinGet available updates + local devices; no installation.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Update-Scan.ps1') }
 Add-ToolkitTool -Id '117' -Category 10 -Title 'Open toolkit README' -Description 'Open GitHub-ready README instructions.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'README.md') }
-Add-ToolkitTool -Id '118' -Category 10 -Title 'Open command reference' -Description 'Open expanded command reference .txt.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'docs\Command-Reference-V5.txt') }
+Add-ToolkitTool -Id '118' -Category 10 -Title 'Open command reference' -Description 'Open expanded command reference .txt.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'docs\Command-Reference.txt') }
 Add-ToolkitTool -Id '119' -Category 10 -Title 'Open keyboard shortcuts' -Description 'Open keyboard and Win+R shortcuts .txt.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'docs\Windows-Shortcuts.txt') }
-Add-ToolkitTool -Id '120' -Category 10 -Title 'Open reports folder' -Description 'Opens previous reports; creates folder if missing.' -Risk 'REPORT' -Admin $false -Action { Open-ToolkitReports -CurrentFolder (Get-ReportFolder) -LegacyName 'Windows11-ToolkitV3-Reports' }
+Add-ToolkitTool -Id '120' -Category 10 -Title 'Open reports folder' -Description 'Opens current reports with access to previous report locations; creates the current folder if missing.' -Risk 'REPORT' -Admin $false -Action { Open-ToolkitReports -CurrentFolder (Get-ReportFolder) -LegacyNames (Get-ToolkitLegacyReportNames) }
 
 
-# V3.1 additions - focused troubleshooting and standalone repair toolkit.
+# Focused troubleshooting and standalone repair toolkit.
 Add-ToolkitTool -Id '121' -Category 8 -Title 'Open Repair Kit (51 tools)' -Description 'Separate menu for security, Explorer, audio, Windows, updates and diagnostics. Elevates per repair.' -Risk 'VIEW' -Admin $false -Action { & (Join-Path $script:Root 'repair-kit\src\RepairKit.ps1') }
 Add-ToolkitTool -Id '122' -Category 8 -Title 'Windows Update troubleshooter' -Description 'Open built-in Windows troubleshooting and update settings.' -Risk 'VIEW' -Admin $false -Action { Start-Process 'ms-settings:troubleshoot'; Start-Process 'ms-settings:windowsupdate' }
-Add-ToolkitTool -Id '123' -Category 8 -Title 'Recent Explorer crashes' -Description 'Explorer Application Error 1000 events from available last 7 days; historical logs may be cleared.' -Risk 'VIEW' -Admin $false -Action { $c=Get-V5RecentExplorerCrashes -Days 7
+Add-ToolkitTool -Id '123' -Category 8 -Title 'Recent Explorer crashes' -Description 'Explorer Application Error 1000 events from available last 7 days; historical logs may be cleared.' -Risk 'VIEW' -Admin $false -Action { $c=Get-ToolkitRecentExplorerCrashes -Days 7
     if(-not $c.Success){Write-Host "ERROR: $($c.Message)" -ForegroundColor Red}
     elseif(@($c.Data).Count -eq 0){Write-Host 'PASS: No Explorer crash detected in the accessible seven-day event log (not proof no crash ever occurred).'  -ForegroundColor Green}
     else{Write-Host "WARNING: $(@($c.Data).Count) Explorer crash event(s)." -ForegroundColor Yellow; $c.Data | Select-Object TimeCreated,Id,ProviderName,Message | Format-List} }
 Add-ToolkitTool -Id '124' -Category 8 -Title 'Printer spooler status' -Description 'Reports spooler service state; use Repair Kit to restart it.' -Risk 'VIEW' -Admin $false -Action { Get-Service Spooler | Select-Object Name,Status,StartType | Format-Table -AutoSize }
 Add-ToolkitTool -Id '125' -Category 2 -Title 'App repair / reset options' -Description 'Open installed apps. Choose a specific app then Advanced options > Repair if available.' -Risk 'VIEW' -Admin $false -Action { Start-Process 'ms-settings:appsfeatures' }
 
-# New V4 functions. Side-effect operations are only invoked after explicit menu selection.
-. (Join-Path $script:Root 'modules\V4-Extras.ps1')
-. (Join-Path $script:Root 'modules\V5-Workflows.ps1')
+# Additional toolkit functions. Side-effect operations are only invoked after explicit menu selection.
+. (Join-Path $script:Root 'modules\Toolkit-Utilities.ps1')
+. (Join-Path $script:Root 'modules\Toolkit-Workflows.ps1')
 
 
-# V4 features preserved; V5 introduces four guided diagnostic and repair workflows.
+# Additional tools and four guided diagnostic and repair workflows.
 Add-ToolkitTool -Id '126' -Category 11 -Title 'Security posture overview' -Description 'Local Defender, firewall, TPM, BitLocker, Secure Boot; creates a private report.' -Risk 'REPORT' -Admin $false -Action { New-SecurityAudit }
 Add-ToolkitTool -Id '127' -Category 11 -Title 'Repair & change history' -Description 'Shows actions selected using this toolkit. An invocation is not proof of repair success.' -Risk 'VIEW' -Admin $false -Action { Show-RepairHistory }
 Add-ToolkitTool -Id '128' -Category 11 -Title 'Save baseline snapshot' -Description 'Stores selected OS/driver/RAM/firmware facts for later comparison.' -Risk 'REPORT' -Admin $false -Action { Save-SystemBaseline }
 Add-ToolkitTool -Id '129' -Category 11 -Title 'Compare two snapshots' -Description 'Highlights changed drivers, memory and firmware; select two saved snapshots.' -Risk 'REPORT' -Admin $false -Action { Compare-SystemBaseline }
 Add-ToolkitTool -Id '130' -Category 11 -Title 'Folder backup comparison' -Description 'Compare two local folders by path/size, optionally SHA-256 hashes; no changes.' -Risk 'REPORT' -Admin $false -Action { Compare-BackupFolders }
-Add-ToolkitTool -Id '131' -Category 11 -Title 'Package + driver update scan' -Description 'Use V3 combined report: installed drivers + WinGet app updates only.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Update-Scan.ps1') }
+Add-ToolkitTool -Id '131' -Category 11 -Title 'Package + driver update scan' -Description 'Use combined report: installed drivers + WinGet app updates only.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Update-Scan.ps1') }
 Add-ToolkitTool -Id '132' -Category 11 -Title 'Startup & heavy RAM report' -Description 'App memory working sets and startup registrations; no termination.' -Risk 'REPORT' -Admin $false -Action { New-StartupRamReport }
 Add-ToolkitTool -Id '133' -Category 11 -Title 'Security check in console' -Description 'Quick Defender/firewall/encryption status; does not make changes.' -Risk 'VIEW' -Admin $false -Action { Show-SecurityQuick }
 Add-ToolkitTool -Id '134' -Category 11 -Title 'System reliability events' -Description 'Critical/error System & Application events from the last 48 hours.' -Risk 'VIEW' -Admin $false -Action { Show-RecentReliability }
@@ -223,7 +223,7 @@ Add-ToolkitTool -Id '161' -Category 14 -Title 'Advanced services insight' -Descr
 Add-ToolkitTool -Id '162' -Category 14 -Title 'Advanced task triggers' -Description 'Read scheduled tasks matching optional search term; no modifications.' -Risk 'VIEW' -Admin $false -Action { Show-TaskInsight }
 Add-ToolkitTool -Id '163' -Category 14 -Title 'Advanced network routes' -Description 'Read routing and network interface diagnostics.' -Risk 'VIEW' -Admin $false -Action { Show-NetworkRoutes }
 Add-ToolkitTool -Id '164' -Category 14 -Title 'Windows performance tools' -Description 'Open Resource, Performance and Reliability Monitor.' -Risk 'VIEW' -Admin $false -Action { Show-PerformanceTools }
-Add-ToolkitTool -Id '165' -Category 14 -Title 'Taskbar/Explorer recovery' -Description 'Restart Explorer and taskbar on confirmation.' -Risk 'CHANGE' -Admin $false -Action { Restart-ExplorerV4 }
+Add-ToolkitTool -Id '165' -Category 14 -Title 'Taskbar/Explorer recovery' -Description 'Restart Explorer and taskbar on confirmation.' -Risk 'CHANGE' -Admin $false -Action { Restart-ToolkitExplorer }
 Add-ToolkitTool -Id '166' -Category 14 -Title 'View integrated repair kit' -Description 'Open the integrated 51-action diagnostic/repair menu.' -Risk 'VIEW' -Admin $false -Action { & (Join-Path $script:Root 'repair-kit\src\RepairKit.ps1') }
 Add-ToolkitTool -Id '167' -Category 11 -Title 'RAM usage delta (10 seconds)' -Description 'Samples top process working sets twice and shows changes; does not close processes.' -Risk 'VIEW' -Admin $false -Action { Show-MemoryDelta }
 Add-ToolkitTool -Id '168' -Category 11 -Title 'Save driver inventory CSV' -Description 'Read drivers to file without updating or replacing hardware drivers.' -Risk 'REPORT' -Admin $false -Action { & (Join-Path $script:Root 'scripts\Driver-Inventory.ps1') }
@@ -231,16 +231,16 @@ Add-ToolkitTool -Id '169' -Category 13 -Title 'Open Windows Store' -Description 
 Add-ToolkitTool -Id '170' -Category 14 -Title 'Unsigned driver inventory' -Description 'Reports installed drivers Windows marks unsigned; unsigned does not automatically mean malware.' -Risk 'VIEW' -Admin $false -Action { Show-UnsignedDrivers }
 
 
-# V5: Four consolidated workflows plus reliability and log views.
-Add-ToolkitTool -Id '171' -Category 15 -Title 'GENERAL DIAGNOSTICS' -Description 'Fast multi-system read-only checks; explicit statuses, TXT + JSON report.' -Risk 'REPORT' -Admin $true -Action { Invoke-V5Diagnostics -Mode General }
-Add-ToolkitTool -Id '172' -Category 15 -Title 'DEEP DIAGNOSTICS' -Description 'Broader read-only audit of Windows, Explorer, logs, processes and optional DISM/SFC verification.' -Risk 'REPORT' -Admin $true -Action { Invoke-V5Diagnostics -Mode Deep }
-Add-ToolkitTool -Id '173' -Category 15 -Title 'GENERAL REPAIR (guided)' -Description 'Runs diagnostics, then offers individual low-impact fixes only when indicated.' -Risk 'REPAIR' -Admin $true -Action { Invoke-V5RepairWorkflow -Mode General }
-Add-ToolkitTool -Id '174' -Category 15 -Title 'DEEP REPAIR (guided)' -Description 'Runs deeper diagnostics, offers repair of verified issues with two explicit confirmations.' -Risk 'REPAIR' -Admin $true -Action { Invoke-V5RepairWorkflow -Mode Deep }
-Add-ToolkitTool -Id '175' -Category 15 -Title 'Toolkit diagnostic self-test' -Description 'Checks availability of diagnostic commands and report-folder writing; exports report.' -Risk 'REPORT' -Admin $true -Action { Invoke-V5DiagnosticSelfTest }
-Add-ToolkitTool -Id '176' -Category 15 -Title 'How the 4 workflows work' -Description 'Read safety rules and expected output. No changes.' -Risk 'VIEW' -Admin $false -Action { Show-V5WorkflowHelp }
-Add-ToolkitTool -Id '177' -Category 15 -Title 'V5 repair attempt history' -Description 'Show attempted operations and their actual outcomes (not assumed fixes).' -Risk 'VIEW' -Admin $false -Action { Show-V5RepairHistory }
-Add-ToolkitTool -Id '178' -Category 15 -Title 'Open V5 reports folder' -Description 'Private local Documents folder containing readable TXT and structured JSON reports.' -Risk 'VIEW' -Admin $false -Action { Open-ToolkitReports -CurrentFolder (Get-V5ReportFolder) -LegacyName 'Windows11-ToolkitV5-Reports' }
-Add-ToolkitTool -Id '179' -Category 15 -Title 'Open workflow user guide' -Description 'What each diagnostic checks and which repairs are available.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'docs\V5-Workflows.md') }
+# Four consolidated workflows plus reliability and log views.
+Add-ToolkitTool -Id '171' -Category 15 -Title 'GENERAL DIAGNOSTICS' -Description 'Fast multi-system read-only checks; explicit statuses, TXT + JSON report.' -Risk 'REPORT' -Admin $true -Action { Invoke-ToolkitDiagnostics -Mode General }
+Add-ToolkitTool -Id '172' -Category 15 -Title 'DEEP DIAGNOSTICS' -Description 'Broader read-only audit of Windows, Explorer, logs, processes and optional DISM/SFC verification.' -Risk 'REPORT' -Admin $true -Action { Invoke-ToolkitDiagnostics -Mode Deep }
+Add-ToolkitTool -Id '173' -Category 15 -Title 'GENERAL REPAIR (guided)' -Description 'Runs diagnostics, then offers individual low-impact fixes only when indicated.' -Risk 'REPAIR' -Admin $true -Action { Invoke-ToolkitRepairWorkflow -Mode General }
+Add-ToolkitTool -Id '174' -Category 15 -Title 'DEEP REPAIR (guided)' -Description 'Runs deeper diagnostics, offers repair of verified issues with two explicit confirmations.' -Risk 'REPAIR' -Admin $true -Action { Invoke-ToolkitRepairWorkflow -Mode Deep }
+Add-ToolkitTool -Id '175' -Category 15 -Title 'Toolkit diagnostic self-test' -Description 'Checks availability of diagnostic commands and report-folder writing; exports report.' -Risk 'REPORT' -Admin $true -Action { Invoke-ToolkitDiagnosticSelfTest }
+Add-ToolkitTool -Id '176' -Category 15 -Title 'How the 4 workflows work' -Description 'Read safety rules and expected output. No changes.' -Risk 'VIEW' -Admin $false -Action { Show-ToolkitWorkflowHelp }
+Add-ToolkitTool -Id '177' -Category 15 -Title 'Workflow repair attempt history' -Description 'Show attempted operations and their actual outcomes (not assumed fixes).' -Risk 'VIEW' -Admin $false -Action { Show-ToolkitRepairHistory }
+Add-ToolkitTool -Id '178' -Category 15 -Title 'Open reports folder' -Description 'Private local Documents folder containing readable TXT and structured JSON reports.' -Risk 'VIEW' -Admin $false -Action { Open-ToolkitReports -CurrentFolder (Get-ToolkitReportFolder) -LegacyNames (Get-ToolkitLegacyReportNames) }
+Add-ToolkitTool -Id '179' -Category 15 -Title 'Open workflow user guide' -Description 'What each diagnostic checks and which repairs are available.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'docs\Guided-Workflows.md') }
 Add-ToolkitTool -Id '180' -Category 15 -Title 'PowerShell syntax-check guide' -Description 'Instructions and included parser self-test. No scans or repairs.' -Risk 'VIEW' -Admin $false -Action { Start-Process (Join-Path $script:Root 'TESTING.md') }
 
 function Show-ToolHelp {

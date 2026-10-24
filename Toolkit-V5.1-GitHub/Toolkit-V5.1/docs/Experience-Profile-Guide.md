@@ -1,6 +1,6 @@
 # Experience profiles — simple and reversible
 
-Use the **Preview** option before **Apply**. Admin rights are already provided when you open the V4 launcher as Administrator.
+Use the **Preview** option before **Apply**. Admin rights are already provided when you open the Toolkit launcher as Administrator.
 
 | Profile | Automatic setting change, only when available | Opens for you to configure |
 |---|---|---|
@@ -16,6 +16,6 @@ Use the **Preview** option before **Apply**. Admin rights are already provided w
 3. **Manual extras:** Opens relevant Windows Settings pages; you make any other selections yourself. The kit does **not** automatically disable notifications, alter registry performance tweaks, disable security, terminate processes, or install drivers.
 4. **Undo:** Restores the saved original power plan and clears the toolkit's undo record. It does **not** reverse manual Windows Settings changes you made afterward.
 
-New undo records are saved under `%LOCALAPPDATA%\ToolkitV4\PowerPlan-Undo.json`. Existing records are reused in place; conflicting or unreadable records stop profile changes. See [Rename compatibility](Rename-Compatibility.md). Read it with **Show current plan/profile**; the toolkit creates it only when it successfully prepares to switch schemes. If no compatible target plan is installed on your laptop, the kit leaves the power plan unchanged and opens the settings pages.
+New undo records are saved under `%LOCALAPPDATA%\Toolkit\PowerPlan-Undo.json`. Existing records are reused in place; conflicting or unreadable records stop profile changes. See [Rename compatibility](Rename-Compatibility.md). Read it with **Show current plan/profile**; the toolkit creates it only when it successfully prepares to switch schemes. If no compatible target plan is installed on your laptop, the kit leaves the power plan unchanged and opens the settings pages.
 
 **Note:** High Performance can increase heat, fan noise and power use without increasing RAM capacity or dramatically improving performance. Keep Balanced for normal tasks if that suits your ThinkPad.

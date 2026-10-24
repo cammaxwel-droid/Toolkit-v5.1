@@ -1,16 +1,16 @@
-# Repair Kit — V5 legacy edition (51 actions)
+# Toolkit V5.1 — Repair Kit (51 actions)
 
 A **separate, menu-driven Windows troubleshooting and repair toolkit**. Designed for Windows 11 and Windows PowerShell 5.1, including 8 GB laptops.
 
-**51 selectable single-action tools across six categories.** The *four consolidated V5 workflows* are available through the main toolkit, not in this smaller standalone kit. This V5-integrated copy keeps the user's requested **Administrator from startup** workflow. Start read-only, review results, and run only repairs that match a real problem.
+**51 selectable single-action tools across six categories.** The *four guided workflows* are available through the main toolkit, not in this smaller standalone kit. This integrated copy keeps the user's requested **Administrator from startup** workflow. Start read-only, review results, and run only repairs that match a real problem.
 
 ## Launch
 
 1. Extract this ZIP completely. Keep `src/RepairKit.ps1` beside the launcher.
-2. For the **V5 integrated edition**, right-click `Start-Repair-Kit.cmd` and select **Run as administrator**. Administrator privileges are required from the start by design.
+2. For the **integrated edition**, right-click `Start-Repair-Kit.cmd` and select **Run as administrator**. Administrator privileges are required from the start by design.
 3. Enter a category number, then an action ID such as `R04`.
 4. Type `?R04` to see its purpose, whether it changes anything, and whether it needs Admin.
-5. The V5 launcher is already elevated at launch. Never execute untrusted toolkit copies as Administrator.
+5. The launcher is already elevated at launch. Never execute untrusted toolkit copies as Administrator.
 6. `CHANGE`/`REPAIR` actions require typing `YES` before running.
 
 **If CMD downloads are blocked:** `Start-Repair-Kit.cmd.txt` is the same launcher as text. In Notepad choose Save As > Save as type **All files** > `Start-Repair-Kit.cmd` in the extracted kit's root.
@@ -50,11 +50,11 @@ See `docs/Repair-Command-Reference.txt` for the ID catalogue and common copy/pas
 
 ## Reports and privacy
 
-Reports are created in the **actual Windows Documents folder**, under `RepairKit-Reports`, not in this repository. They can include local paths, usernames, software, network and hardware data. Review before sharing, and never commit private reports, tokens or credential files.
+Reports are created in the **actual Windows Documents folder**, under `Toolkit-Reports`, not in this repository. They can include local paths, usernames, software, network and hardware data. Review before sharing, and never commit private reports, tokens or credential files.
 
 ## Output caveat
 
-This standalone Repair Kit preserves the older 51 individual commands. The wrapper now displays a result explanation when there is no structured PowerShell pipeline output, but **some older actions still write to the console or launch GUI settings**. No data is not proof of no errors. For actual PASS/WARNING/ERROR/NO DATA classifications and consolidated TXT/JSON reports, use the four guided workflows in **Toolkit V5**.
+This standalone Repair Kit preserves the older 51 individual commands. The wrapper now displays a result explanation when there is no structured PowerShell pipeline output, but **some older actions still write to the console or launch GUI settings**. No data is not proof of no errors. For actual PASS/WARNING/ERROR/NO DATA classifications and consolidated TXT/JSON reports, use the four guided workflows in **Toolkit V5.1**.
 
 ## Compatibility
 

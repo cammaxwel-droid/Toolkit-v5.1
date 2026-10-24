@@ -1,12 +1,12 @@
 #requires -Version 5.1
-# Toolkit V4: new interactive tools. PowerShell 5.1.
+# Toolkit utilities: interactive tools. PowerShell 5.1.
 # Dot-sourced by src/Toolkit.ps1. Functions run only on explicit selection.
 
-function Get-V4ReportsPath {
+function Get-ToolkitReportsPath {
     param([switch]$Create)
     $directory = [Environment]::GetFolderPath('MyDocuments')
     if (-not $directory -or -not (Test-Path -LiteralPath $directory)) { $directory = $env:USERPROFILE }
-    $directory = Join-Path $directory 'ToolkitV4-Reports'
+    $directory = Join-Path $directory 'Toolkit-Reports'
     if ($Create -and -not (Test-Path -LiteralPath $directory)) { New-Item -ItemType Directory -Path $directory -Force -ErrorAction Stop | Out-Null }
     return $directory
 }
@@ -14,18 +14,18 @@ function Write-ToolkitActivity {
     param([string]$Id, [string]$Name, [string]$Risk, [string]$Outcome)
     # An action was attempted; does not independently prove repair success.
     try {
-        $path = Join-Path (Get-V4ReportsPath -Create) 'Repair-History.csv'
+        $path = Join-Path (Get-ToolkitReportsPath -Create) 'Repair-History.csv'
         [pscustomobject]@{Time=(Get-Date).ToString('s');Id=$Id;Action=$Name;Class=$Risk;Outcome=$Outcome} |
            Export-Csv -Path $path -NoTypeInformation -Encoding UTF8 -Append
     } catch { Write-Host "Unable to write optional repair history: $($_.Exception.Message)" -ForegroundColor Yellow }
 }
 function Show-RepairHistory {
-    $rows = @(Read-ToolkitHistory -CurrentFolder (Get-V4ReportsPath) -LegacyName 'Windows11-ToolkitV4-Reports' -FileName 'Repair-History.csv' -Limit 25)
+    $rows = @(Read-ToolkitHistory -CurrentFolder (Get-ToolkitReportsPath) -LegacyNames @('ToolkitV4-Reports','Windows11-ToolkitV4-Reports') -FileName 'Repair-History.csv' -Limit 25)
     if ($rows.Count -eq 0) { Write-Host 'No readable toolkit repair or change history was found.'; return }
     $rows | Format-Table Time,Id,Action,Class,Outcome -AutoSize -Wrap
     Write-Host 'History records an action invocation, NOT confirmed repair success.' -ForegroundColor Yellow
 }
-function Get-V4SecurityInformation {
+function Get-ToolkitSecurityInformation {
     $out = @('WINDOWS SECURITY AUDIT - '+(Get-Date).ToString('yyyy-MM-dd HH:mm:ss'))
     try { $out += 'DEFENDER'; $out += ((Get-MpComputerStatus -ErrorAction Stop | Select-Object AntivirusEnabled,RealTimeProtectionEnabled,AntivirusSignatureVersion,AntivirusSignatureLastUpdated | Format-List | Out-String -Width 180)) }
     catch { $out += ('Defender information unavailable: '+$_.Exception.Message) }
@@ -40,12 +40,12 @@ function Get-V4SecurityInformation {
     return $out
 }
 function New-SecurityAudit {
-    $path=Join-Path (Get-V4ReportsPath -Create) ('Security-Audit-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
-    Get-V4SecurityInformation | Out-File -LiteralPath $path -Encoding UTF8 -Width 200
+    $path=Join-Path (Get-ToolkitReportsPath -Create) ('Security-Audit-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    Get-ToolkitSecurityInformation | Out-File -LiteralPath $path -Encoding UTF8 -Width 200
     Write-Host "Security audit saved: $path" -ForegroundColor Green
     Write-Host 'Reports may contain system information. Review before uploading to GitHub.'
 }
-function Show-SecurityQuick { (Get-V4SecurityInformation) | Select-Object -First 15 | ForEach-Object {Write-Host $_} }
+function Show-SecurityQuick { (Get-ToolkitSecurityInformation) | Select-Object -First 15 | ForEach-Object {Write-Host $_} }
 function Show-RecentReliability {
     foreach($log in @('System','Application')){
         Write-Host "`n$log errors and critical events:" -ForegroundColor Cyan
@@ -61,7 +61,7 @@ function Show-RestorePointStatus {
     Start-Process SystemPropertiesProtection.exe
 }
 function New-StartupRamReport {
-    $path=Join-Path (Get-V4ReportsPath -Create) ('Startup-RAM-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    $path=Join-Path (Get-ToolkitReportsPath -Create) ('Startup-RAM-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
     $results=@('STARTUP AND RAM REPORT '+(Get-Date),'Process working sets can include shared memory; they are not private-memory totals.','')
     try{
         $results+= 'TOP RAM PROCESS NAMES (WORKING SETS)'
@@ -76,7 +76,7 @@ function New-StartupRamReport {
     $results | Out-File -LiteralPath $path -Encoding UTF8 -Width 200
     Write-Host "Report saved: $path" -ForegroundColor Green
 }
-function Get-V4Snapshot {
+function Get-ToolkitSnapshot {
     $os=Get-CimInstance Win32_OperatingSystem
     $bios=Get-CimInstance Win32_BIOS
     $dr=@(Get-CimInstance Win32_PnPSignedDriver -ErrorAction SilentlyContinue | Where-Object DeviceID |
@@ -84,7 +84,7 @@ function Get-V4Snapshot {
     $problems=@(Get-PnpDevice -ErrorAction SilentlyContinue | Where-Object Status -eq 'Error' | Select-Object -ExpandProperty FriendlyName)
     $storage=@(Get-PhysicalDisk -ErrorAction SilentlyContinue | Select-Object FriendlyName,FirmwareVersion,HealthStatus)
     [pscustomobject]@{
-      Schema='ToolkitV4-Snapshot-1'
+      Schema='Toolkit-Snapshot-1'
       Date=(Get-Date).ToString('o')
       OS=$os.Caption
       Build=$os.BuildNumber
@@ -96,14 +96,14 @@ function Get-V4Snapshot {
     }
 }
 function Save-SystemBaseline {
-    $path=Join-Path (Get-V4ReportsPath -Create) ('Snapshot-{0}.json' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
-    Get-V4Snapshot | ConvertTo-Json -Depth 6 | Out-File -LiteralPath $path -Encoding UTF8 -Width 350
+    $path=Join-Path (Get-ToolkitReportsPath -Create) ('Snapshot-{0}.json' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    Get-ToolkitSnapshot | ConvertTo-Json -Depth 6 | Out-File -LiteralPath $path -Encoding UTF8 -Width 350
     Write-Host "Snapshot saved: $path" -ForegroundColor Green
     Write-Host 'Save another later, then select Compare two snapshots.'
 }
 function Compare-SystemBaseline {
-    $files=@(Get-ToolkitReportFiles -CurrentFolder (Get-V4ReportsPath) -LegacyName 'Windows11-ToolkitV4-Reports' -Pattern 'Snapshot-*.json')
-    if($files.Count -lt 2){Write-Host 'Need at least two saved V4 snapshots. Run Save baseline now and later.' -ForegroundColor Yellow;return}
+    $files=@(Get-ToolkitReportFiles -CurrentFolder (Get-ToolkitReportsPath) -LegacyNames @('ToolkitV4-Reports','Windows11-ToolkitV4-Reports') -Pattern 'Snapshot-*.json')
+    if($files.Count -lt 2){Write-Host 'Need at least two saved snapshots. Run Save baseline now and later.' -ForegroundColor Yellow;return}
     Write-Host 'Select two snapshots by number:' -ForegroundColor Cyan
     for($i=0;$i -lt [math]::Min($files.Count,20);$i++){Write-Host (' {0}: {1}' -f ($i+1),$files[$i].FullName)}
     $oldPick=Read-Host 'BEFORE snapshot number (default 2)';$newPick=Read-Host 'AFTER snapshot number (default 1)'
@@ -123,7 +123,7 @@ function Compare-SystemBaseline {
     }
     $report+= "DRIVER VERSION CHANGES ($($changed.Count))"
     $report+=($changed | Select-Object -First 40 | Format-Table -AutoSize -Wrap | Out-String -Width 180)
-    $out=Join-Path (Get-V4ReportsPath -Create) ('Comparison-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    $out=Join-Path (Get-ToolkitReportsPath -Create) ('Comparison-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
     $report | Out-File -LiteralPath $out -Encoding UTF8 -Width 190
     $report | ForEach-Object {Write-Host $_}
     Write-Host "Comparison saved: $out" -ForegroundColor Green
@@ -171,35 +171,38 @@ function Compare-BackupFolders {
           Write-Host "Hash-compared: $count matching files" -ForegroundColor Green
        }
     }
-    $out=Join-Path (Get-V4ReportsPath -Create) ('Backup-Comparison-{0}.csv' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    $out=Join-Path (Get-ToolkitReportsPath -Create) ('Backup-Comparison-{0}.csv' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
     if($mismatch.Count){$mismatch | Export-Csv -NoTypeInformation -Encoding UTF8 -LiteralPath $out;Write-Host "Differences saved: $out"}
     else{Write-Host 'No differences found by the selected checks. This does not establish storage media reliability.' -ForegroundColor Green}
 }
 
 # Experience profiles use existing power schemes only. They never download/enable new plans.
 # Extra preferences are user-controlled Windows Settings pages, not registry hacks.
-function Get-V4PowerScheme {
+function Get-ToolkitPowerScheme {
     $output=(& powercfg.exe /getactivescheme 2>&1 | Out-String)
     if($LASTEXITCODE -ne 0){throw "Cannot query active power plan: $output"}
     $match=[regex]::Match($output,'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}','IgnoreCase')
     if(-not $match.Success){throw "Cannot parse the active power plan: $output"}
     return $match.Value.ToLowerInvariant()
 }
-function Get-V4AvailableSchemes {
+function Get-ToolkitAvailableSchemes {
     $output=(& powercfg.exe /list 2>&1 | Out-String)
     if($LASTEXITCODE -ne 0){throw "Unable to list existing power schemes: $output"}
     return $output
 }
-function Get-V4ProfileFile {
+function Get-ToolkitProfileFile {
     param([switch]$Create)
-    $current=Join-Path (Join-Path $env:LOCALAPPDATA 'ToolkitV4') 'PowerPlan-Undo.json'
-    $legacy=Join-Path (Join-Path $env:LOCALAPPDATA 'Windows11ToolkitV4') 'PowerPlan-Undo.json'
-    $selected=Resolve-ToolkitUndoFile -CurrentFile $current -LegacyFile $legacy
+    $current=Join-Path (Join-Path $env:LOCALAPPDATA 'Toolkit') 'PowerPlan-Undo.json'
+    $legacy=@(
+        (Join-Path (Join-Path $env:LOCALAPPDATA 'ToolkitV4') 'PowerPlan-Undo.json')
+        (Join-Path (Join-Path $env:LOCALAPPDATA 'Windows11ToolkitV4') 'PowerPlan-Undo.json')
+    )
+    $selected=Resolve-ToolkitUndoFile -CurrentFile $current -LegacyFiles $legacy
     $dir=Split-Path -Parent $selected
     if($Create -and -not (Test-Path -LiteralPath $dir)){New-Item -Path $dir -ItemType Directory -Force | Out-Null}
     return $selected
 }
-function Get-V4DesiredScheme {
+function Get-ToolkitDesiredScheme {
     param([string]$Name)
     switch ($Name) {
       'Gaming' {return '8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c'} # High Performance
@@ -218,24 +221,24 @@ function Show-ProfilePreview {
       'Studying' { Write-Host 'Layer 2: opens Notifications, Night Light and Power settings. No automatic silencing of reminders.' }
       'Battery Saver' { Write-Host 'Layer 2: opens Power & Battery settings. No battery/charging firmware changes.' }
     }
-    Write-Host 'Layer 3: undo restores the original power plan saved before the first V4 profile change.'
-    Write-Host 'If no requested power plan exists on this laptop, V4 leaves the active plan untouched.' -ForegroundColor Yellow
-    try { Write-Host "Current power plan: $(Get-V4PowerScheme)" }
+    Write-Host 'Layer 3: undo restores the original power plan saved before the first toolkit profile change.'
+    Write-Host 'If no requested power plan exists on this laptop, the toolkit leaves the active plan untouched.' -ForegroundColor Yellow
+    try { Write-Host "Current power plan: $(Get-ToolkitPowerScheme)" }
     catch { Write-Host $_.Exception.Message -ForegroundColor Yellow }
 }
 function Set-ExperienceProfile {
     param([ValidateSet('Gaming','Programming','Studying','Battery Saver')][string]$Name)
     # Validate any existing undo record before opening pages or changing a plan.
-    $null=Get-V4ProfileFile
+    $null=Get-ToolkitProfileFile
     Show-ProfilePreview -Name $Name
-    $current=Get-V4PowerScheme
-    $desired=Get-V4DesiredScheme -Name $Name
-    $available=Get-V4AvailableSchemes
+    $current=Get-ToolkitPowerScheme
+    $desired=Get-ToolkitDesiredScheme -Name $Name
+    $available=Get-ToolkitAvailableSchemes
     if($current -eq $desired){Write-Host 'Requested power plan is already active. No power plan change needed.' -ForegroundColor Green}
     elseif($available -notmatch [regex]::Escape($desired)){
         Write-Host 'Requested scheme is not installed. No power plan change; only opening the relevant Windows settings.' -ForegroundColor Yellow
     } else {
-        $state=Get-V4ProfileFile -Create
+        $state=Get-ToolkitProfileFile -Create
         $original=$null
         if(Test-Path -LiteralPath $state){
             try{$original=Get-Content -LiteralPath $state -Raw | ConvertFrom-Json}
@@ -260,12 +263,12 @@ function Set-ExperienceProfile {
     }
 }
 function Restore-ExperienceProfile {
-    $state=Get-V4ProfileFile
-    if(-not (Test-Path -LiteralPath $state)){Write-Host 'No V4 original power plan saved. Nothing to restore.';return}
+    $state=Get-ToolkitProfileFile
+    if(-not (Test-Path -LiteralPath $state)){Write-Host 'No original power plan saved. Nothing to restore.';return}
     $info=Get-Content -LiteralPath $state -Raw | ConvertFrom-Json
     $guid=[string]$info.InitialScheme
     if($guid -notmatch '^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$'){throw 'Undo record contains an invalid scheme GUID. No changes made.'}
-    if((Get-V4AvailableSchemes) -notmatch [regex]::Escape($guid)){Write-Host 'Original plan is no longer listed. Undo skipped; state retained.' -ForegroundColor Yellow;return}
+    if((Get-ToolkitAvailableSchemes) -notmatch [regex]::Escape($guid)){Write-Host 'Original plan is no longer listed. Undo skipped; state retained.' -ForegroundColor Yellow;return}
     & powercfg.exe /setactive $guid
     if($LASTEXITCODE -eq 0){
        Remove-Item -LiteralPath $state -Force
@@ -273,10 +276,10 @@ function Restore-ExperienceProfile {
     } else {Write-Host 'Power plan restore failed. Undo marker retained.' -ForegroundColor Red}
 }
 function Show-ProfileState {
-    try{Write-Host "Active power plan: $(Get-V4PowerScheme)"}catch{Write-Host $_.Exception.Message}
-    $path=Get-V4ProfileFile
+    try{Write-Host "Active power plan: $(Get-ToolkitPowerScheme)"}catch{Write-Host $_.Exception.Message}
+    $path=Get-ToolkitProfileFile
     if(Test-Path -LiteralPath $path){Get-Content -LiteralPath $path -Raw | Write-Host}
-    else {Write-Host 'No saved V4 power-plan change.'}
+    else {Write-Host 'No saved power-plan change.'}
 }
 
 # Optional, explicitly chosen WinGet packages only. Do not suggest these are required OS apps.
@@ -313,7 +316,7 @@ function Show-CuratedInstaller {
     if($LASTEXITCODE -ne 0){Write-Host "Install exited with code $LASTEXITCODE; review the output." -ForegroundColor Yellow}
 }
 function New-DeveloperDoctor {
-    $path=Join-Path (Get-V4ReportsPath -Create) ('Developer-Doctor-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    $path=Join-Path (Get-ToolkitReportsPath -Create) ('Developer-Doctor-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
     $out=@('DEVELOPER ENVIRONMENT DOCTOR '+(Get-Date),'No dependencies installed or changed.', '')
     foreach($tool in @('python','py','node','npm','dotnet','git','cmake','ninja','winget')){
         $cmd=Get-Command $tool -ErrorAction SilentlyContinue
@@ -354,13 +357,13 @@ function Show-TroubleshootingWizard {
     $issues=@(
       [pscustomobject]@{Title='Windows errors or corrupt files';Checks='DISM CheckHealth (R01), SFC verify (R03), recent event log (R07)';Next='If corruption found: Repair Kit R04 (DISM then SFC)'},
       [pscustomobject]@{Title='Taskbar/Explorer unresponsive';Checks='Crash history (R12), Task Manager (R11)';Next='Repair Kit R09 - Restart Explorer/taskbar'},
-      [pscustomobject]@{Title='Slow RAM / background applications';Checks='V4 tool 132 Startup & heavy RAM report; baseline V4 tool 128';Next='Close unneeded applications individually, not Windows processes'},
-      [pscustomobject]@{Title='Windows Security warning';Checks='V4 tool 126 Security overview; Repair Kit R19/R23/R25';Next='Defender scan (R21), signature update (R22) only when relevant'},
+      [pscustomobject]@{Title='Slow RAM / background applications';Checks='Tool 132 Startup & heavy RAM report; baseline Tool 128';Next='Close unneeded applications individually, not Windows processes'},
+      [pscustomobject]@{Title='Windows Security warning';Checks='Tool 126 Security overview; Repair Kit R19/R23/R25';Next='Defender scan (R21), signature update (R22) only when relevant'},
       [pscustomobject]@{Title='Broken downloads / mobile hotspot';Checks='Repair Kit R27-R30 connectivity, R39 ZIP integrity';Next='Network checks first; DNS flush R31 only when DNS fails'},
       [pscustomobject]@{Title='Screen flicker or graphics trouble';Checks='Repair Kit R15 display diagnostics, Device Manager (R34)';Next='Win+Ctrl+Shift+B for short display-driver refresh'},
       [pscustomobject]@{Title='Apps / Microsoft Store failures';Checks='Repair Kit R14 installed app Repair option; event log R07';Next='Store cache reset R13 if Store specifically affected'},
-      [pscustomobject]@{Title='Driver problem or yellow warning';Checks='Repair Kit R34; V4 snapshot before changes';Next='Official Windows optional updates R36 or device vendor support'},
-      [pscustomobject]@{Title='Backup copied incompletely';Checks='V4 tool 130 Folder backup comparison; R39 ZIP integrity';Next='Copy missing files after report, no automated deletions'},
+      [pscustomobject]@{Title='Driver problem or yellow warning';Checks='Repair Kit R34; baseline snapshot before changes';Next='Official Windows optional updates R36 or device vendor support'},
+      [pscustomobject]@{Title='Backup copied incompletely';Checks='Tool 130 Folder backup comparison; R39 ZIP integrity';Next='Copy missing files after report, no automated deletions'},
       [pscustomobject]@{Title='Audio / printer / update stuck';Checks='R17 (audio), R47 (spooler), R43 (updates)';Next='Targeted R18/R48 repairs, only if that component fails'}
     )
     Write-Host "`nCHOOSE A SYMPTOM - SUGGESTS ONLY, DOES NOT AUTO-RUN REPAIRS" -ForegroundColor Cyan
@@ -478,7 +481,7 @@ function Show-PerformanceTools {
     Start-Process perfmon.exe
     Start-Process perfmon.exe -ArgumentList '/rel'
 }
-function Restart-ExplorerV4 {
+function Restart-ToolkitExplorer {
     Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 2
     Start-Process explorer.exe

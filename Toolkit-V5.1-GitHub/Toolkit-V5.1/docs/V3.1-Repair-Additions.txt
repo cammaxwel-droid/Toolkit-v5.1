@@ -1,3 +1,5 @@
+HISTORICAL V3.1 RELEASE NOTES. The launch/elevation instructions below describe that release; use the current README.md for Toolkit V5.1.
+
 TOOLKIT V3.1 - REPAIR ADDITIONS
 ==========================================
 - The V3.1 launcher starts WITHOUT Administrator.

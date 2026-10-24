@@ -1,3 +1,5 @@
+HISTORICAL V4 SHORTCUT REFERENCE. The current general shortcut reference is Windows-Shortcuts.txt.
+
 TOOLKIT V4 - QUICK SHORTCUTS
 ========================================
 KEYBOARD:

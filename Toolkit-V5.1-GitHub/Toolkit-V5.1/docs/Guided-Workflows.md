@@ -8,7 +8,7 @@ Runs a concise **read-only** sweep of Windows version/build, instantaneous memor
 
 It does **not** claim every old driver date is bad. The file `twinui.pcshell.dll` is not checked for corruption merely because Explorer once crashed. Historic error events are not proof that an issue is still occurring.
 
-Exports both a plain-text summary and machine-readable JSON to **Documents\ToolkitV5-Reports**. It takes a snapshot, not a long-term performance benchmark.
+Exports both a plain-text summary and machine-readable JSON to **Documents\Toolkit-Reports**. It takes a snapshot, not a long-term performance benchmark.
 
 ## B. Deep Diagnostics
 
@@ -59,15 +59,15 @@ An evidence-supported advanced `REPAIR` action requires typing **DEEP REPAIR** a
 | ERROR | Check itself failed; **do not interpret as a system defect** without inspecting the error |
 | NO DATA | Unavailable, deliberately skipped, or output could not be classified; **not a PASS** |
 
-For older V4 tools still included in V5, a blank command pipeline now says `NO DATA`; many legacy tools open a GUI or write directly to console and cannot be independently classified. Use workflow A/B for well-defined checks.
+For the included single-action tools, a blank command pipeline now says `NO DATA`; many legacy tools open a GUI or write directly to console and cannot be independently classified. Use workflow A/B for well-defined checks.
 
 ## Reports and sharing
 
-V5 diagnostic TXT/JSON reports and V5 repair-attempt history are written under the actual Documents folder, without constructing an account directory from the displayed Windows username. Legacy V4 and V3 tools still use their original legacy report folders.
+All toolkit-managed reports, including diagnostic TXT/JSON, event details, snapshots, utility history and guided repair-attempt history, are written to Toolkit-Reports under the actual Documents folder. Existing reports remain accessible in their previous locations; see [Saved-data compatibility](Rename-Compatibility.md).
 
-**Private information:** Reports may contain computer names, program names, local paths, network addresses, and Windows errors. Redact anything sensitive before posting to a public issue or GitHub repository. Detailed SFC/DISM output is displayed on screen; the V5 summary is concise and does not automatically attach full CBS logs.
+**Private information:** Reports may contain computer names, program names, local paths, network addresses, and Windows errors. Redact anything sensitive before posting to a public issue or GitHub repository. Detailed SFC/DISM output is displayed on screen; the diagnostic summary is concise and does not automatically attach full CBS logs.
 
-## Existing V4 features kept
+## Additional tools
 
 Security audit, RAM/startup report, repair history, driver CSV, folder/backup comparison, before-and-after snapshots, Developer Doctor, WinGet curated installer, Gaming/Programming/Studying/Battery Saver previews and undo, 51-action integrated Repair Kit, harmless tricks, and advanced Windows viewers remain in their earlier menus.
 

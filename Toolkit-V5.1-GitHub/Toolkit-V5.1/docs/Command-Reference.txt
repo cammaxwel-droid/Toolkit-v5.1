@@ -2,7 +2,7 @@ TOOLKIT V5.1 - COMMAND & MENU REFERENCE
 ================================================================
 Launch Start-Toolkit.cmd as Administrator (right-click).
 Home shortcuts: A General Diagnostics, B Deep Diagnostics, C General Repair, D Deep Repair.
-Every V5 workflow check reports PASS/WARNING/ERROR/NO DATA and exports summaries.
+Every guided workflow check reports PASS/WARNING/ERROR/NO DATA and exports summaries.
 Legacy single-action VIEW tools can return no structured data; empty output is NOT an automatic PASS.
 This reference is for Windows 11 and Windows PowerShell 5.1.
 
@@ -271,7 +271,7 @@ CATEGORY 9 - System & Developer Tools
 CATEGORY 10 - Reports & Help
 ----------------------------------------------------------------
 113 [REPORT] Comprehensive system report
-     Writes a readable report to Documents/ToolkitV3-Reports.
+     Writes a readable report to Documents/Toolkit-Reports.
 114 [REPORT] Windows Security report
      Defender, firewall, encryption and TPM only.
 115 [REPORT] Driver inventory CSV
@@ -285,7 +285,7 @@ CATEGORY 10 - Reports & Help
 119 [VIEW] Open keyboard shortcuts
      Open keyboard and Win+R shortcuts .txt.
 120 [REPORT] Open reports folder
-     Opens previous reports; creates folder if missing.
+     Opens current reports with access to previous report locations; creates the current folder if missing.
 
 CATEGORY 11 - Deep Audits & Comparison
 ----------------------------------------------------------------
@@ -300,7 +300,7 @@ CATEGORY 11 - Deep Audits & Comparison
 130 [REPORT] Folder backup comparison
      Compare two local folders by path/size, optionally SHA-256 hashes; no changes.
 131 [REPORT] Package + driver update scan
-     Use V3 combined report: installed drivers + WinGet app updates only.
+     Use combined report: installed drivers + WinGet app updates only.
 132 [REPORT] Startup & heavy RAM report
      App memory working sets and startup registrations; no termination.
 133 [VIEW] Security check in console
@@ -403,9 +403,9 @@ CATEGORY 15 - Four Guided Workflows
      Checks availability of diagnostic commands and report-folder writing; exports report.
 176 [VIEW] How the 4 workflows work
      Read safety rules and expected output. No changes.
-177 [VIEW] V5 repair attempt history
+177 [VIEW] Workflow repair attempt history
      Show attempted operations and their actual outcomes (not assumed fixes).
-178 [VIEW] Open V5 reports folder
+178 [VIEW] Open reports folder
      Private local Documents folder containing readable TXT and structured JSON reports.
 179 [VIEW] Open workflow user guide
      What each diagnostic checks and which repairs are available.
@@ -438,9 +438,9 @@ DISM.exe /Online /Cleanup-Image /RestoreHealth  # component store repair
 sfc.exe /scannow  # protected files
 ipconfig.exe /flushdns  # clear resolver cache
 
-Full workflow descriptions: docs\V5-Workflows.md
-All tool metadata: docs\All-Tools-V5.json
-Private diagnostics: Documents\ToolkitV5-Reports.
+Full workflow descriptions: docs\Guided-Workflows.md
+All tool metadata: docs\All-Tools.json
+Private diagnostics: Documents\Toolkit-Reports.
 Never publish reports or Windows crash dumps in a public GitHub repo.
 
 

@@ -1,3 +1,5 @@
+HISTORICAL TOOLKIT V3 REFERENCE. For the current menu and report paths, use Command-Reference.txt.
+
 TOOLKIT COMMAND REFERENCE - V3
 =================================================================
 Organized, short descriptions. Use PowerShell 5.1 or Win+R where specified.

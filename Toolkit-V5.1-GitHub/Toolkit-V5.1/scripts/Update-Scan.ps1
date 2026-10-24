@@ -3,14 +3,14 @@ $ErrorActionPreference = 'Continue'
 function Get-ReportFolder {
   $docs=[Environment]::GetFolderPath('MyDocuments')
   if(-not $docs -or -not (Test-Path -LiteralPath $docs)){$docs=$env:USERPROFILE}
-  $p=Join-Path $docs 'ToolkitV3-Reports'
+  $p=Join-Path $docs 'Toolkit-Reports'
   if(-not (Test-Path -LiteralPath $p)){New-Item -ItemType Directory -Path $p -Force|Out-Null}
   return $p
 }
 
 $out=Join-Path (Get-ReportFolder) ('Update-Scan-{0}.txt' -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
 $lines=New-Object System.Collections.Generic.List[string]
-$lines.Add('TOOLKIT V3 - UPDATES SCAN (READ ONLY)')
+$lines.Add('TOOLKIT V5.1 - UPDATES SCAN (READ ONLY)')
 $lines.Add('Created: '+(Get-Date))
 $lines.Add('WinGet scans recognised apps only; drivers are installed-version inventory, not online vendor comparison.')
 $lines.Add('')
