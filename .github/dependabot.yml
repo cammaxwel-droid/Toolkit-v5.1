@@ -10,11 +10,3 @@ updates:
       timezone: "Australia/Sydney"
     open-pull-requests-limit: 5
 
-  - package-ecosystem: "nuget"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      timezone: "Australia/Sydney"
-    open-pull-requests-limit: 5
-
