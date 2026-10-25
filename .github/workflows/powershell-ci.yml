@@ -1,0 +1,21 @@
+name: PowerShell validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-and-catalogue:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+        working-directory: Toolkit-V5.1-GitHub/Toolkit-V5.1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse scripts and validate action catalogues
+        run: .\tests\Check-PowerShell-Syntax.ps1
