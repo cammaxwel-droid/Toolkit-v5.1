@@ -1,0 +1,172 @@
+<Window x:Class="Toolkit.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Toolkit V5.1 — Desktop" Width="1000" Height="680" MinWidth="1000" MinHeight="680"
+        Icon="/Toolkit.Desktop;component/Assets/Toolkit_Amber_Thin_Rounded_Glow.ico"
+        Background="{StaticResource BackgroundBrush}" Foreground="{StaticResource TextBrush}"
+        FontFamily="Segoe UI" FontSize="13" WindowStartupLocation="Manual"
+        UseLayoutRounding="True" SnapsToDevicePixels="True">
+  <Grid x:Name="Surface" Margin="24,18,24,12">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+      <RowDefinition Height="*" MinHeight="220" /><RowDefinition Height="8" /><RowDefinition x:Name="OutputRow" Height="0.55*" MinHeight="130" /><RowDefinition Height="28" />
+    </Grid.RowDefinitions>
+    <Grid Margin="0,0,0,18">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="C:\TOOLKIT" FontFamily="Consolas" FontSize="32" Foreground="{StaticResource MintBrush}" />
+        <TextBlock Text="TOOLKIT V5.1   ·   WINDOWS 11 DESKTOP" Style="{StaticResource Label}" Margin="2,5,0,0" />
+      </StackPanel>
+      <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Border Background="#10251B" BorderBrush="#286246" BorderThickness="1" CornerRadius="12" Padding="12,5" HorizontalAlignment="Right">
+          <TextBlock Text="{Binding AdministratorLabel}" FontFamily="Consolas" FontSize="10" Foreground="{StaticResource MintBrush}" />
+        </Border>
+        <TextBlock Text="{Binding CatalogSummary}" Style="{StaticResource Label}" Margin="0,10,0,0" />
+      </StackPanel>
+    </Grid>
+    <Border Grid.Row="1" Style="{StaticResource Panel}" BorderBrush="#286246" Padding="16,10" Margin="0,0,0,16">
+      <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+        <TextBlock Text="C:\TOOLKIT&gt;" FontFamily="Consolas" FontSize="18" Foreground="{StaticResource MintBrush}" VerticalAlignment="Center" Margin="0,0,12,0" />
+        <Grid Grid.Column="1">
+          <TextBox x:Name="SearchBox" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" FontSize="17" Background="Transparent" BorderThickness="0" Padding="2,5" VerticalContentAlignment="Center" AutomationProperties.Name="Search all commands by name or ID" KeyDown="SearchBox_KeyDown" />
+          <TextBlock Text="Search by name or ID…" IsHitTestVisible="False" Foreground="#78988A" FontFamily="Consolas" FontSize="17" Margin="4,5">
+            <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding Query}" Value=""><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+          </TextBlock>
+        </Grid>
+        <Button Grid.Column="2" Content="ESC  CLEAR" Command="{Binding ClearSearchCommand}" FontFamily="Consolas" FontSize="10" Background="Transparent" BorderThickness="0" Foreground="{StaticResource MutedBrush}" ToolTip="Clear search. Ctrl+F focuses search." />
+      </Grid>
+    </Border>
+    <Border Grid.Row="2" Background="#2B2213" BorderBrush="#715729" BorderThickness="1" CornerRadius="5" Padding="12,8" Margin="0,0,0,12" Visibility="{Binding HasNotice, Converter={StaticResource BoolVisibility}}">
+      <TextBlock Text="{Binding Notice}" Foreground="#E6C783" TextWrapping="Wrap" />
+    </Border>
+    <Grid Grid.Row="3">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="206" /><ColumnDefinition Width="14" /><ColumnDefinition Width="*" /><ColumnDefinition Width="14" /><ColumnDefinition Width="340" /></Grid.ColumnDefinitions>
+      <Border Style="{StaticResource Panel}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="14,14"><TextBlock Text="CATEGORIES" Style="{StaticResource Label}" /></Border>
+          <ListBox x:Name="CategoryList" ItemsSource="{Binding Navigation}" SelectedItem="{Binding SelectedNavigation}" Padding="0,6" AutomationProperties.Name="Command categories">
+            <ListBox.ItemTemplate><DataTemplate>
+              <Grid ToolTip="{Binding Hint}"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="1" Text="{Binding Count}" FontFamily="Consolas" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="8,0,0,0" />
+              </Grid>
+            </DataTemplate></ListBox.ItemTemplate>
+          </ListBox>
+        </DockPanel>
+      </Border>
+      <Border Grid.Column="2" Style="{StaticResource Panel}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="14,14">
+            <Grid><TextBlock Text="COMMAND CATALOG" Style="{StaticResource Label}" /><TextBlock Text="{Binding MatchLabel}" Style="{StaticResource Label}" Foreground="{StaticResource MintBrush}" HorizontalAlignment="Right" /></Grid>
+          </Border>
+          <Grid>
+            <ListBox x:Name="CommandList" ItemsSource="{Binding VisibleTools}" SelectedItem="{Binding SelectedTool}" Padding="0,6" AutomationProperties.Name="Commands">
+              <ListBox.ItemTemplate><DataTemplate>
+                <Grid ToolTip="{Binding DisplayTitle}"><Grid.ColumnDefinitions><ColumnDefinition Width="44" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                  <TextBlock Text="{Binding Id}" FontFamily="Consolas" FontSize="18" Foreground="{StaticResource AmberBrush}" VerticalAlignment="Center" />
+                  <StackPanel Grid.Column="1">
+                    <TextBlock Text="{Binding DisplayTitle}" FontSize="14" TextTrimming="CharacterEllipsis" />
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                      <TextBlock Text="{Binding Risk}" FontFamily="Consolas" FontSize="10" Foreground="{Binding Risk, Converter={StaticResource StatusBrush}}" />
+                      <TextBlock Text=" / " FontSize="10" Foreground="#516D5E" Margin="5,0" />
+                      <TextBlock Text="{Binding ConnectionLabel}" FontSize="11">
+                        <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{StaticResource MutedBrush}" /><Style.Triggers><DataTrigger Binding="{Binding Connected}" Value="True"><Setter Property="Foreground" Value="{StaticResource MintBrush}" /></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+                      </TextBlock>
+                    </StackPanel>
+                  </StackPanel>
+                </Grid>
+              </DataTemplate></ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="No commands match this search." Margin="20" TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Visibility="{Binding NoMatches, Converter={StaticResource BoolVisibility}}" />
+          </Grid>
+        </DockPanel>
+      </Border>
+      <Border Grid.Column="4" Style="{StaticResource Panel}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,14"><TextBlock Text="COMMAND DETAILS" Style="{StaticResource Label}" /></Border>
+          <StackPanel DockPanel.Dock="Bottom" Margin="16,10,16,16">
+            <TextBlock Text="{Binding SelectedTool.RunNote}" FontSize="11" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,0,0,12" Visibility="{Binding SelectedTool.ShowRunNote, Converter={StaticResource BoolVisibility}}" />
+            <Button x:Name="RunButton" Content="{Binding RunLabel}" Command="{Binding RunCommand}" Background="#174832" BorderBrush="#3A9469" Foreground="{StaticResource MintBrush}" FontSize="14" FontWeight="SemiBold" Padding="14,10" AutomationProperties.Name="Run selected command" />
+          </StackPanel>
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="18,14,18,0" Visibility="{Binding HasSelection, Converter={StaticResource BoolVisibility}}">
+              <Grid><TextBlock Text="{Binding SelectedTool.Id}" FontFamily="Consolas" FontSize="36" Foreground="{StaticResource AmberBrush}" />
+                <Border BorderBrush="{Binding SelectedTool.Risk, Converter={StaticResource StatusBrush}}" BorderThickness="1" CornerRadius="12" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="10,4">
+                  <TextBlock Text="{Binding SelectedTool.Risk}" FontFamily="Consolas" FontSize="10" Foreground="{Binding SelectedTool.Risk, Converter={StaticResource StatusBrush}}" />
+                </Border>
+              </Grid>
+              <TextBlock Text="{Binding SelectedTool.DisplayTitle}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,6" />
+              <TextBlock Text="{Binding SelectedTool.CategoryName}" FontFamily="Consolas" FontSize="10" Foreground="{StaticResource MintBrush}" TextWrapping="Wrap" Margin="0,0,0,8" />
+              <TextBlock Text="{Binding SelectedTool.Description}" TextWrapping="Wrap" LineHeight="18" Foreground="#AFC4B7" FontSize="12" />
+              <Grid Margin="0,12,0,6"><TextBlock Text="COMMAND PREVIEW" Style="{StaticResource Label}" VerticalAlignment="Center" />
+                <Button Content="COPY" Command="{Binding CopyCommand}" HorizontalAlignment="Right" Padding="8,4" FontFamily="Consolas" FontSize="10" ToolTip="Copy the existing action's code. This does not run it." />
+              </Grid>
+              <TextBox Text="{Binding SelectedTool.Preview, Mode=OneWay}" IsReadOnly="True" FontFamily="Consolas" FontSize="11" Foreground="{StaticResource MintBrush}" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" MaxHeight="140" Padding="10" AutomationProperties.Name="Existing command preview" />
+            </StackPanel>
+          </ScrollViewer>
+        </DockPanel>
+      </Border>
+    </Grid>
+    <GridSplitter Grid.Row="4" Height="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" ToolTip="Drag to resize output" />
+    <Border x:Name="OutputPanel" Grid.Row="5" Style="{StaticResource Panel}">
+      <Grid>
+        <TabControl SelectedIndex="{Binding OutputTab}">
+          <TabItem Header="OUTPUT">
+            <Grid Margin="12,10">
+              <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+              <TextBox x:Name="OutputBox" Text="{Binding SelectedRun.Output, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" Background="Transparent" Padding="2" FontFamily="Consolas" FontSize="12" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" TextChanged="OutputBox_TextChanged" AutomationProperties.Name="Command output" Visibility="{Binding HasRun, Converter={StaticResource BoolVisibility}}" />
+              <TextBlock Text="{Binding EmptyOutput}" FontFamily="Consolas" FontSize="12" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Visibility="{Binding HasRun, Converter={StaticResource InverseVisibility}}" />
+              <Border Grid.Row="1" BorderBrush="#286246" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,8,0,0" Visibility="{Binding HasPrompt, Converter={StaticResource BoolVisibility}}">
+                <StackPanel>
+                  <TextBlock Text="{Binding Prompt}" TextWrapping="Wrap" Foreground="{StaticResource MintBrush}" Margin="0,0,0,6" />
+                  <DockPanel>
+                    <Button DockPanel.Dock="Right" Content="Send answer" Command="{Binding SendAnswerCommand}" Margin="8,0,0,0" Padding="12,5" />
+                    <TextBox x:Name="AnswerBox" Text="{Binding Answer, UpdateSourceTrigger=PropertyChanged}" MaxLength="16000" FontFamily="Consolas" Padding="6" KeyDown="AnswerBox_KeyDown" AutomationProperties.Name="Answer the Toolkit question" ToolTip="Your answer goes to the existing Toolkit question. Leave blank and send to submit Enter." />
+                  </DockPanel>
+                </StackPanel>
+              </Border>
+            </Grid>
+          </TabItem>
+          <TabItem Header="FINDINGS">
+            <DockPanel Margin="14,10">
+              <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedRun.Summary, TargetNullValue='Run a guided workflow or 175 to see diagnostic findings.'}" FontFamily="Consolas" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,8" />
+              <ListBox ItemsSource="{Binding SelectedRun.Findings}" AutomationProperties.Name="Diagnostic findings">
+                <ListBox.ItemTemplate><DataTemplate>
+                  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="80" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Status}" Foreground="{Binding Status, Converter={StaticResource StatusBrush}}" FontFamily="Consolas" FontSize="11" />
+                    <StackPanel Grid.Column="1"><TextBlock Text="{Binding Check}" FontWeight="SemiBold" /><TextBlock Text="{Binding Summary}" TextWrapping="Wrap" FontSize="12" Margin="0,3" /><TextBlock Text="{Binding Detail}" TextWrapping="Wrap" FontSize="11" Foreground="{StaticResource MutedBrush}" /></StackPanel>
+                  </Grid>
+                </DataTemplate></ListBox.ItemTemplate>
+              </ListBox>
+            </DockPanel>
+          </TabItem>
+          <TabItem Header="HISTORY">
+            <DockPanel Margin="12,8">
+              <TextBlock DockPanel.Dock="Top" Text="This session only · select a run, then open Output or Findings" Style="{StaticResource Label}" Margin="4,0,0,6" />
+              <ListBox ItemsSource="{Binding History}" SelectedItem="{Binding SelectedRun}" IsEnabled="{Binding HistoryEnabled}" AutomationProperties.Name="Run history">
+                <ListBox.ItemTemplate><DataTemplate>
+                  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="80" /><ColumnDefinition Width="48" /><ColumnDefinition Width="*" /><ColumnDefinition Width="210" /></Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding TimeLabel}" FontFamily="Consolas" Foreground="{StaticResource MutedBrush}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Id}" FontFamily="Consolas" Foreground="{StaticResource AmberBrush}" />
+                    <TextBlock Grid.Column="2" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="3" Text="{Binding Status}" Foreground="{StaticResource MintBrush}" FontSize="12" />
+                  </Grid>
+                </DataTemplate></ListBox.ItemTemplate>
+              </ListBox>
+            </DockPanel>
+          </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,8,0">
+          <Button Content="Open TXT" Command="{Binding OpenTextCommand}" Padding="9,4" FontSize="10" Margin="0,0,6,0" />
+          <Button Content="Open JSON" Command="{Binding OpenJsonCommand}" Padding="9,4" FontSize="10" />
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Grid Grid.Row="6" Margin="1,7,0,0">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+      <StackPanel Orientation="Horizontal"><Ellipse Width="5" Height="5" Fill="{StaticResource MintBrush}" Margin="0,0,8,0" /><TextBlock Text="{Binding Status}" Style="{StaticResource Label}" VerticalAlignment="Center" /></StackPanel>
+      <Button Grid.Column="1" Content="Stop check" Command="{Binding StopCommand}" Padding="8,1" FontSize="10" Visibility="{Binding Busy, Converter={StaticResource BoolVisibility}}" />
+    </Grid>
+  </Grid>
+</Window>
