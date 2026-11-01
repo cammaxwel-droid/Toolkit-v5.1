@@ -13,12 +13,18 @@ A menu-driven **Windows 11 troubleshooting, diagnostics and repair toolkit** bui
 
 | Version | Download or source | Requirements |
 | --- | --- | --- |
-| Original command-prompt Toolkit V5.1 | [Original Toolkit ZIP](Toolkit-V5.1-GitHub.zip) | Windows 11 and Windows PowerShell 5.1 |
-| Toolkit Desktop 0.3.2 | [Desktop releases](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases) · [Desktop source](Toolkit-V5.1-GitHub/Toolkit-Desktop/) | Windows 11 x64 and [.NET 10 Windows Desktop Runtime, x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
+| Original command-prompt Toolkit V5.1 | [Console ZIP — 156 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-V5.1-Console.zip) | Windows 11 and Windows PowerShell 5.1 |
+| Toolkit Desktop 0.3.2 | [Desktop ZIP — 385 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-Desktop-0.3.2-Windows-x64.zip) · [Desktop source](Toolkit-V5.1-GitHub/Toolkit-Desktop/) | Windows 11 x64 and [.NET 10 Windows Desktop Runtime, x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
 
-The first desktop release is being prepared as a draft. Its tested ZIP will include the matching, unchanged Toolkit V5.1 and both launch methods. Until that release is published, the desktop can be built from source using the instructions below. The original Toolkit download remains available.
+Desktop 0.3.2 is available as a **pre-release**. Its ZIP includes the matching, unchanged Toolkit V5.1 and both launch methods. See the [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.2) and [download checksums](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/SHA256SUMS.txt).
 
-For a published desktop package, extract the whole ZIP and open `Start-Toolkit-Desktop.cmd`. Keep `Toolkit-Desktop` and `Toolkit-V5.1` together. To use the console instead, open `Toolkit-V5.1/Start-Toolkit.cmd` as administrator.
+## Desktop quick start
+
+1. Install the .NET 10 **Windows Desktop Runtime for x64** if it is not already installed. The SDK is only needed to build the source.
+2. Download the **Desktop ZIP** above and use **Extract All** to put the whole package in its own folder.
+3. Open `Start-Toolkit-Desktop.cmd` and approve the Administrator prompt.
+
+Keep `Toolkit-Desktop` and `Toolkit-V5.1` together. To use the original console instead, right-click `Toolkit-V5.1/Start-Toolkit.cmd` and choose **Run as administrator**. The download is portable; it does not install itself or create shortcuts automatically.
 
 The desktop connects all 180 main commands and 51 Repair Kit commands, including the four existing guided workflows. The original questions and confirmations remain in place; 13 commands retain a console for native input or menus. Read the [desktop instructions and testing limits](Toolkit-V5.1-GitHub/Toolkit-Desktop/README.md) before using it.
 
@@ -34,7 +40,7 @@ Then open `Toolkit-V5.1-GitHub/Start-Toolkit-Desktop.cmd`. The build reads the e
 
 ## Original Toolkit quick start
 
-1. Download `Toolkit-V5.1-GitHub.zip` from this repository (open the file, then click **Download**).
+1. Download the **Console ZIP** from the table above.
 2. Right-click the zip → **Properties** → tick **Unblock** if it appears → **OK**.
 3. Extract it into its own folder. Do not run it from inside the zip.
 4. Open the `Toolkit-V5.1` folder, right-click `Start-Toolkit.cmd` and choose **Run as administrator**.
@@ -45,10 +51,12 @@ Then open `Toolkit-V5.1-GitHub/Start-Toolkit-Desktop.cmd`. The build reads the e
 In PowerShell, in the folder containing the zip:
 
 ```powershell
-Get-FileHash .\Toolkit-V5.1-GitHub.zip -Algorithm SHA256
+Get-FileHash .\Toolkit-Desktop-0.3.2-Windows-x64.zip -Algorithm SHA256
 ```
 
-Compare the result with `Toolkit-V5.1-GitHub.zip.sha256` in this repository.
+Compare the result with the matching filename in [SHA256SUMS.txt](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/SHA256SUMS.txt). The same file also lists the console ZIP checksum.
+
+The earlier [original Toolkit archive](Toolkit-V5.1-GitHub.zip) and its [checksum](Toolkit-V5.1-GitHub.zip.sha256) remain available unchanged.
 
 ## Privacy
 

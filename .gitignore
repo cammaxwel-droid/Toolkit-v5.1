@@ -14,3 +14,7 @@ Windows11-ToolkitV*-Reports/
 RepairKit-Reports/
 Windows11-RepairKit-Reports/
 PowerPlan-Undo.json
+
+# Local desktop release preparation and preserved checkpoints.
+desktop-release-staging/
+desktop-checkpoints/
