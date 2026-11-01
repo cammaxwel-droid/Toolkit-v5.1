@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Toolkit.Desktop</AssemblyName>
+    <RootNamespace>Toolkit.Desktop</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\Toolkit_Amber_Thin_Rounded_Glow.ico</ApplicationIcon>
+    <Version>0.3.2</Version>
+    <Product>Toolkit V5.1 Desktop</Product>
+    <Description>Desktop access to all existing Toolkit V5.1 commands</Description>
+    <DebugType>none</DebugType>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Catalog.json" />
+    <Resource Include="Assets\Toolkit_Amber_Thin_Rounded_Glow.ico" />
+    <Content Include="Worker.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="PromptBridge.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Remove="tests\**\*.cs" />
+    <None Remove="tests\**" />
+  </ItemGroup>
+</Project>
