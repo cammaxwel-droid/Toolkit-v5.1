@@ -4,7 +4,7 @@ The separate WPF desktop app provides access to the original Toolkit: **001–18
 
 ## Open it
 
-Download the desktop ZIP from [Releases](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases) when available, and extract it completely. The first desktop release is currently being prepared as a draft. The package targets Windows 11 x64 and requires the [.NET 10 Windows Desktop Runtime for x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0), installed separately. The SDK is only needed to build the source.
+Download the [Desktop 0.3.2 ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-Desktop-0.3.2-Windows-x64.zip) and extract it completely. This is a published pre-release; [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.2) describe the checks and remaining runtime limits. The package targets Windows 11 x64 and requires the [.NET 10 Windows Desktop Runtime for x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0), installed separately. The SDK is only needed to build the source.
 
 Double-click `app\Toolkit.Desktop.exe`, or `Start-Toolkit-Desktop.cmd` in the parent folder. Approve the Windows Administrator prompt. Keep `Toolkit-Desktop` beside `Toolkit-V5.1`; the pair can be moved together. The original console remains available at `Toolkit-V5.1\Start-Toolkit.cmd` (Run as administrator).
 
