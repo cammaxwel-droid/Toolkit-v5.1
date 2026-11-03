@@ -16,7 +16,7 @@ A menu-driven **Windows 11 troubleshooting, diagnostics and repair toolkit** bui
 | Original command-prompt Toolkit V5.1 | [Console ZIP — 156 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-V5.1-Console.zip) | Windows 11 and Windows PowerShell 5.1 |
 | Toolkit Desktop 0.3.2 | [Desktop ZIP — 385 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-Desktop-0.3.2-Windows-x64.zip) · [Desktop source](Toolkit-V5.1-GitHub/Toolkit-Desktop/) | Windows 11 x64 and [.NET 10 Windows Desktop Runtime, x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
 
-Desktop 0.3.2 is available as a **pre-release**. Its ZIP includes the matching, unchanged Toolkit V5.1 and both launch methods. See the [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.2) and [download checksums](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/SHA256SUMS.txt).
+Desktop 0.3.2 is available as a full release. Its ZIP includes the matching, unchanged Toolkit V5.1 and both launch methods. See the [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.2) and [download checksums](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/SHA256SUMS.txt).
 
 ## Desktop quick start
 
