@@ -9,6 +9,8 @@ A menu-driven **Windows 11 troubleshooting, diagnostics and repair toolkit** bui
 - The original console package contains no bundled executables. The optional desktop package includes a compiled WPF app that runs the same Toolkit scripts.
 - No API keys and no Windows Insider changes.
 
+![Toolkit Desktop main window showing the searchable command catalog, command details and output panel](docs/images/desktop-main-window.png)
+
 ## Choose how to open Toolkit
 
 | Version | Download or source | Requirements |
