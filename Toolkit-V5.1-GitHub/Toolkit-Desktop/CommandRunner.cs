@@ -9,10 +9,28 @@ namespace Toolkit.Desktop;
 public interface IProcessTransport
 {
     Task<ProcessResult> ExecuteAsync(ProcessStartInfo startInfo, Action<OutputLine> onLine, CancellationToken cancellationToken);
+    Task<bool> SendInputAsync(string line);
 }
 
 public sealed class ProcessTransport(Func<string, CancellationToken, Task<string>>? answerPrompt = null) : IProcessTransport
 {
+    private readonly SemaphoreSlim _inputGate = new(1, 1);
+    private StreamWriter? _activeInput;
+
+    public async Task<bool> SendInputAsync(string line)
+    {
+        await _inputGate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (_activeInput == null) return false;
+            await _activeInput.WriteLineAsync(line).ConfigureAwait(false);
+            await _activeInput.FlushAsync().ConfigureAwait(false);
+            return true;
+        }
+        catch (Exception ex) when (ex is IOException or ObjectDisposedException) { return false; }
+        finally { _inputGate.Release(); }
+    }
+
     public async Task<ProcessResult> ExecuteAsync(ProcessStartInfo startInfo, Action<OutputLine> onLine, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -22,16 +40,15 @@ public sealed class ProcessTransport(Func<string, CancellationToken, Task<string
         var hadErrors = false;
         var cancelled = false;
         if (!process.Start()) throw new IOException("Windows could not start the command worker.");
-        if (!startInfo.RedirectStandardOutput)
+        if (startInfo.RedirectStandardInput)
         {
-            // A real console keeps native program input (including WinGet) intact.
-            // Never terminate installers or repairs when the desktop token is cancelled.
-            await process.WaitForExitAsync().ConfigureAwait(false);
-            return new(process.ExitCode, "", false, false);
+            await _inputGate.WaitAsync().ConfigureAwait(false);
+            try { _activeInput = process.StandardInput; }
+            finally { _inputGate.Release(); }
         }
         startInfo.Environment.TryGetValue("TOOLKIT_DESKTOP_CHANNEL", out var channel);
         var prefix = string.IsNullOrEmpty(channel) ? null : "@@TOOLKIT_PROMPT:" + channel + ":";
-        if (prefix == null) process.StandardInput.Close();
+        if (prefix == null && startInfo.RedirectStandardInput) process.StandardInput.Close();
         using var lifetime = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         void StopWorker()
         {
@@ -51,8 +68,8 @@ public sealed class ProcessTransport(Func<string, CancellationToken, Task<string
                     if (answer.Length > 16_000 || answer.Contains('\n') || answer.Contains('\r'))
                         throw new InvalidDataException("Enter a single line as the answer.");
                     // Encoding transports text only. Nothing here evaluates an answer as PowerShell.
-                    await process.StandardInput.WriteLineAsync(Convert.ToBase64String(Encoding.UTF8.GetBytes(answer))).ConfigureAwait(false);
-                    await process.StandardInput.FlushAsync().ConfigureAwait(false);
+                    if (!await SendInputAsync(Convert.ToBase64String(Encoding.UTF8.GetBytes(answer))).ConfigureAwait(false))
+                        throw new IOException("The desktop input channel closed before the answer was sent.");
                     raw = question + ": " + answer;
                 }
                 // Clear-Host can emit terminal controls; WPF displays plain text.
@@ -86,6 +103,9 @@ public sealed class ProcessTransport(Func<string, CancellationToken, Task<string
         try { await drained.ConfigureAwait(false); }
         catch (OperationCanceledException) when (cancelled) { }
         await Task.WhenAll(guardOut, guardError).ConfigureAwait(false);
+        await _inputGate.WaitAsync().ConfigureAwait(false);
+        try { _activeInput = null; }
+        finally { _inputGate.Release(); }
         return new(process.ExitCode, output.ToString(), hadErrors, cancelled);
     }
 }
@@ -93,6 +113,7 @@ public sealed class ProcessTransport(Func<string, CancellationToken, Task<string
 public interface ICommandRunner
 {
     Task<RunResult> RunAsync(string id, Action<OutputLine> onLine, CancellationToken cancellationToken);
+    Task<bool> SendTerminalInputAsync(string line);
 }
 
 public sealed class CommandRunner : ICommandRunner
@@ -103,18 +124,16 @@ public sealed class CommandRunner : ICommandRunner
     private readonly string _reportFolder;
     private readonly IProcessTransport _transport;
     private readonly Func<bool> _isAdministrator;
-    private readonly string _consoleLogFolder;
     private int _running;
 
     public CommandRunner(Catalog catalog, string root, string? workerPath = null, IProcessTransport? transport = null,
-        Func<bool>? isAdministrator = null, string? reportFolder = null, string? consoleLogFolder = null)
+        Func<bool>? isAdministrator = null, string? reportFolder = null)
     {
         _catalog = catalog; _root = root;
         _workerPath = workerPath ?? Path.Combine(AppContext.BaseDirectory, "Worker.ps1");
         _transport = transport ?? new ProcessTransport();
         _isAdministrator = isAdministrator ?? ToolkitEnvironment.IsAdministrator;
         _reportFolder = reportFolder ?? ToolkitEnvironment.ReportsFolder;
-        _consoleLogFolder = consoleLogFolder ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToolkitDesktop", "Console");
     }
 
     public async Task<RunResult> RunAsync(string id, Action<OutputLine> onLine, CancellationToken cancellationToken)
@@ -129,49 +148,21 @@ public sealed class CommandRunner : ICommandRunner
             if (!_isAdministrator()) throw new InvalidOperationException("Start Toolkit.Desktop.exe and approve the Windows Administrator prompt before running commands.");
             await Task.Run(() => ToolkitEnvironment.VerifySources(_root, _catalog.SourceHashes), cancellationToken);
             if (!File.Exists(_workerPath)) throw new FileNotFoundException("The desktop command worker is missing. Rebuild the desktop app.");
-            var console = ExecutionPolicy.NeedsConsole(id);
-            var transcript = Path.Combine(_consoleLogFolder, $"{id}-{Guid.NewGuid():N}.txt");
             var start = DateTimeOffset.Now;
             var info = new ProcessStartInfo(ToolkitEnvironment.PowerShellPath)
             {
-                UseShellExecute = console, CreateNoWindow = !console,
-                RedirectStandardOutput = !console, RedirectStandardError = !console, RedirectStandardInput = !console,
+                UseShellExecute = false, CreateNoWindow = true,
+                RedirectStandardOutput = true, RedirectStandardError = true, RedirectStandardInput = true,
                 WorkingDirectory = _root
             };
             foreach (var arg in new[] { "-NoLogo", "-NoProfile" }) info.ArgumentList.Add(arg);
-            if (!console)
-            {
-                info.ArgumentList.Add("-NonInteractive");
-                info.StandardOutputEncoding = info.StandardErrorEncoding = info.StandardInputEncoding = new UTF8Encoding(false);
-                info.Environment["TOOLKIT_DESKTOP_CHANNEL"] = Guid.NewGuid().ToString("N");
-            }
+            info.ArgumentList.Add("-NonInteractive");
+            info.StandardOutputEncoding = info.StandardErrorEncoding = info.StandardInputEncoding = new UTF8Encoding(false);
+            info.Environment["TOOLKIT_DESKTOP_CHANNEL"] = Guid.NewGuid().ToString("N");
             foreach (var arg in new[] { "-ExecutionPolicy", "Bypass", "-File", _workerPath, "-ToolkitRoot", _root, "-ToolId", id })
                 info.ArgumentList.Add(arg);
-            if (console)
-            {
-                foreach (var arg in new[] { "-ConsoleMode", "-TranscriptPath", transcript }) info.ArgumentList.Add(arg);
-                onLine(new("Continue in the Toolkit console window. Answer its prompts there, then press Enter to return here."));
-            }
             // Only the existing three diagnostic checks offer cancellation; never interrupt a repair or installer.
             var result = await _transport.ExecuteAsync(info, onLine, ExecutionPolicy.IsCancellableCheck(id) ? cancellationToken : CancellationToken.None);
-            if (console)
-            {
-                string consoleOutput;
-                try
-                {
-                    using var reader = new StreamReader(transcript, detectEncodingFromByteOrderMarks: true);
-                    var buffer = new char[1_000_000];
-                    var length = reader.ReadBlock(buffer, 0, buffer.Length);
-                    consoleOutput = new string(buffer, 0, length) + "\nConsole record: " + transcript;
-                }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                {
-                    consoleOutput = "No console record was available. The window may have been closed before the command finished.";
-                }
-                result = result with { Output = consoleOutput };
-                if (result.ExitCode != 0) return new("Console ended · review result", result.Output + $"\nConsole exit code: {result.ExitCode}.");
-                return new("Console closed · review output", result.Output);
-            }
             if (result.Cancelled) return new("Stopped", result.Output + "\nStopped by you. This check is incomplete; any partial report is not a completed result.");
             if (result.ExitCode != 0) return new("Command failed", result.Output + $"\nPowerShell exited with code {result.ExitCode}.");
             if (id is "171" or "172" or "173" or "174" or "175")
@@ -205,6 +196,8 @@ public sealed class CommandRunner : ICommandRunner
         }
         finally { Interlocked.Exchange(ref _running, 0); }
     }
+
+    public Task<bool> SendTerminalInputAsync(string line) => _transport.SendInputAsync(line);
 }
 
 public static class ReportReader
