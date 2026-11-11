@@ -1,6 +1,6 @@
 # Plan — Toolkit V5.1 UI update
 
-**Status:** Desktop 0.3.3 shipped the three-panel candidate. Cam clarified that interactive terminal and Repair Kit activity must stay in the same app window; Desktop 0.3.4 now routes those 13 commands through the in-app output/input surface. Automated checks passed; release packaging and publication of 0.3.4 remain pending.
+**Status:** Desktop 0.3.4 is published. The main workspace, command runner, Repair Kit actions and interactive terminal input stay inside one app window.
 
 ## User direction
 
@@ -16,7 +16,7 @@
 
 - Repository: `https://github.com/cammaxwel-droid/Toolkit-v5.1`
 - Local clone: `C:\Users\cam2t\Documents\SOURCE\GitHub\Toolkit-v5.1-UI-BUFF`
-- Source base before the clarification fix: `main` at `ddb0fd4d8f206a48671f64d646d1dd7b8fbc84f9`.
+- Final source: `main` at `91de4ee644c0d3ed9bf957292d0167f0790867d3`.
 - Desktop source: `Toolkit-V5.1-GitHub\Toolkit-Desktop\` (WPF/.NET 10).
 - Original Toolkit source: `Toolkit-V5.1-GitHub\Toolkit-V5.1\`.
 - Preserve all 180 main IDs, all 51 Repair Kit IDs, original scripts, launchers, report behavior and confirmation gates.
@@ -40,12 +40,12 @@
 - The checks use fixtures and off-screen WPF renders. They did not run Toolkit diagnostics, repairs, installers or real machine operations.
 - Elevated production-worker routing was reported as not run; manual UAC and Cam's own display/scaling acceptance remain unverified.
 
-## Remaining 0.3.4 release steps
+## Release record
 
-1. Inspect the final source and docs diff; confirm the original Toolkit tree is unchanged and the old tracked archive/checksum remain untouched.
-2. Build the portable Desktop 0.3.4 package with the unchanged Toolkit, both launch methods and current README/validation files.
-3. Verify package contents and SHA-256 manifests; exclude staging, caches and this planning file from the download.
-4. Publish the updated source and Desktop 0.3.4 release with notes that state automated checks and manual limits accurately.
+- PR #12 merged the single-window terminal change into `main`.
+- Desktop 0.3.4 published at https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.4.
+- The 350 automated checks passed; real diagnostics, repairs, installers and live WinGet prompts were not executed.
+- The original Toolkit tree and console ZIP remain unchanged.
 
 ## Acceptance
 
