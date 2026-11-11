@@ -35,15 +35,15 @@ public sealed class ToolAction
     public string Section { get; set; } = "main";
     public bool Connected => ExecutionPolicy.IsConnected(Id);
     public string ConnectionLabel => Connected ? "Connected" : "Not connected yet";
-    public bool ShowRunNote => ExecutionPolicy.NeedsConsole(Id) || Risk is "CHANGE" or "REPAIR" || Id is "171" or "172" or "175";
+    public bool ShowRunNote => ExecutionPolicy.NeedsTerminalInput(Id) || Risk is "CHANGE" or "REPAIR" || Id is "171" or "172" or "175";
     public string Shortcut => Id switch { "171" => "A", "172" => "B", "173" => "C", "174" => "D", _ => "" };
     public string DisplayTitle => Id switch
     {
         "171" => "General Diagnostics", "172" => "Deep Diagnostics",
         "173" => "General Repair (guided)", "174" => "Deep Repair (guided)", _ => Title
     };
-    public string RunNote => ExecutionPolicy.NeedsConsole(Id)
-        ? "Opens the existing command in a console window. Answer its prompts there; press Enter when finished to return here."
+    public string RunNote => ExecutionPolicy.NeedsTerminalInput(Id)
+        ? "Runs in this window. Answer Toolkit questions below the output; use terminal input for WinGet prompts."
         : Id switch
     {
         "002" => "Opens Windows File Explorer.",
@@ -100,7 +100,7 @@ public static class ExecutionPolicy
 {
     public static bool IsWindowLauncher(string id) => id is "002" or "003" or "004" or "005" or "007" or "008" or "011";
     public static bool IsCancellableCheck(string id) => id is "052" or "175" or "171";
-    public static bool NeedsConsole(string id) => id is "018" or "019" or "020" or "050" or "116" or "121" or "131" or "146" or "149" or "158" or "166" or "R41" or "R42";
+    public static bool NeedsTerminalInput(string id) => id is "018" or "019" or "020" or "050" or "116" or "121" or "131" or "146" or "149" or "158" or "166" or "R41" or "R42";
     public static bool IsConnected(string id) => System.Text.RegularExpressions.Regex.IsMatch(id,
         @"\A(?:00[1-9]|0[1-9][0-9]|1[0-7][0-9]|180|R0[1-9]|R[1-4][0-9]|R5[01])\z");
     public static void EnsureConnected(string id)

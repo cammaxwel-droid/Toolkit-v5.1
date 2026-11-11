@@ -1,6 +1,6 @@
 # Plan — Toolkit V5.1 UI update
 
-**Status:** The three-panel candidate is implemented locally and passed the documented automated checks. Packaging and the public 0.3.3 release are still pending.
+**Status:** Desktop 0.3.3 shipped the three-panel candidate. Cam clarified that interactive terminal and Repair Kit activity must stay in the same app window; Desktop 0.3.4 now routes those 13 commands through the in-app output/input surface. Automated checks passed; release packaging and publication of 0.3.4 remain pending.
 
 ## User direction
 
@@ -9,13 +9,14 @@
 - Use one large main desktop panel on the left, about three fifths of the width.
 - Use two stacked panels in the right two fifths: the command runner above, with a lower tab area for Repair Kit actions or terminal output, findings and history.
 - Provide a rotate control for a taller arrangement: the main panel across the top and the runner/output panels side by side below.
+- Keep command execution, terminal prompts and Repair Kit activity inside the same app window; do not open a separate console for desktop-run commands.
 - Keep the layout fitted to the available screen and let the user resize the panels.
 
 ## Source and constraints
 
 - Repository: `https://github.com/cammaxwel-droid/Toolkit-v5.1`
 - Local clone: `C:\Users\cam2t\Documents\SOURCE\GitHub\Toolkit-v5.1-UI-BUFF`
-- Source base: `main` at `12ca1a93ef0c74f3ab4af4385efce312aea34d66`.
+- Source base before the clarification fix: `main` at `ddb0fd4d8f206a48671f64d646d1dd7b8fbc84f9`.
 - Desktop source: `Toolkit-V5.1-GitHub\Toolkit-Desktop\` (WPF/.NET 10).
 - Original Toolkit source: `Toolkit-V5.1-GitHub\Toolkit-V5.1\`.
 - Preserve all 180 main IDs, all 51 Repair Kit IDs, original scripts, launchers, report behavior and confirmation gates.
@@ -30,20 +31,21 @@
 - Added `Rotate Layout`; in the alternate arrangement the main screen spans the top and the runner/output panels sit side by side below.
 - Enlarged and fit the startup window to the available work area while preserving the smaller resize minimum.
 - Added landscape and rotated preview images under `docs\images\`.
+- Routed all 231 command workers through the same in-app output/input surface; replaced the 13 separate console windows with in-window terminal input while retaining the original Toolkit scripts.
 
 ## Verification evidence
 
-- `Build-Desktop.ps1 -Verify`: 348 checks passed.
+- `Build-Desktop.ps1 -Verify`: 350 checks passed.
 - Coverage includes all 231 commands, all Repair Kit categories, selection into the shared runner, prompt layout at compact size, both arrangements, 150% rendering, startup bounds and no binding warnings.
 - The checks use fixtures and off-screen WPF renders. They did not run Toolkit diagnostics, repairs, installers or real machine operations.
 - Elevated production-worker routing was reported as not run; manual UAC and Cam's own display/scaling acceptance remain unverified.
 
-## Remaining release steps
+## Remaining 0.3.4 release steps
 
 1. Inspect the final source and docs diff; confirm the original Toolkit tree is unchanged and the old tracked archive/checksum remain untouched.
-2. Build the portable Desktop 0.3.3 package with the unchanged Toolkit, both launch methods and current README/validation files.
+2. Build the portable Desktop 0.3.4 package with the unchanged Toolkit, both launch methods and current README/validation files.
 3. Verify package contents and SHA-256 manifests; exclude staging, caches and this planning file from the download.
-4. Publish the updated source and Desktop 0.3.3 release with notes that state automated checks and manual limits accurately.
+4. Publish the updated source and Desktop 0.3.4 release with notes that state automated checks and manual limits accurately.
 
 ## Acceptance
 

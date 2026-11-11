@@ -145,12 +145,21 @@ public partial class MainWindow : Window
         ViewModel.SendAnswerCommand.Execute(null); e.Handled = true;
     }
 
+    private void TerminalInputBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && DataContext is MainViewModel vm && vm.SendTerminalInputCommand.CanExecute(null))
+        {
+            vm.SendTerminalInputCommand.Execute(null);
+            e.Handled = true;
+        }
+    }
+
     private void WindowClosing(object? sender, CancelEventArgs e)
     {
         if (!ViewModel.Busy) return;
         e.Cancel = true;
         ViewModel.Notice = ViewModel.HasPrompt ? "The Toolkit is waiting for your answer below the output. Answer its question before closing."
-            : "A command is running. Finish it in the output area or its console window before closing.";
+            : "A command is running. Finish it in the output area before closing.";
     }
 
     private void SetTitleBar()

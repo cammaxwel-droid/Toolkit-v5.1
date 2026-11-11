@@ -131,12 +131,12 @@ internal static class Program
             var route = transport.Last!.ArgumentList.ToList();
             Check(route[route.IndexOf("-ToolId") + 1] == tool.Id && route[route.IndexOf("-ToolkitRoot") + 1] == root
                 && !route.Contains("-ElevatedCall") && !route.Contains("-Command"), tool.Id + " dispatches the exact existing ID without preapproval");
-            var console = ExecutionPolicy.NeedsConsole(tool.Id);
-            if (transport.Last.UseShellExecute != console || transport.Last.RedirectStandardInput == console
-                || route.Contains("-NonInteractive") == console || route.Contains("-ConsoleMode") != console)
+            if (transport.Last.UseShellExecute || !transport.Last.CreateNoWindow || !transport.Last.RedirectStandardInput
+                || !transport.Last.RedirectStandardOutput || !transport.Last.RedirectStandardError
+                || !route.Contains("-NonInteractive") || route.Contains("-ConsoleMode"))
                 throw new Exception("Wrong transport mode for " + tool.Id);
         }
-        Check(catalog.Tools.Count(t => ExecutionPolicy.NeedsConsole(t.Id)) == 13, "Native-input commands retain a real console; 218 commands use the desktop streams");
+        Check(catalog.Tools.Count(t => ExecutionPolicy.NeedsTerminalInput(t.Id)) == 13, "Interactive actions expose terminal input inside the app window");
         transport.Next = new(0, "Cancelled.\n", false, false);
         Check((await runner.RunAsync("R48", _ => { }, default)).Status == "Cancelled", "Declined changes remain cancelled");
         transport.Next = new(0, "COMPLETED", false, false);
@@ -211,6 +211,17 @@ internal static class Program
         await entered.Task.WaitAsync(TimeSpan.FromSeconds(20)); stop.Cancel();
         var cancelled = await pending.WaitAsync(TimeSpan.FromSeconds(15));
         Check(cancelled.Cancelled, "Stop terminates the fixture worker and drains its output");
+
+        File.WriteAllText(fixture, "[Console]::WriteLine('terminal ready')\n$line=[Console]::In.ReadLine()\n[Console]::WriteLine('terminal received:'+ $line)\nexit 0", new UTF8Encoding(true));
+        var transport = new ProcessTransport();
+        var terminalReady = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var terminalInfo = FixtureStart(fixture);
+        terminalInfo.Environment["TOOLKIT_DESKTOP_CHANNEL"] = Guid.NewGuid().ToString("N");
+        var terminal = transport.ExecuteAsync(terminalInfo, line => { if (line.Text.Contains("terminal ready")) terminalReady.TrySetResult(); }, default);
+        await terminalReady.Task.WaitAsync(TimeSpan.FromSeconds(20));
+        Check(await transport.SendInputAsync("fixture input"), "In-window terminal input reaches redirected PowerShell stdin");
+        var terminalResult = await terminal.WaitAsync(TimeSpan.FromSeconds(20));
+        Check(terminalResult.ExitCode == 0 && terminalResult.Output.Contains("terminal received:fixture input"), "Terminal input returns through the same output stream");
     }
 
     private static async Task PromptChecks()
@@ -265,7 +276,7 @@ internal static class Program
             Directory.CreateDirectory(Path.Combine(root, "repair-kit", "src"));
             File.WriteAllText(Path.Combine(root, "src", "Toolkit.ps1"), "param([string]$ToolId)\nWrite-Host ('MAIN:'+ $ToolId)\n$value=Read-Host 'Fixture answer'\nWrite-Host ('REPLY:'+ $value)\nexit 0");
             File.WriteAllText(Path.Combine(root, "repair-kit", "src", "RepairKit.ps1"), "param([string]$ToolId)\nWrite-Host ('REPAIR:'+ $ToolId)\n$value=Read-Host 'Fixture answer'\nWrite-Host ('REPLY:'+ $value)\nexit 0");
-            foreach (var id in new[] { "003", "081", "171", "174", "R01", "R40", "R51" })
+            foreach (var id in new[] { "003", "018", "081", "171", "174", "R01", "R40", "R51" })
             {
                 var worker = FixtureStart(Path.Combine(_desktop, "Worker.ps1"));
                 foreach (var arg in new[] { "-ToolkitRoot", root, "-ToolId", id }) worker.ArgumentList.Add(arg);
@@ -274,10 +285,7 @@ internal static class Program
                 Check(routed.ExitCode == 0 && routed.Output.Contains((id.StartsWith('R') ? "REPAIR:" : "MAIN:") + id)
                     && routed.Output.Contains("REPLY:fixture reply"), "Actual worker routes " + id + " to the correct stub script and passes its answer");
             }
-            var nativeGuard = FixtureStart(Path.Combine(_desktop, "Worker.ps1"));
-            foreach (var arg in new[] { "-ToolkitRoot", root, "-ToolId", "018" }) nativeGuard.ArgumentList.Add(arg);
-            var rejected = await new ProcessTransport().ExecuteAsync(nativeGuard, _ => { }, default);
-            Check(rejected.ExitCode != 0 && rejected.Output.Contains("assigned desktop or console mode") && !rejected.Output.Contains("MAIN:"), "Native input cannot accidentally run through hidden streams");
+            Check(true, "Previously separate-console command 018 routes through the in-window worker");
         }
         else Console.WriteLine("NOT RUN: production-worker stub routing needs an Administrator test process.");
     }
@@ -436,12 +444,14 @@ internal static class Program
         public int Calls; public ProcessStartInfo? Last;
         public ProcessResult Next = new(0, "", false, false);
         public Task<ProcessResult> ExecuteAsync(ProcessStartInfo info, Action<OutputLine> onLine, CancellationToken token) { Calls++; Last = info; return Task.FromResult(Next); }
+        public Task<bool> SendInputAsync(string line) => Task.FromResult(false);
     }
     private sealed class HeldTransport : IProcessTransport
     {
         public TaskCompletionSource Entered = new(TaskCreationOptions.RunContinuationsAsynchronously);
         public TaskCompletionSource<ProcessResult> Completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
         public Task<ProcessResult> ExecuteAsync(ProcessStartInfo info, Action<OutputLine> onLine, CancellationToken token) { Entered.SetResult(); return Completion.Task; }
+        public Task<bool> SendInputAsync(string line) => Task.FromResult(false);
     }
     private sealed class FakeCommandRunner : ICommandRunner
     {
@@ -453,5 +463,6 @@ internal static class Program
             if (Ask != null) LastAnswer = await Ask();
             return new RunResult("Fixture completed", "fixture output");
         }
+        public Task<bool> SendTerminalInputAsync(string line) => Task.FromResult(false);
     }
 }

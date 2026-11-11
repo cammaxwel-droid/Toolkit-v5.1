@@ -46,12 +46,16 @@ public sealed class MainViewModel : Observable
     public UiCommand OpenJsonCommand { get; }
     public UiCommand ClearSearchCommand { get; }
     public UiCommand SendAnswerCommand { get; }
+    public UiCommand SendTerminalInputCommand { get; }
     private TaskCompletionSource<string>? _answerRequest;
     public bool HasPrompt => _answerRequest != null;
+    public bool ShowTerminalInput => Busy && _activeRun != null && ExecutionPolicy.NeedsTerminalInput(_activeRun.Id) && !HasPrompt;
     private string _prompt = "";
     public string Prompt { get => _prompt; private set => Set(ref _prompt, value); }
     private string _answer = "";
     public string Answer { get => _answer; set => Set(ref _answer, value); }
+    private string _terminalInput = "";
+    public string TerminalInput { get => _terminalInput; set { if (Set(ref _terminalInput, value)) SendTerminalInputCommand.Refresh(); } }
     public int ConnectedCount => _catalog.Tools.Count(tool => tool.Connected);
     public string CatalogSummary => $"{_catalog.Tools.Count} COMMANDS  /  {ConnectedCount} CONNECTED";
     private string _query = "";
@@ -83,7 +87,7 @@ public sealed class MainViewModel : Observable
     }
     public bool HasSelection => SelectedTool != null;
     private bool _busy;
-    public bool Busy { get => _busy; private set { Set(ref _busy, value); Changed(nameof(RunLabel)); Changed(nameof(HistoryEnabled)); RunCommand.Refresh(); StopCommand.Refresh(); } }
+    public bool Busy { get => _busy; private set { Set(ref _busy, value); Changed(nameof(RunLabel)); Changed(nameof(HistoryEnabled)); Changed(nameof(ShowTerminalInput)); RunCommand.Refresh(); StopCommand.Refresh(); SendTerminalInputCommand.Refresh(); } }
     public bool HistoryEnabled => !Busy;
     public string RunLabel => Busy ? "Command running…" : SelectedTool == null ? "Select a command" : SelectedTool.Connected ? $"Run {SelectedTool.Id}  →" : "Not connected yet";
     private string _status = "Ready";
@@ -119,6 +123,7 @@ public sealed class MainViewModel : Observable
         ClearSearchCommand = new(() => Query = "");
         SendAnswerCommand = new(() => { _answerRequest?.TrySetResult(Answer); SendAnswerCommand!.Refresh(); },
             () => _answerRequest != null && !_answerRequest.Task.IsCompleted);
+        SendTerminalInputCommand = new(async () => await SendTerminalInputAsync(), () => ShowTerminalInput);
         Navigation.Add(new("all", "All commands", "231", "Main toolkit and Repair Kit"));
         Navigation.Add(new("connected", "Connected commands", ConnectedCount.ToString(), "Commands currently available in this desktop build"));
         Navigation.Add(new("workflows", "Guided workflows", "A–D", "171–174; existing diagnostics and individually confirmed repairs"));
@@ -130,7 +135,7 @@ public sealed class MainViewModel : Observable
         else if (!isAdministrator) Notice = "Browsing is available. To run commands, open Toolkit.Desktop.exe and approve its Windows Administrator prompt.";
         _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, (_, _) =>
         {
-            if (Busy && _activeRun != null) Status = $"{(HasPrompt ? "Waiting for your answer" : ExecutionPolicy.NeedsConsole(_activeRun.Id) ? "Continue in console" : "Running")} {_activeRun.Id} · {_elapsed.Elapsed:mm\\:ss} elapsed";
+            if (Busy && _activeRun != null) Status = $"{(HasPrompt ? "Waiting for your answer" : ShowTerminalInput ? "Terminal ready" : "Running")} {_activeRun.Id} · {_elapsed.Elapsed:mm\\:ss} elapsed";
         }, _dispatcher);
         _timer.Stop();
     }
@@ -151,7 +156,7 @@ public sealed class MainViewModel : Observable
             if (_answerRequest != null) throw new InvalidOperationException("A command is already waiting for an answer.");
             _answerRequest = request; Prompt = question; Answer = "";
             SelectedRun = _activeRun; OutputTab = 0;
-            Changed(nameof(HasPrompt)); SendAnswerCommand.Refresh();
+            Changed(nameof(HasPrompt)); Changed(nameof(ShowTerminalInput)); SendAnswerCommand.Refresh(); SendTerminalInputCommand.Refresh();
         });
         using var cancelled = token.Register(() => request.TrySetCanceled(token));
         try { return await request.Task.ConfigureAwait(false); }
@@ -160,7 +165,7 @@ public sealed class MainViewModel : Observable
             await _dispatcher.InvokeAsync(() =>
             {
                 _answerRequest = null; Prompt = ""; Answer = "";
-                Changed(nameof(HasPrompt)); SendAnswerCommand.Refresh();
+                Changed(nameof(HasPrompt)); Changed(nameof(ShowTerminalInput)); SendAnswerCommand.Refresh(); SendTerminalInputCommand.Refresh();
             });
         }
     }
@@ -170,7 +175,7 @@ public sealed class MainViewModel : Observable
         if (!RunCommand.CanExecute(null) || SelectedTool == null) return;
         var tool = SelectedTool;
         var run = new RunRecord { Id = tool.Id, Title = tool.DisplayTitle };
-        _activeRun = run; History.Insert(0, run);
+        _activeRun = run; Changed(nameof(ShowTerminalInput)); TerminalInput = ""; History.Insert(0, run);
         if (History.Count > 50) History.RemoveAt(History.Count - 1);
         SelectedRun = run; OutputTab = 0; Notice = "";
         _cancellation = new CancellationTokenSource(); Busy = true;
@@ -192,6 +197,20 @@ public sealed class MainViewModel : Observable
             _cancellation.Dispose(); _cancellation = null;
             OpenTextCommand.Refresh(); OpenJsonCommand.Refresh();
         }
+    }
+
+    public async Task SendTerminalInputAsync()
+    {
+        if (!ShowTerminalInput || _activeRun == null) return;
+        var line = TerminalInput;
+        if (!await _runner.SendTerminalInputAsync(line))
+        {
+            Status = "Terminal input is no longer available";
+            return;
+        }
+        _activeRun.Append(new OutputLine("> " + line));
+        TerminalInput = "";
+        Status = $"Input sent to {_activeRun.Id}";
     }
 
     private void CopyPreview()
