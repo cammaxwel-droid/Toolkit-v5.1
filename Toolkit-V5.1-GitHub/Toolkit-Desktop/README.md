@@ -4,11 +4,11 @@ The separate WPF desktop app provides access to the original Toolkit: **001–18
 
 ## Open it
 
-Download the [Desktop 0.3.2 ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-Desktop-0.3.2-Windows-x64.zip) and extract it completely. This is a published full release; [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.2) describe the checks and remaining runtime limits. The package targets Windows 11 x64 and requires the [.NET 10 Windows Desktop Runtime for x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0), installed separately. The SDK is only needed to build the source.
+Download the [Desktop 0.3.3 ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.3/Toolkit-Desktop-0.3.3-Windows-x64.zip) and extract it completely. [Release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.3) describe the checks and remaining runtime limits. The package targets Windows 11 x64 and requires the [.NET 10 Windows Desktop Runtime for x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0), installed separately. The SDK is only needed to build the source.
 
 Double-click `app\Toolkit.Desktop.exe`, or `Start-Toolkit-Desktop.cmd` in the parent folder. Approve the Windows Administrator prompt. Keep `Toolkit-Desktop` beside `Toolkit-V5.1`; the pair can be moved together. The original console remains available at `Toolkit-V5.1\Start-Toolkit.cmd` (Run as administrator).
 
-The app opens at its minimum size (1000 × 680, or smaller when display scaling leaves less usable screen space), with space above the title bar. Its position is fitted before the window is shown. You can resize it afterward.
+The app opens at up to 1500 × 900, fitted within the current monitor work area with space above the title bar. Its resize minimum is 1000 × 680, or smaller when display scaling leaves less usable space. You can resize it afterward.
 
 The executable and app window use the supplied `Toolkit_Amber_Thin_Rounded_Glow.ico`, preserving all ten sizes. A copy is kept in `Assets`; the original icon is unchanged.
 
@@ -24,7 +24,9 @@ Select a command, review its description, then select **Run**. One command runs 
 - Commands that open Windows settings, native tools, reports or source documents use the original paths and applications.
 - A returned process is not proof that a repair succeeded. Read the original messages and check the result yourself.
 
-The accepted layout and Base44 styling are retained. The only additional control is the answer box when an existing command needs input.
+Desktop 0.3.3 places the main menu and command catalog in a wide left panel. The selected command runner occupies the upper right; the lower right switches between Toolkit output, Repair Kit actions, findings and history. **Rotate Layout** puts the main screen above the runner and output panels, placing the two right-side screens beside each other for a taller arrangement. Text and secondary labels are larger and clearer. Commands still use the original Toolkit behavior and confirmation prompts.
+
+In the wide layout, drag the vertical splitter to resize the main and right panels. Drag the right-side horizontal splitter to resize the runner and lower tabs. **Rotate Back** returns from the stacked layout. The Repair Kit tab lists all 51 actions with a category selector; selecting one updates the same runner and preserves its original confirmation flow.
 
 ## Results
 
@@ -50,6 +52,6 @@ The tests use fake process results, disposable PowerShell fixtures and off-scree
 
 ## Current stage
 
-Desktop 0.3.2 includes all command connections, the corrected initial window size and position, and the supplied app icon. The release is a portable ZIP with the original Toolkit included. No installer or uninstaller is provided, and no Start menu or desktop shortcut is created automatically. The download excludes development build caches and local test output; source and tests remain in the repository.
+Desktop 0.3.3 includes the three-panel layout, readability update, all command connections, the fitted initial window size and position, and the supplied app icon. The release is a portable ZIP with the original Toolkit included. No installer or uninstaller is provided, and no Start menu or desktop shortcut is created automatically. The download excludes development build caches and local test output; source and tests remain in the repository.
 
 The original Toolkit scripts, repair kit, documents and launchers are preserved. The desktop is a second way to access their existing behavior. Automated checks do not establish that every command or repair has been manually verified on a real machine.
