@@ -9,7 +9,7 @@
     <SolidColorBrush x:Key="MintBrush" Color="#61E8B8" />
     <SolidColorBrush x:Key="AmberBrush" Color="#E6B64E" />
     <SolidColorBrush x:Key="TextBrush" Color="#D7E2DC" />
-    <SolidColorBrush x:Key="MutedBrush" Color="#91A99D" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#B4C9BE" />
     <BooleanToVisibilityConverter x:Key="BoolVisibility" />
     <local:InverseVisibilityConverter x:Key="InverseVisibility" />
     <local:StatusBrushConverter x:Key="StatusBrush" />
@@ -18,7 +18,7 @@
     </Style>
     <Style x:Key="Label" TargetType="TextBlock">
       <Setter Property="FontFamily" Value="Consolas" />
-      <Setter Property="FontSize" Value="11" />
+      <Setter Property="FontSize" Value="12" />
       <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
     </Style>
     <Style x:Key="Panel" TargetType="Border">
@@ -35,7 +35,7 @@
       <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
       <Setter Property="Background" Value="#15231B" /><Setter Property="BorderBrush" Value="#385246" />
       <Setter Property="BorderThickness" Value="1" /><Setter Property="Padding" Value="14,8" />
-      <Setter Property="FontSize" Value="12" /><Setter Property="Cursor" Value="Hand" />
+      <Setter Property="FontSize" Value="13" /><Setter Property="Cursor" Value="Hand" />
       <Setter Property="Template"><Setter.Value>
         <ControlTemplate TargetType="Button">
           <Border x:Name="ButtonBorder" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
@@ -109,7 +109,7 @@
       </ControlTemplate></Setter.Value></Setter>
     </Style>
     <Style TargetType="TabItem">
-      <Setter Property="Foreground" Value="{StaticResource MutedBrush}" /><Setter Property="FontFamily" Value="Consolas" /><Setter Property="FontSize" Value="11" />
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}" /><Setter Property="FontFamily" Value="Consolas" /><Setter Property="FontSize" Value="13" />
       <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
         <Border x:Name="TabBorder" BorderThickness="0,0,0,2" BorderBrush="Transparent" Padding="14,10"><ContentPresenter ContentSource="Header" /></Border>
         <ControlTemplate.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Foreground" Value="{StaticResource MintBrush}" /><Setter TargetName="TabBorder" Property="BorderBrush" Value="{StaticResource MintBrush}" /></Trigger></ControlTemplate.Triggers>

@@ -9,7 +9,7 @@
     <RootNamespace>Toolkit.Desktop</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\Toolkit_Amber_Thin_Rounded_Glow.ico</ApplicationIcon>
-    <Version>0.3.2</Version>
+    <Version>0.3.3</Version>
     <Product>Toolkit V5.1 Desktop</Product>
     <Description>Desktop access to all existing Toolkit V5.1 commands</Description>
     <DebugType>none</DebugType>

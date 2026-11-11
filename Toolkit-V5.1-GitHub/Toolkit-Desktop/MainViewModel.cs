@@ -28,6 +28,16 @@ public sealed class MainViewModel : Observable
     public bool IsAdministrator { get; }
     public string AdministratorLabel => IsAdministrator ? "ADMINISTRATOR" : "ADMIN REQUIRED";
     public ObservableCollection<NavigationItem> Navigation { get; } = [];
+    public IReadOnlyList<ToolAction> RepairTools { get; }
+    public IReadOnlyList<NavigationItem> RepairCategories { get; }
+    private NavigationItem? _selectedRepairCategory;
+    public NavigationItem? SelectedRepairCategory
+    {
+        get => _selectedRepairCategory;
+        set { if (Set(ref _selectedRepairCategory, value)) Changed(nameof(VisibleRepairTools)); }
+    }
+    public List<ToolAction> VisibleRepairTools => RepairTools.Where(tool =>
+        SelectedRepairCategory?.Key is null or "repair" || tool.CategoryKey == SelectedRepairCategory.Key).ToList();
     public ObservableCollection<RunRecord> History { get; } = [];
     public UiCommand RunCommand { get; }
     public UiCommand StopCommand { get; }
@@ -96,6 +106,11 @@ public sealed class MainViewModel : Observable
     {
         _catalog = catalog; _runner = runner; _dispatcher = Dispatcher.CurrentDispatcher;
         IsAdministrator = isAdministrator; _canExecute = isAdministrator && sourceAvailable;
+        RepairTools = catalog.Tools.Where(tool => tool.Section == "repair").ToList();
+        RepairCategories = [new("repair", "All Repair Kit actions", RepairTools.Count.ToString(), "Show all existing Repair Kit actions")];
+        RepairCategories = RepairCategories.Concat(catalog.Categories.Where(category => category.Section == "repair")
+            .Select(category => new NavigationItem(category.Key, category.Name, catalog.Tools.Count(tool => tool.CategoryKey == category.Key).ToString(), category.Hint))).ToList();
+        _selectedRepairCategory = RepairCategories[0];
         RunCommand = new(async () => await RunSelectedAsync(), () => !Busy && _canExecute && SelectedTool?.Connected == true);
         StopCommand = new(() => { _cancellation?.Cancel(); Status = "Stopping check…"; }, () => Busy && _activeRun != null && ExecutionPolicy.IsCancellableCheck(_activeRun.Id));
         CopyCommand = new(CopyPreview, () => SelectedTool != null);

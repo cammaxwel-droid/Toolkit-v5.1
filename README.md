@@ -11,14 +11,16 @@ A menu-driven **Windows 11 troubleshooting, diagnostics and repair toolkit** bui
 
 ![Toolkit Desktop main window showing the searchable command catalog, command details and output panel](docs/images/desktop-main-window.png)
 
+![Toolkit Desktop rotated layout with the main workspace above the command runner and output panels](docs/images/desktop-rotated-layout.png)
+
 ## Choose how to open Toolkit
 
 | Version | Download or source | Requirements |
 | --- | --- | --- |
 | Original command-prompt Toolkit V5.1 | [Console ZIP — 156 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-V5.1-Console.zip) | Windows 11 and Windows PowerShell 5.1 |
-| Toolkit Desktop 0.3.2 | [Desktop ZIP — 385 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-Desktop-0.3.2-Windows-x64.zip) · [Desktop source](Toolkit-V5.1-GitHub/Toolkit-Desktop/) | Windows 11 x64 and [.NET 10 Windows Desktop Runtime, x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
+| Toolkit Desktop 0.3.3 | [Desktop ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.3/Toolkit-Desktop-0.3.3-Windows-x64.zip) · [Desktop source](Toolkit-V5.1-GitHub/Toolkit-Desktop/) | Windows 11 x64 and [.NET 10 Windows Desktop Runtime, x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
 
-Desktop 0.3.2 is available as a full release. Its ZIP includes the matching, unchanged Toolkit V5.1 and both launch methods. See the [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.2) and [download checksums](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/SHA256SUMS.txt).
+Desktop 0.3.3 improves text size and contrast, with the main Toolkit workspace on the left and stacked command runner plus Repair Kit/output panels on the right. Rotate Layout moves the main screen above the runner and output panels for a taller arrangement. Its ZIP includes the matching, unchanged Toolkit V5.1 and both launch methods. See the [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.3) and [download checksums](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.3/SHA256SUMS.txt).
 
 ## Desktop quick start
 
@@ -53,10 +55,10 @@ Then open `Toolkit-V5.1-GitHub/Start-Toolkit-Desktop.cmd`. The build reads the e
 In PowerShell, in the folder containing the zip:
 
 ```powershell
-Get-FileHash .\Toolkit-Desktop-0.3.2-Windows-x64.zip -Algorithm SHA256
+Get-FileHash .\Toolkit-Desktop-0.3.3-Windows-x64.zip -Algorithm SHA256
 ```
 
-Compare the result with the matching filename in [SHA256SUMS.txt](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/SHA256SUMS.txt). The same file also lists the console ZIP checksum.
+Compare the result with the matching filename in [SHA256SUMS.txt](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.3/SHA256SUMS.txt). The same file also lists the console ZIP checksum.
 
 The earlier [original Toolkit archive](Toolkit-V5.1-GitHub.zip) and its [checksum](Toolkit-V5.1-GitHub.zip.sha256) remain available unchanged.
 

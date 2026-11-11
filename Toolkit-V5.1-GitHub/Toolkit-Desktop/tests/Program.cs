@@ -307,9 +307,9 @@ internal static class Program
             && bounds.Right <= monitor.Work.Right && bounds.Bottom <= monitor.Work.Bottom,
             "Native startup bounds fit the monitor work area with a visible gap above the title bar before Show");
         Check(window.WindowStartupLocation == WindowStartupLocation.Manual
-            && window.Width <= 1000 && window.Height <= 680
-            && window.Width == window.MinWidth && window.Height == window.MinHeight,
-            "Startup uses the minimum fitted size and cannot be recentered off-screen");
+            && window.Width <= 1500 && window.Height <= 900
+            && window.Width >= window.MinWidth && window.Height >= window.MinHeight,
+            "Startup uses the fitted three-panel size and cannot be recentered off-screen");
         var surface = (FrameworkElement)window.Content; window.Content = null;
         surface.DataContext = vm;
         var host = new Grid { Background = new SolidColorBrush(Color.FromRgb(8, 14, 11)) };
@@ -324,8 +324,35 @@ internal static class Program
         }
         Layout(1280, 810);
         var button = (Button)window.FindName("RunButton");
+        var mainPanel = (Border)window.FindName("MainPanel");
+        var sidePanels = (Grid)window.FindName("SidePanels");
+        var outputPanel = (Border)window.FindName("OutputPanel");
+        var repairList = (ListBox)window.FindName("RepairKitList");
+        var repairCategoryList = (ComboBox)window.FindName("RepairKitCategoryList");
+        Check(mainPanel.ActualWidth > sidePanels.ActualWidth * 1.25
+            && Grid.GetRow((Border)window.FindName("DetailsPanel")) == 0
+            && Grid.GetRow(outputPanel) == 2,
+            "The main workspace fills three fifths with a stacked runner and lower panel on the right");
+        Check(repairList.Items.Count == 51 && repairCategoryList.Items.Count == 7, "The lower Repair Kit screen exposes all actions and six categories");
+        repairCategoryList.SelectedItem = vm.RepairCategories.First(category => category.Key != "repair"); Layout(1280, 810);
+        Check(repairList.Items.Count == catalog.Tools.Count(tool => tool.CategoryKey == vm.SelectedRepairCategory!.Key), "Repair Kit categories filter the lower action list");
+        repairCategoryList.SelectedItem = vm.RepairCategories.First(category => category.Key == "repair"); Layout(1280, 810);
         Check(vm.CatalogSummary == "231 COMMANDS  /  231 CONNECTED" && vm.Navigation.Single(n => n.Key == "connected").Count == "231", "Header and navigation show all 231 connected commands");
         Check(button.IsEnabled && vm.SelectedTool?.Id == "003", "Native WPF initially selects connected Documents action");
+        var rotateButton = (Button)window.FindName("RotateLayoutButton");
+        rotateButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Layout(1280, 810);
+        Check(Grid.GetRow(mainPanel) == 0 && Grid.GetRow(sidePanels) == 2 && Math.Abs(mainPanel.ActualWidth - ((FrameworkElement)window.FindName("WorkspaceGrid")).ActualWidth) < 1,
+            "Rotate layout stacks the main screen above the two right-side screens");
+        Check(mainPanel.ActualHeight > sidePanels.ActualHeight && sidePanels.ActualHeight >= 200
+            && Math.Abs(sidePanels.ActualWidth - ((FrameworkElement)window.FindName("WorkspaceGrid")).ActualWidth) < 1
+            && Grid.GetColumn(outputPanel) == 2,
+            "Rotated layout gives the main screen more height and places runner and output side by side below");
+        var rotatedDirectory = Path.Combine(_desktop, "artifacts"); Directory.CreateDirectory(rotatedDirectory);
+        Render(host, Path.Combine(rotatedDirectory, "desktop-rotated.png"), 1280, 810, 1);
+        rotateButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Layout(1280, 810);
+        repairList.SelectedItem = catalog.Tools.Single(tool => tool.Id == "R48"); Layout(1280, 810);
+        Check(vm.SelectedTool?.Id == "R48" && button.Content.ToString()!.Contains("R48"), "Repair Kit selection updates the shared guarded command runner");
+        vm.SelectedTool = catalog.Tools.Single(tool => tool.Id == "003"); Layout(1280, 810);
         vm.SelectedTool = catalog.Tools.Single(t => t.Id == "001"); Layout(1232, 780);
         Check(button.IsEnabled && button.Content.ToString()!.Contains("001"), "Existing change command can be selected for its original confirmation flow");
         foreach (var tool in catalog.Tools) { vm.SelectedTool = tool; if (!vm.RunCommand.CanExecute(null)) throw new Exception("Unexpected disabled command " + tool.Id); }
@@ -364,7 +391,7 @@ internal static class Program
         Layout(1280, 810); Render(host, Path.Combine(directory, "desktop-preview.png"), 1280, 810, 1);
         Layout(1000, 640);
         Render(host, Path.Combine(directory, "desktop-compact.png"), 1000, 640, 1);
-        Check(surface.ActualWidth == 952 && surface.ActualHeight == 610, "Compiled WPF view lays out at compact size");
+        Check(surface.ActualWidth == 964 && surface.ActualHeight == 616, "Compiled WPF view lays out at compact size");
         Layout(1280, 810); Render(host, Path.Combine(directory, "desktop-150-percent.png"), 1280, 810, 1.5);
         Check(File.Exists(Path.Combine(directory, "desktop-150-percent.png")), "Compiled WPF view renders at 150 percent DPI");
         listener.Flush(); Check(bindings.ToString().Length == 0, "No WPF data-binding warnings during native view checks");
