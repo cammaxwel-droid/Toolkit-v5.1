@@ -15,18 +15,32 @@ A menu-driven **Windows 11 troubleshooting, diagnostics and repair toolkit** bui
 
 ## Choose how to open Toolkit
 
-| Version | Download or source | Requirements |
+| Version | Download | Requirements |
 | --- | --- | --- |
-| Original command-prompt Toolkit V5.1 | [Console ZIP — 156 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.2/Toolkit-V5.1-Console.zip) | Windows 11 and Windows PowerShell 5.1 |
-| Toolkit Desktop 0.3.4 | [Desktop ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/Toolkit-Desktop-0.3.4-Windows-x64.zip) · [Desktop source](Toolkit-V5.1-GitHub/Toolkit-Desktop/) | Windows 11 x64 and [.NET 10 Windows Desktop Runtime, x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
+| Original command-prompt Toolkit V5.1 | [Console ZIP — 156 KB](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/Toolkit-V5.1-Console.zip) | Windows 11, Windows PowerShell 5.1 and administrator access |
+| Toolkit Desktop 0.3.4 | [Desktop ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/Toolkit-Desktop-0.3.4-Windows-x64.zip) | Windows 11 x64, Windows PowerShell 5.1, administrator access and [.NET 10 Windows Desktop Runtime (x64)](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
 
-Desktop 0.3.4 improves text size and contrast, with the main Toolkit workspace on the left and the command runner and Repair Kit/output panels on the right. Rotate Layout moves the main screen above the runner and output panels for a taller arrangement. All Toolkit actions now run inside the same app window, including interactive terminal input. Its ZIP includes the matching, unchanged Toolkit V5.1 and both launch methods. See the [release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.4) and [download checksums](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/SHA256SUMS.txt).
+Desktop 0.3.4 improves text size and contrast, with the main Toolkit workspace on the left and the command runner and Repair Kit/output panels on the right. Rotate Layout moves the main screen above the runner and output panels for a taller arrangement. All Toolkit actions now run inside the same app window, including interactive terminal input. Its ZIP includes the matching Toolkit V5.1 and both launch methods.
+
+Both ZIPs and the release notes are on the [Desktop 0.3.4 release page](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.4). GitHub's **Code → Download ZIP** gives you source files. To run Desktop from that ZIP, follow [Build the desktop from source](#build-the-desktop-from-source).
+
+The original Toolkit targets Windows 11 Pro. Some checks depend on the Windows edition and available modules. WinGet is needed for WinGet actions only.
+
+## Verify your download
+
+Open Windows PowerShell in the folder containing the ZIP. Run the command for the file you downloaded and compare its hash with the matching filename in [SHA256SUMS.txt](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/SHA256SUMS.txt).
+
+```powershell
+Get-FileHash -LiteralPath .\Toolkit-V5.1-Console.zip -Algorithm SHA256
+Get-FileHash -LiteralPath .\Toolkit-Desktop-0.3.4-Windows-x64.zip -Algorithm SHA256
+```
 
 ## Desktop quick start
 
-1. Install the .NET 10 **Windows Desktop Runtime for x64** if it is not already installed. The SDK is only needed to build the source.
-2. Download the **Desktop ZIP** above and use **Extract All** to put the whole package in its own folder.
-3. Open `Start-Toolkit-Desktop.cmd` and approve the Administrator prompt.
+1. Run `dotnet --list-runtimes` in PowerShell. Look for `Microsoft.WindowsDesktop.App 10.0.x` under `C:\Program Files\dotnet`. If the command is missing or there is no matching entry, install the .NET 10 **Windows Desktop Runtime for x64** linked above. The SDK is only needed to build the source.
+2. Download the **Desktop ZIP** above, [verify it](#verify-your-download), then use **Extract All** to put the whole package in its own folder.
+3. From the extracted folder, open `Start-Toolkit-Desktop.cmd` and approve the Administrator prompt.
+4. Search for `171`, select **General Diagnostics**, and click **Run 171**. Look for two `SAVED:` lines in Output with the TXT and JSON report paths.
 
 Keep `Toolkit-Desktop` and `Toolkit-V5.1` together. To use the original console instead, right-click `Toolkit-V5.1/Start-Toolkit.cmd` and choose **Run as administrator**. The download is portable; it does not install itself or create shortcuts automatically.
 
@@ -44,27 +58,15 @@ Then open `Toolkit-V5.1-GitHub/Start-Toolkit-Desktop.cmd`. The build reads the e
 
 ## Original Toolkit quick start
 
-1. Download the **Console ZIP** from the table above.
+1. Download the **Console ZIP** from the table above and [verify it](#verify-your-download).
 2. Right-click the zip → **Properties** → tick **Unblock** if it appears → **OK**.
 3. Extract it into its own folder. Do not run it from inside the zip.
 4. Open the `Toolkit-V5.1` folder, right-click `Start-Toolkit.cmd` and choose **Run as administrator**.
-5. Press `A` for General Diagnostics to get started.
-
-## Verify your download
-
-In PowerShell, in the folder containing the zip:
-
-```powershell
-Get-FileHash .\Toolkit-Desktop-0.3.4-Windows-x64.zip -Algorithm SHA256
-```
-
-Compare the result with the matching filename in [SHA256SUMS.txt](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/SHA256SUMS.txt). The same file also lists the console ZIP checksum.
-
-The earlier [original Toolkit archive](Toolkit-V5.1-GitHub.zip) and its [checksum](Toolkit-V5.1-GitHub.zip.sha256) remain available unchanged.
+5. Type `A` and press Enter for **General Diagnostics**. Look for two `SAVED:` lines with the TXT and JSON report paths.
 
 ## Privacy
 
-Reports are saved to `Documents\Toolkit-Reports` on your PC. They can contain usernames, local paths and hardware or network details. **Review and redact them before sharing anywhere**, including GitHub issues.
+General Diagnostics saves TXT and JSON reports to `Toolkit-Reports` in your Windows Documents folder. If Documents is unavailable, check `%USERPROFILE%\Toolkit-Reports`. Reports can contain usernames, local paths and hardware or network details. **Review and redact them before sharing anywhere**, including GitHub issues.
 
 ## Documentation
 
@@ -74,6 +76,8 @@ The full package lives in [`Toolkit-V5.1-GitHub/Toolkit-V5.1/`](Toolkit-V5.1-Git
 - [Guided workflows](Toolkit-V5.1-GitHub/Toolkit-V5.1/docs/Guided-Workflows.md)
 - [Testing checklist](Toolkit-V5.1-GitHub/Toolkit-V5.1/TESTING.md)
 - [Changelog](Toolkit-V5.1-GitHub/Toolkit-V5.1/CHANGELOG.md)
+
+The [original Toolkit archive](Toolkit-V5.1-GitHub.zip) and its [checksum](Toolkit-V5.1-GitHub.zip.sha256) are also available.
 
 ## Contributing and security
 
