@@ -23,8 +23,8 @@ This is the **diagnostic accuracy and event-triage update** based on real diagno
 
 1. Extract the ZIP to its own folder; **do not run from inside the ZIP**.
 2. **Right-click `Start-Toolkit.cmd` and choose `Run as administrator`**. This launcher intentionally refuses to start without an elevated console. Do not double-click normally and expect per-action elevation.
-3. Press `A` **General Diagnostics**, `B` **Deep Diagnostics**, `C` **General Repair** or `D` **Deep Repair** from the main menu. Or choose category 15 and enter an action ID such as `171`.
-4. The diagnostic workflows show meaningful results in the console and export a **TXT summary + JSON findings** to the actual Windows Documents folder, under `Toolkit-Reports`.
+3. Type `A` and press Enter to start **General Diagnostics**. The other main-menu shortcuts are `B` for **Deep Diagnostics**, `C` for **General Repair** and `D` for **Deep Repair**. Or choose category 15 and enter an action ID such as `171`.
+4. The diagnostic workflows show meaningful results in the console and export a **TXT summary + JSON findings** to `Toolkit-Reports` in your Windows Documents folder. Look for two `SAVED:` lines with the full paths.
 5. For guided repairs, optionally identify your current symptom, review suggested actions and select **one**. You may always exit. Changes require typing `YES`; advanced repairs require `DEEP REPAIR` and `YES`.
 
 **Important:** `CHANGE` and `REPAIR` labels on single-action tools describe potential side effects, and those actions remain available. The *new guided workflows* are the preferred path for diagnosis and targeted repair.
@@ -131,6 +131,6 @@ SHA256SUMS.txt                 SHA-256 digest list of distributed files
 ## Reference documentation
 
 - [DISM image repair](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/repair-a-windows-image)
-- [Microsoft SFC](https://support.microsoft.com/en-us/windows/using-system-file-checker-in-windows-365e0031-36b1-45b1-9b4c-d65dbfa400c8)
+- [Microsoft SFC](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sfc)
 - [Windows Package Manager](https://learn.microsoft.com/en-us/windows/package-manager/winget/upgrade)
-- [Windows Event Log](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent)
+- [Windows Event Log](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-5.1)

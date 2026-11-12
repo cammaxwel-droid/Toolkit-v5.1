@@ -4,9 +4,11 @@ The separate WPF desktop app provides access to the original Toolkit: **001–18
 
 ## Open it
 
-Download the [Desktop 0.3.4 ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/Toolkit-Desktop-0.3.4-Windows-x64.zip) and extract it completely. [Release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.4) describe the checks and remaining runtime limits. The package targets Windows 11 x64 and requires the [.NET 10 Windows Desktop Runtime for x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0), installed separately. The SDK is only needed to build the source.
+Download the [Desktop 0.3.4 ZIP](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/download/desktop-v0.3.4/Toolkit-Desktop-0.3.4-Windows-x64.zip) and extract it completely. [Release notes](https://github.com/cammaxwel-droid/Toolkit-v5.1/releases/tag/desktop-v0.3.4) describe the checks and remaining runtime limits. The package targets Windows 11 x64 and uses Windows PowerShell 5.1. It also requires the [.NET 10 Windows Desktop Runtime for x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0), installed separately. The SDK is only needed to build the source.
 
-Double-click `app\Toolkit.Desktop.exe`, or `Start-Toolkit-Desktop.cmd` in the parent folder. Approve the Windows Administrator prompt. Keep `Toolkit-Desktop` beside `Toolkit-V5.1`; the pair can be moved together. The original console remains available at `Toolkit-V5.1\Start-Toolkit.cmd` (Run as administrator).
+From the extracted folder, double-click `Start-Toolkit-Desktop.cmd` or `Toolkit-Desktop\app\Toolkit.Desktop.exe`. Approve the Windows Administrator prompt. Keep `Toolkit-Desktop` beside `Toolkit-V5.1`; the pair can be moved together. The original console remains available at `Toolkit-V5.1\Start-Toolkit.cmd` (Run as administrator).
+
+For a first run, search for `171`, select **General Diagnostics**, and click **Run 171**. Look for two `SAVED:` lines in Output with the TXT and JSON report paths. They are usually in `Documents\Toolkit-Reports`.
 
 The app opens at up to 1500 × 900, fitted within the current monitor work area with space above the title bar. Its resize minimum is 1000 × 680, or smaller when display scaling leaves less usable space. You can resize it afterward.
 

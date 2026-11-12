@@ -33,6 +33,8 @@ The desktop suite uses disposable fixtures and off-screen WPF checks. It does no
 
 Desktop and console downloads belong in GitHub Releases with SHA-256 checksums. Keep the original Toolkit unchanged when updating only the desktop. Keep the supplied icon, tests, repair kit and documentation.
 
+For console release packages, copy [README-FIRST.txt](Toolkit-V5.1-GitHub/README-FIRST.txt) to the ZIP staging root beside the `Toolkit-V5.1` folder before generating the package checksums.
+
 Do not commit generated desktop `app/`, `bin/`, `obj/` or `artifacts/` folders, local release staging or checkpoints. These remain local; source, assets and tests stay in Git.
 
 If you intentionally change distributed files, update their docs and regenerate the relevant `SHA256SUMS.txt`. The earlier tracked `Toolkit-V5.1-GitHub.zip` and its checksum are preserved; regenerate its `.sha256` file only if that archive is intentionally replaced.
